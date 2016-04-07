@@ -1,0 +1,17 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+
+{% for user in users %}
+<li><span>{{ user.username }}</span>
+	<span>
+		{% for role in user.roles %}
+		<div>{{ role }}</div>
+		{% endfor %}
+	</span>
+	<span><a href="{{ path('imie_blog_blog_promoadmin', { 'username': user.username })}}" >Promote to Admin</a></span>
+	<span><a href="{{ path('imie_blog_blog_promosuper', { 'username': user.username })}}" >Promote to Super Admin</a></span>
+</li>
+{% endfor %}
+
+{% endblock %}
