@@ -1,0 +1,45 @@
+site_series_rating:
+    resource: "@SiteBundle/Controller/SeriesRatingController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_series:
+    resource: "@SiteBundle/Controller/SeriesController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_episode:
+    resource: "@SiteBundle/Controller/EpisodeController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_comment_preference:
+    resource: "@SiteBundle/Controller/CommentPreferenceController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_comment:
+    resource: "@SiteBundle/Controller/CommentController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site:
+    resource: "@SiteBundle/Controller/MainController.php"
+    type:     annotation
+    prefix:   /
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr

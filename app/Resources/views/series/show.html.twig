@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Series</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ series.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ series.name }}</td>
+            </tr>
+            <tr>
+                <th>Synopsis</th>
+                <td>{{ series.synopsis }}</td>
+            </tr>
+            <tr>
+                <th>Poster</th>
+                <td>{{ series.poster }}</td>
+            </tr>
+            <tr>
+                <th>Persons</th>
+                <td>{{ series.persons }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('series_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('series_edit', { 'id': series.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

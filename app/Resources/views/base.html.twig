@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome to So What Series!{% endblock %}</title>
+        {% block stylesheets %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/framework/css/design.css')}}" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        
+    </head>
+    <body>
+        <div class="container">
+             
+
+        {% block menu %}
+        <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">So What !</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Series<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('series_index')}}" >All Series</a></li>
+                        <li><a href="{{ path('series_new')}}" >Add a Series</a></li>
+                        {% block page %}
+                        {% endblock %}
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Series Ratings<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('seriesrating_index')}}" >All Series Ratings</a></li>
+                        <li><a href="{{ path('seriesrating_new')}}" >Add a Series Ratings</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Episode<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('episode_index')}}" >All Episodes</a></li>
+                        <li><a href="{{ path('episode_new')}}" >Add an Episode</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Comment<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('comment_index')}}" >All Comments</a></li>
+                        <li><a href="{{ path('comment_new')}}" >Add a comment</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">comment Preference<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('commentpreference_index')}}" >All comment preferences</a></li>
+                        <li><a href="{{ path('commentpreference_new')}}" >Add a comment preference</a></li>
+                    </ul>
+                </li>
+              </li>
+
+
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="">Profile
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('fos_user_profile_show')}}" >Profile</a></li>
+                    <li><a href="{{ path('fos_user_profile_edit')}}" >Edit Profile</a></li>
+                    <li><a href="{{ path('fos_user_resetting_request')}}" >Reset</a></li>
+                    <li><a href="{{ path('fos_user_change_password')}}" >change password</a></li>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}    
+                    <li><a href="{{ path('site_main_adminusers')}}">SUPER ADMIN ONLY</a></li> 
+                    {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN') %}    
+                    <li><a href="{{ path('site_main_admin')}}">ADMIN ONLY</a></li> 
+                    {% endif %}
+                          
+                           
+                </ul>
+                </li>
+                <li><a href="{{ path('fos_user_registration_register')}}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                {% else %}
+                    <a href="{{ path('fos_user_security_login')}}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                {% endif %}
+                </li>
+                <li><a href="{{ path('site_main_index', { '_locale': 'en' }) }}">En</a></li>
+                <li><a href="{{ path('site_main_index', { '_locale': 'fr' }) }}">Fr</a></li>  
+            </ul>
+          </div>
+        </nav>
+        <!-- <aside class="col-md-3">
+            <menu class="menu">
+                <ul>
+                  
+                </ul>
+            </menu>
+        </aside> -->
+        {% endblock %}
+
+        {% block header %}
+        <!-- <div class="text-center">
+        <a href="{{ path('site_main_index')}}" ><img src="{{ asset('bundles/framework/images/blog.jpg')}}" alt=""></a></div> -->
+         
+        {% if is_granted('ROLE_SUPER_ADMIN') %}    
+        <a href="">SUPER ADMIN ONLY</a> 
+        {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') %}    
+        <a href="">ADMIN ONLY</a> 
+        {% endif %}
+
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        {% endblock %}
+
+        <main class="col-md-12">
+        
+
+
+        {% block body %}
+            {% block fos_user_content %}
+            {% endblock %}
+        {% endblock %}
+        
+        </main>
+        {% block javascripts %}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+            
+            <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        {% endblock %}
+        </div>
+    </body>
+</html>

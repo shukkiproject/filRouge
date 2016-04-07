@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>SeriesRating list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ratings</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for seriesRating in seriesRatings %}
+            <tr>
+                <td><a href="{{ path('seriesrating_show', { 'id': seriesRating.id }) }}">{{ seriesRating.id }}</a></td>
+                <td>{{ seriesRating.ratings }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('seriesrating_show', { 'id': seriesRating.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('seriesrating_edit', { 'id': seriesRating.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('seriesrating_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
