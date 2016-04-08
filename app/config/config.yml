@@ -72,3 +72,8 @@ fos_user:
     db_driver: orm 
     firewall_name: main
     user_class: SiteBundle\Entity\User
+
+fos_message:
+    db_driver: orm
+    thread_class: SiteBundle\Entity\Thread
+    message_class: SiteBundle\Entity\Message

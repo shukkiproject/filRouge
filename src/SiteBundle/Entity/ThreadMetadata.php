@@ -4,13 +4,12 @@
 namespace SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use FOS\MessageBundle\Entity\Message as BaseMessage;
+use FOS\MessageBundle\Entity\ThreadMetadata as BaseThreadMetadata;
 
 /**
  * @ORM\Entity
  */
-class Message extends BaseMessage
+class ThreadMetadata extends BaseThreadMetadata
 {
     /**
      * @ORM\Id
@@ -22,7 +21,7 @@ class Message extends BaseMessage
     /**
      * @ORM\ManyToOne(
      *   targetEntity="SiteBundle\Entity\Thread",
-     *   inversedBy="messages"
+     *   inversedBy="metadata"
      * )
      * @var \FOS\MessageBundle\Model\ThreadInterface
      */
@@ -32,15 +31,5 @@ class Message extends BaseMessage
      * @ORM\ManyToOne(targetEntity="SiteBundle\Entity\User")
      * @var \FOS\MessageBundle\Model\ParticipantInterface
      */
-    protected $sender;
-
-    /**
-     * @ORM\OneToMany(
-     *   targetEntity="SiteBundle\Entity\MessageMetadata",
-     *   mappedBy="message",
-     *   cascade={"all"}
-     * )
-     * @var MessageMetadata[]|\Doctrine\Common\Collections\Collection
-     */
-    protected $metadata;
+    protected $participant;
 }
