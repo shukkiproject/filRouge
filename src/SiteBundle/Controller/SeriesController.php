@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SiteBundle\Entity\Series;
 use SiteBundle\Form\SeriesType;
+use SiteBundle\Entity\Comment;
+use SiteBundle\Form\CommentType;
 
 /**
  * Series controller.
@@ -63,14 +65,34 @@ class SeriesController extends Controller
      * Finds and displays a Series entity.
      *
      * @Route("/{id}", name="series_show")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function showAction(Series $series)
+    public function showAction(Series $series, Request $request)
     {
         $deleteForm = $this->createDeleteForm($series);
 
+        //show all the comments of the series
+        $em = $this->getDoctrine()->getManager();
+        $comments = $em->getRepository('SiteBundle:Series')->showDetails($series->getId());
+        // var_dump($details);
+
+        // show the new comment input form
+        $comment = new Comment();
+        $comment->setSeries($series); //or construct in the entity
+        $form = $this->createForm(new CommentType(), $comment);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em2 = $this->getDoctrine()->getManager();
+            $em2->persist($comment);
+            $em2->flush();
+
+            return $this->redirectToRoute('series_show', array('id' => $series->getId()));
+        }
+
         return $this->render('series/show.html.twig', array(
             'series' => $series,
+            'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
