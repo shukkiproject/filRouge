@@ -4,8 +4,9 @@ namespace SiteBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use FOS\UserBundle\Util\UserManipulator;
 
 /**
  * Main controller.
@@ -34,11 +35,11 @@ class MainController extends Controller
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
 
         $userManager = $this->get('fos_user.user_manager');
+
         $users=$userManager->findUsers();
 
         return $this->render('default/admin.html.twig', array('users' => $users,));
         
-        // return new Response('<html><body>Admin page!</body></html>');
     }
 
      /**
@@ -50,10 +51,50 @@ class MainController extends Controller
         $userManager = $this->get('fos_user.user_manager');
         $users=$userManager->findUsers();
 
-        return $this->render('default/admin.html.twig', array('users' => $users,));
-        
+        return $this->render('default/superAdmin.html.twig', array('users' => $users,));
+    
         
         // return new Response('<html><body>Admin Users page!</body></html>');
     }
+
+    /**
+     * @Route("/admin/users/promoAdmin/{username}", name="imie_blog_blog_promoadmin")
+     * @Method("GET")
+     */
+    public function promoAdminAction($username)
+    {
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
+
+        $userManager = $this->get('fos_user.user_manager');
+
+        $userManipulator = new UserManipulator($userManager);
+        
+        $user=$userManipulator->addRole($username, 'ROLE_ADMIN');
+
+        $users=$userManager->findUsers();
+        return $this->render('default/superAdmin.html.twig', array('users' => $users,));
+        
+        
+    }
+
+    /**
+     * @Route("/admin/users/promoSuper/{username}", name="imie_blog_blog_promosuper")
+     * @Method("GET")
+     */
+    public function promoSuperAction($username)
+    {
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
+        
+        $userManager = $this->get('fos_user.user_manager');
+
+        $userManipulator = new UserManipulator($userManager);
+
+        $userManipulator->promote($username);
+
+        $users=$userManager->findUsers();
+        return $this->render('default/superAdmin.html.twig', array('users' => $users,));
+        
+    }
+
 
 }

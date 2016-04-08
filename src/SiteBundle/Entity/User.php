@@ -55,14 +55,14 @@ class User extends BaseUser
 
     /**
      * @var string
-     * @ORM\Column(name="notifications", type="text", length=255)
+     * @ORM\Column(name="notifications", type="text", length=255, nullable=true)
      * 
      */
     private $notifications;
 
     /**
      * @var boolean
-     * @ORM\Column(name="flagged", type="text", length=255)
+     * @ORM\Column(name="flagged", type="text", length=255, nullable=true)
      * 
      */
     private $flagged;
