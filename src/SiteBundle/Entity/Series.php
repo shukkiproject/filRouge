@@ -66,7 +66,7 @@ class Series
     /**
      * @var string
      *
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="series")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="series", cascade={"remove"})
      */
     private $comments;
 

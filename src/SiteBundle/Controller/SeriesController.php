@@ -69,6 +69,7 @@ class SeriesController extends Controller
      */
     public function showAction(Series $series, Request $request)
     {
+
         $deleteForm = $this->createDeleteForm($series);
 
         //show all the comments of the series
@@ -83,6 +84,8 @@ class SeriesController extends Controller
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
+            var_dump($request);
+            die;
             $em2 = $this->getDoctrine()->getManager();
             $em2->persist($comment);
             $em2->flush();
@@ -95,6 +98,7 @@ class SeriesController extends Controller
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+
     }
 
     /**

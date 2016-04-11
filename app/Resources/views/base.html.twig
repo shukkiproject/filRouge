@@ -73,6 +73,11 @@
                     <li><a href="{{ path('fos_user_profile_edit')}}" >Edit Profile</a></li>
                     <li><a href="{{ path('fos_user_resetting_request')}}" >Reset</a></li>
                     <li><a href="{{ path('fos_user_change_password')}}" >change password</a></li>
+                    <li><a href="{{ path('fos_message_inbox')}}" >inbox</a></li>
+                    <li><a href="{{ path('fos_message_thread_new')}}" >new message</a></li>
+                    <li><a href="{{ path('fos_message_sent')}}" >message sent</a></li>
+                    <li><a href="{{ path('fos_message_deleted')}}" >message deleted</a></li>
+                    
                     {% if is_granted('ROLE_SUPER_ADMIN') %}    
                     <li><a href="{{ path('site_main_adminusers')}}">SUPER ADMIN ONLY</a></li> 
                     {% endif %}
@@ -85,6 +90,7 @@
                 </ul>
                 </li>
                 <li><a href="{{ path('fos_user_registration_register')}}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+
                 <li>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
@@ -136,6 +142,8 @@
 
         {% block body %}
             {% block fos_user_content %}
+            {% endblock %}
+            {% block fos_message_content %}
             {% endblock %}
         {% endblock %}
         

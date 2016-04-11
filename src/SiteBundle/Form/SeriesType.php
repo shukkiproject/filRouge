@@ -19,7 +19,6 @@ class SeriesType extends AbstractType
             ->add('synopsis')
             ->add('poster')
             ->add('persons')
-            ->add('followedBy')
         ;
     }
     

@@ -46,6 +46,6 @@ fos_user:
 
 fos_message:
     resource: "@FOSMessageBundle/Resources/config/routing.xml"
-    prefix:   /{_locale}/
+    prefix:   /{_locale}/message/
     requirements:
         _locale: en|fr

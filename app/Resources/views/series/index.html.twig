@@ -3,43 +3,21 @@
 {% block body %}
     <h1>Series list</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Synopsis</th>
-                <th>Poster</th>
-                <th>Persons</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for series in series %}
-            <tr>
-                <td><a href="{{ path('series_show', { 'id': series.id }) }}">{{ series.id }}</a></td>
-                <td>{{ series.name }}</td>
-                <td>{{ series.synopsis }}</td>
-                <td>{{ series.poster }}</td>
-                <td>{{ series.persons }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('series_show', { 'id': series.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('series_edit', { 'id': series.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
     <ul>
         <li>
             <a href="{{ path('series_new') }}">Create a new entry</a>
         </li>
     </ul>
+
+
+    {% for series in series %}
+        <figure>
+            <a href="{{ path('series_show', { 'id': series.id }) }}"><img src="{{ series.poster }}" alt="{{ series.name }}" height=300 /></a>
+            <figcaption>{{ series.name }}</figcaption>
+            
+        </figure>
+
+    {% endfor %}
+
 {% endblock %}

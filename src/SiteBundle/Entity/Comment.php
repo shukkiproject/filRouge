@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Comment
  *
  * @ORM\Table(name="comment")
- * @ORM\Entity(repositoryClass="SiteBundle\Repository\CommentRepository")
+ * @ORM\Entity(repositoryClass="SiteBundle\Repository\CommentRepository") @ORM\HasLifecycleCallbacks
  */
 class Comment
 {
@@ -270,4 +270,23 @@ class Comment
     public function __toString() {
         return  $this->comment;
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function initializeDate()
+    {
+        $date = new \DateTime('now');
+        $this->setDate($date);
+    }
+
+    // /**
+    //  * @ORM\PreUpdate
+    //  */
+    // public function EditedDate()
+    // {
+    //     $editedDate = new \DateTime('now');
+        
+    //     $this->setDate($editedDate);
+    // }
 }
