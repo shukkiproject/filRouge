@@ -75,17 +75,25 @@ class SeriesController extends Controller
         //show all the comments of the series
         $em = $this->getDoctrine()->getManager();
         $comments = $em->getRepository('SiteBundle:Series')->showDetails($series->getId());
-        // var_dump($details);
-
+        
+        // if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        // throw $this->createAccessDeniedException();
+        // }
+        // $user = $this->getUser();
+        
         // show the new comment input form
-        $comment = new Comment();
-        $comment->setSeries($series); //or construct in the entity
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        // var_dump($user);
+        // die;
+        //todo test if it's an object user, else redirect to login
+        
+        $comment = new Comment($series, $user);
         $form = $this->createForm(new CommentType(), $comment);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
-            var_dump($request);
-            die;
+            // var_dump($request);
+            // die;
             $em2 = $this->getDoctrine()->getManager();
             $em2->persist($comment);
             $em2->flush();
@@ -97,6 +105,7 @@ class SeriesController extends Controller
             'series' => $series,
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
+
         ));
 
     }
@@ -163,4 +172,14 @@ class SeriesController extends Controller
             ->getForm()
         ;
     }
+
+    // private function createComDeleteForm(Series $series)
+    // {
+    //     return $this->createFormBuilder()
+    //         ->setAction($this->generateUrl('series_delete', array('id' => $series->getId())))
+    //         ->setMethod('DELETE')
+    //         ->getForm()
+    //     ;
+    // }
+
 }

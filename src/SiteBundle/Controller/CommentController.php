@@ -105,21 +105,19 @@ class CommentController extends Controller
     /**
      * Deletes a Comment entity.
      *
-     * @Route("/{id}", name="comment_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="comment_delete")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, Comment $comment)
+    public function deleteAction(Comment $comment)
     {
-        $form = $this->createDeleteForm($comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+      
             $em = $this->getDoctrine()->getManager();
+            $series=$comment->getSeries();
+
             $em->remove($comment);
             $em->flush();
-        }
-
-        return $this->redirectToRoute('comment_index');
+      
+        return $this->redirectToRoute('series_show', array('id' => $series->getId()));
     }
 
     /**

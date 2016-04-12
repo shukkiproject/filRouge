@@ -82,11 +82,9 @@
 
                 <td><a href="{{ path('comment_edit', { 'id': comment.id }) }}">Edit</a></td>
                 <td>
-                    {% if is_granted('ROLE_ADMIN') %}    
+                    {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
         
-                        {{ form_start(delete_form) }}
-                        <input type="submit" value="Delete comment by admin only">
-                        {{ form_end(delete_form) }}
+                        <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button>Delete this comment</button></a>
                     {% endif %}
                 </td>
             </tr>
@@ -99,7 +97,7 @@
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="hidden" name="user" value="{{ app.user }}">
+        <!-- <input type="hidden" name="user" value="{{ app.user }}"> -->
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 

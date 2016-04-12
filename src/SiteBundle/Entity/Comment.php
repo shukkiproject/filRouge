@@ -204,9 +204,11 @@ class Comment
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(\SiteBundle\Entity\Series $series, \SiteBundle\Entity\User $user)
     {
         $this->usersPreferences = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->series = $series;
+        $this->user = $user;
     }
 
     /**
