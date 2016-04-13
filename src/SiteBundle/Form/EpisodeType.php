@@ -17,9 +17,10 @@ class EpisodeType extends AbstractType
         $builder
             ->add('series')
             ->add('season')
+            ->add('episode')
             ->add('title')
             ->add('synopsis')
-            ->add('viewedBy')
+
         ;
     }
     

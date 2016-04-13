@@ -31,7 +31,7 @@ class Series
     /**
      * @var string
      *
-     * @ORM\OneToMany(targetEntity="Episode", mappedBy="series")
+     * @ORM\OneToMany(targetEntity="Episode", mappedBy="series", cascade={"remove"})
      */
     private $episodes;
 
@@ -59,7 +59,7 @@ class Series
     /**
      * @var string
      *
-     * @ORM\OneToMany(targetEntity="SeriesRating", mappedBy="series")
+     * @ORM\OneToMany(targetEntity="SeriesRating", mappedBy="series", cascade={"remove"})
      */
     private $ratings;
 
@@ -73,28 +73,28 @@ class Series
     /**
      * @var string
      *
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="seriesFollowed")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="seriesFollowed", cascade={"remove"})
      */
     private $followedBy;
 
     /**
      * @var boolean
      *
-     * 
+     * @ORM\Column(name="validated", type="boolean")
      */
     private $validated;
 
     /**
      * @var int
      *
-     * 
+     * @ORM\Column(name="oldId", type="integer", nullable=true)
      */
     private $oldId;
 
     /**
      * @var boolean
      *
-     * 
+     * @ORM\Column(name="flagged", type="boolean", nullable=true)
      */
     private $flagged;
 
@@ -421,4 +421,76 @@ class Series
         return $this->name;
     }
 
+
+    /**
+     * Set validated
+     *
+     * @param boolean $validated
+     *
+     * @return Series
+     */
+    public function setValidated($validated)
+    {
+        $this->validated = $validated;
+
+        return $this;
+    }
+
+    /**
+     * Get validated
+     *
+     * @return boolean
+     */
+    public function getValidated()
+    {
+        return $this->validated;
+    }
+
+    /**
+     * Set oldId
+     *
+     * @param integer $oldId
+     *
+     * @return Series
+     */
+    public function setOldId($oldId)
+    {
+        $this->oldId = $oldId;
+
+        return $this;
+    }
+
+    /**
+     * Get oldId
+     *
+     * @return integer
+     */
+    public function getOldId()
+    {
+        return $this->oldId;
+    }
+
+    /**
+     * Set flagged
+     *
+     * @param boolean $flagged
+     *
+     * @return Series
+     */
+    public function setFlagged($flagged)
+    {
+        $this->flagged = $flagged;
+
+        return $this;
+    }
+
+    /**
+     * Get flagged
+     *
+     * @return boolean
+     */
+    public function getFlagged()
+    {
+        return $this->flagged;
+    }
 }

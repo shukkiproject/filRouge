@@ -38,6 +38,13 @@ class Episode
     /**
      * @var int
      *
+     * @ORM\Column(name="episode", type="integer")
+     */
+    private $episode;
+
+    /**
+     * @var text
+     *
      * @ORM\Column(name="title", type="text")
      */
     private $title;
@@ -67,7 +74,7 @@ class Episode
     /**
      * @var boolean
      *
-     * 
+     * @ORM\Column(name="flagged", type="boolean", nullable=true)
      */
     private $flagged;
 
@@ -258,4 +265,52 @@ class Episode
         return $this->title;
     }
 
+
+    /**
+     * Set flagged
+     *
+     * @param boolean $flagged
+     *
+     * @return Episode
+     */
+    public function setFlagged($flagged)
+    {
+        $this->flagged = $flagged;
+
+        return $this;
+    }
+
+    /**
+     * Get flagged
+     *
+     * @return boolean
+     */
+    public function getFlagged()
+    {
+        return $this->flagged;
+    }
+
+    /**
+     * Set episode
+     *
+     * @param integer $episode
+     *
+     * @return Episode
+     */
+    public function setEpisode($episode)
+    {
+        $this->episode = $episode;
+
+        return $this;
+    }
+
+    /**
+     * Get episode
+     *
+     * @return integer
+     */
+    public function getEpisode()
+    {
+        return $this->episode;
+    }
 }

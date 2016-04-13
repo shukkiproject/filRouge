@@ -33,6 +33,13 @@ site_comment:
     requirements:
         _locale: en|fr
 
+site_super_admin:
+    resource: "@SiteBundle/Controller/SuperAdminController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
 site:
     resource: "@SiteBundle/Controller/MainController.php"
     type:     annotation

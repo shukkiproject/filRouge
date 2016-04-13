@@ -1,16 +1,13 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
     <h1>Comment creation</h1>
-
     {{ form_start(form) }}
+    <!-- {{ form_start(form, {'action': path('comment_new'), 'method': 'POST'}) }} -->
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 
     <ul>
         <li>
-            <a href="{{ path('comment_index') }}">Back to the list</a>
+            <a href="{{ path('series_index') }}">Back to the series list</a>
         </li>
+
     </ul>
-{% endblock %}

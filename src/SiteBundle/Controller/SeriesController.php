@@ -28,8 +28,8 @@ class SeriesController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $series = $em->getRepository('SiteBundle:Series')->findAll();
-
+        $series = $em->getRepository('SiteBundle:Series')->findByValidated(true);
+        
         return $this->render('series/index.html.twig', array(
             'series' => $series,
         ));
@@ -49,6 +49,7 @@ class SeriesController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $series->setValidated(false);
             $em->persist($series);
             $em->flush();
 
@@ -76,23 +77,25 @@ class SeriesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $comments = $em->getRepository('SiteBundle:Series')->showDetails($series->getId());
         
-        // if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-        // throw $this->createAccessDeniedException();
-        // }
-        // $user = $this->getUser();
-        
+
         // show the new comment input form
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        // var_dump($user);
-        // die;
-        //todo test if it's an object user, else redirect to login
-        
-        $comment = new Comment($series, $user);
+        $comment = new Comment($series);
         $form = $this->createForm(new CommentType(), $comment);
         $form->handleRequest($request);
-        
+
+        //TODO TRY TO MOVE THIS PART BACK TO THE COMMENT CONTROLLER !!!
         if ($form->isSubmitted() && $form->isValid()) {
-            // var_dump($request);
+        
+        // $response = $this->forward('SiteBundle:Comment:new', array('comment'=> $comment, 'form' => $form));
+        // return $response; 
+
+        //test if it's an object user/ logged in, then redirect to login
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                throw $this->createAccessDeniedException('Please login or signup to leave a comment.');
+            }
+            $user = $this->getUser();
+            $comment->setUser($user);
+            // var_dump($user);
             // die;
             $em2 = $this->getDoctrine()->getManager();
             $em2->persist($comment);
@@ -173,13 +176,5 @@ class SeriesController extends Controller
         ;
     }
 
-    // private function createComDeleteForm(Series $series)
-    // {
-    //     return $this->createFormBuilder()
-    //         ->setAction($this->generateUrl('series_delete', array('id' => $series->getId())))
-    //         ->setMethod('DELETE')
-    //         ->getForm()
-    //     ;
-    // }
 
 }

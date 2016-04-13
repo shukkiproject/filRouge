@@ -12,14 +12,14 @@ use SiteBundle\Form\CommentPreferenceType;
 /**
  * CommentPreference controller.
  *
- * @Route("/commentpreference")
+ * @Route("/")
  */
 class CommentPreferenceController extends Controller
 {
     /**
      * Lists all CommentPreference entities.
      *
-     * @Route("/", name="commentpreference_index")
+     * @Route("/commentpreference/", name="commentpreference_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -36,7 +36,7 @@ class CommentPreferenceController extends Controller
     /**
      * Creates a new CommentPreference entity.
      *
-     * @Route("/new", name="commentpreference_new")
+     * @Route("/commentpreference/new", name="commentpreference_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -62,7 +62,7 @@ class CommentPreferenceController extends Controller
     /**
      * Finds and displays a CommentPreference entity.
      *
-     * @Route("/{id}", name="commentpreference_show")
+     * @Route("/commentpreference/{id}", name="commentpreference_show")
      * @Method("GET")
      */
     public function showAction(CommentPreference $commentPreference)
@@ -78,7 +78,7 @@ class CommentPreferenceController extends Controller
     /**
      * Displays a form to edit an existing CommentPreference entity.
      *
-     * @Route("/{id}/edit", name="commentpreference_edit")
+     * @Route("/commentpreference/{id}/edit", name="commentpreference_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, CommentPreference $commentPreference)
@@ -105,7 +105,7 @@ class CommentPreferenceController extends Controller
     /**
      * Deletes a CommentPreference entity.
      *
-     * @Route("/{id}", name="commentpreference_delete")
+     * @Route("/commentpreference/{id}", name="commentpreference_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, CommentPreference $commentPreference)
@@ -120,6 +120,53 @@ class CommentPreferenceController extends Controller
         }
 
         return $this->redirectToRoute('commentpreference_index');
+    }
+
+    /**
+     * Create a CommentPreference entity.
+     *
+     * @Route("series/{seriesId}/comment/{commentId}/preference/{pref}", name="commentpreference_pref")
+     * @Method("GET")
+     */
+    public function preferenceAction($seriesId, $commentId, $pref)
+    {
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                throw $this->createAccessDeniedException('Please login or signup to leave a comment.');
+            }
+
+            $user = $this->getUser();
+
+            $em = $this->getDoctrine()->getManager();
+            $comment = $em->getRepository('SiteBundle:Comment')->find($commentId);
+            //TODO : TEST IF EXIST ALREADY IN DB, SAME USER, SAME COMMENT, SAME PREFERNCE
+            // IF EXIST JUST CHANGE THE PREF, ELSE NEW OBJECT
+
+            $prefExist = $em->getRepository('SiteBundle:CommentPreference')->findOneBy(array('user' => $user, 'comment' => $comment));
+            // var_dump($prefExist);
+            // die;
+            if (!isset($prefExist)) {
+                $commentPreference = new CommentPreference();
+                $commentPreference->setUser($user)
+                    ->setComment($comment)
+                    ->setLiked($pref);
+                $em->persist($commentPreference);
+                $em->flush();
+
+            } else {
+
+                if(($prefExist->getLiked())!==$pref){
+                        $prefExist->setLiked($pref);
+                        $em->persist($prefExist);
+                        $em->flush();
+                } else {
+                        //FLASHBAG DOESN'T WORK!!!!!!!!!!!!!!!!!!!!
+                        $this->addFlash('alert', 'You\'ve already liked this comment!');
+                        return $this->redirectToRoute('series_show', array('id' => $seriesId));
+                }
+            }
+           
+
+        return $this->redirectToRoute('series_show', array('id' => $seriesId));
     }
 
     /**

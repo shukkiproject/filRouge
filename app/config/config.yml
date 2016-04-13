@@ -72,6 +72,9 @@ fos_user:
     db_driver: orm 
     firewall_name: main
     user_class: SiteBundle\Entity\User
+    registration:
+        form:
+            type: SiteBundle\Form\RegistrationType
 
 fos_message:
     db_driver: orm

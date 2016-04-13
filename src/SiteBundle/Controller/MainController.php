@@ -38,63 +38,34 @@ class MainController extends Controller
 
         $users=$userManager->findUsers();
 
-        return $this->render('default/admin.html.twig', array('users' => $users,));
+        $em = $this->getDoctrine()->getManager();
+
+        $series = $em->getRepository('SiteBundle:Series')->findByValidated(false);
+        // var_dump($series);
+        // die;
+
+        return $this->render('default/admin.html.twig', array('users' => $users, 'series' => $series ));
         
     }
 
-     /**
-     * @Route("/{_locale}/admin/users")
-     */
-    public function adminUsersAction()
-    {
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
-        $userManager = $this->get('fos_user.user_manager');
-        $users=$userManager->findUsers();
-
-        return $this->render('default/superAdmin.html.twig', array('users' => $users,));
-    
+    // /**
+    //  * @Route("/admin/users/promoSuper/{username}", name="imie_blog_blog_promosuper")
+    //  * @Method("GET")
+    //  */
+    // public function promoSuperAction($username)
+    // {
+    //     $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
         
-        // return new Response('<html><body>Admin Users page!</body></html>');
-    }
+    //     $userManager = $this->get('fos_user.user_manager');
 
-    /**
-     * @Route("/admin/users/promoAdmin/{username}", name="imie_blog_blog_promoadmin")
-     * @Method("GET")
-     */
-    public function promoAdminAction($username)
-    {
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
+    //     $userManipulator = new UserManipulator($userManager);
 
-        $userManager = $this->get('fos_user.user_manager');
+    //     $userManipulator->promote($username);
 
-        $userManipulator = new UserManipulator($userManager);
+    //     $users=$userManager->findUsers();
+    //     return $this->render('default/superAdmin.html.twig', array('users' => $users,));
         
-        $user=$userManipulator->addRole($username, 'ROLE_ADMIN');
-
-        $users=$userManager->findUsers();
-        return $this->render('default/superAdmin.html.twig', array('users' => $users,));
-        
-        
-    }
-
-    /**
-     * @Route("/admin/users/promoSuper/{username}", name="imie_blog_blog_promosuper")
-     * @Method("GET")
-     */
-    public function promoSuperAction($username)
-    {
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
-        
-        $userManager = $this->get('fos_user.user_manager');
-
-        $userManipulator = new UserManipulator($userManager);
-
-        $userManipulator->promote($username);
-
-        $users=$userManager->findUsers();
-        return $this->render('default/superAdmin.html.twig', array('users' => $users,));
-        
-    }
+    // }
 
 
 }

@@ -1,111 +1,46 @@
 {% extends 'base.html.twig' %}
-
-{% block body %}
+    {% block body %}
     <h1>Series</h1>
 
-    <table class="table">
-        <tbody>
-            <tr >
-                <td rowspan="6">            
-                    {% if series.poster %}
-                    
-                    
+                {% if series.poster %}
                     <img src="{{ series.poster }}" alt="" height=300 />
-                    
                 {% endif %}
-                </td>
-                <td>
-                    <tr>
-                        <td>Id</td>
-                        <td>{{ series.id }}</td>
-                    </tr>
-                    <tr>
-                        <td>Name</td>
-                        <td>{{ series.name }}</td>
-                    </tr>
-                    <tr>
-                        <td>Synopsis</td>
-                        <td>{{ series.synopsis }}</td>
-                    </tr>
-
-                    <tr>
-                        <td>Persons</td>
-                        <td>{{ series.persons }}</td>
-                    </tr>
-                    <tr>    
-                        <td><a href="{{ path('series_edit', { 'id': series.id }) }}"><button>Edit this series</button></a></td>
-                        <td>
-                            {% if is_granted('ROLE_ADMIN') %}    
-        
-                                {{ form_start(delete_form) }}
-                                <input type="submit" value="Delete series by admin only">
-                                {{ form_end(delete_form) }}
-                            {% endif %}
-                        </td>
-                    </tr>
-                </td>
-            </tr>
-            
-        </tbody>
-    </table>
-
-     <h1>Comment</h1>
-
     <table class="table">
-        
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>User</th>
-                <th>Episode</th>
-                <th>Comment</th>
-                <th>Date</th>
-                <th>Actions</th>
-
-            </tr>
-        </thead>
         <tbody>
-            {% for comment in series.comments %}
             <tr>
-                
-                <td>{{ comment.id }}</td>  
-                <td>{{ comment.user }}</td>
+                <td>Id</td>
+                <td>{{ series.id }}</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>{{ series.name }}</td>
+            </tr>
+            <tr>
+                <td>Synopsis</td>
+                <td>{{ series.synopsis }}</td>
+            </tr>
 
-                {% if comment.episode %}
-                    
-                    <td>{{ comment.episode }}</td>
-                {% endif %}
-
-                <td>{{ comment.comment }}</td>
-
-                <td>{% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</td>
-
-                <td><a href="{{ path('comment_edit', { 'id': comment.id }) }}">Edit</a></td>
+            <tr>
+                <td>Persons</td>
+                <td>{{ series.persons }}</td>
+            </tr>
+            <tr>    
+                <td><a href="{{ path('series_edit', { 'id': series.id }) }}"><button>Edit this series</button></a></td>
+                                        
                 <td>
-                    {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
-        
-                        <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button>Delete this comment</button></a>
+                    {% if is_granted('ROLE_ADMIN') %}    
+
+                        {{ form_start(delete_form) }}
+                        <input type="submit" value="Delete series by admin only">
+                        {{ form_end(delete_form) }}
                     {% endif %}
                 </td>
-            </tr>
-
-        {% endfor %}    
+            </tr>            
         </tbody>
     </table>
 
-    <h1>Comment creation</h1>
+    {{ include('comment/show.html.twig', { 'series.comments': series.comments }) }}
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <!-- <input type="hidden" name="user" value="{{ app.user }}"> -->
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('series_index') }}">Back to the series list</a>
-        </li>
-
-    </ul>
+    {{ include('comment/new.html.twig', { 'series.comments': series.comments }) }}
 
 {% endblock %}

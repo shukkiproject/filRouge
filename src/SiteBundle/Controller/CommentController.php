@@ -41,22 +41,35 @@ class CommentController extends Controller
      */
     public function newAction(Request $request)
     {
-        $comment = new Comment();
-        $form = $this->createForm('SiteBundle\Form\CommentType', $comment);
-        $form->handleRequest($request);
+        // // var_dump($request);
+        // // die;
+        
+        // $comment = new Comment($series);
+        // $form = $this->createForm('SiteBundle\Form\CommentType', $comment);
+        // $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        // if ($form->isSubmitted() && $form->isValid()) {
+
+            //test if it's an object user/ logged in, then redirect to login
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                throw $this->createAccessDeniedException('Please login or signup to leave a comment.');
+            }
+            $user = $this->getUser();
+            $comment->setUser($user);
+            // var_dump($user);
+            // die;
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
 
-            return $this->redirectToRoute('comment_show', array('id' => $comment->getId()));
-        }
+            return $this->redirectToRoute('series_show', array('id' => $series->getId()));
+        // }
 
-        return $this->render('comment/new.html.twig', array(
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ));
+        // return $this->render('comment/new.html.twig', array(
+        //     'comment' => $comment,
+        //     'form' => $form->createView(),
+        // ));
     }
 
     /**

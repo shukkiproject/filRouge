@@ -6,4 +6,8 @@
 <li>{{ user.username }}</li>
 {% endfor %}
 
+<h1>Series not validated</h1>
+
+{{ include('series/index_content.html.twig', { 'series': series }) }}
+
 {% endblock %}

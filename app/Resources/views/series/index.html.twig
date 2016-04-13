@@ -1,23 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Series list</h1>
-
-
-    <ul>
-        <li>
-            <a href="{{ path('series_new') }}">Create a new entry</a>
-        </li>
-    </ul>
-
-
-    {% for series in series %}
-        <figure>
-            <a href="{{ path('series_show', { 'id': series.id }) }}"><img src="{{ series.poster }}" alt="{{ series.name }}" height=300 /></a>
-            <figcaption>{{ series.name }}</figcaption>
-            
-        </figure>
-
-    {% endfor %}
+<h1>Series List</h1>
+{{ include('series/index_content.html.twig', { 'series': series }) }}
 
 {% endblock %}

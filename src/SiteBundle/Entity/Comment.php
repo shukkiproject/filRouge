@@ -67,7 +67,7 @@ class Comment
     /**
      * @var boolean
      *
-     * 
+     * @ORM\Column(name="flagged", type="boolean")
      */
     private $flagged;
 
@@ -204,11 +204,10 @@ class Comment
     /**
      * Constructor
      */
-    public function __construct(\SiteBundle\Entity\Series $series, \SiteBundle\Entity\User $user)
+    public function __construct(\SiteBundle\Entity\Series $series)
     {
         $this->usersPreferences = new \Doctrine\Common\Collections\ArrayCollection();
         $this->series = $series;
-        $this->user = $user;
     }
 
     /**
@@ -291,4 +290,28 @@ class Comment
         
     //     $this->setDate($editedDate);
     // }
+
+    /**
+     * Set flagged
+     *
+     * @param boolean $flagged
+     *
+     * @return Comment
+     */
+    public function setFlagged($flagged)
+    {
+        $this->flagged = $flagged;
+
+        return $this;
+    }
+
+    /**
+     * Get flagged
+     *
+     * @return boolean
+     */
+    public function getFlagged()
+    {
+        return $this->flagged;
+    }
 }
