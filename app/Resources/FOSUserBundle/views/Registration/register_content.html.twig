@@ -1,8 +1,44 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
-    {{ form_widget(form) }}
+   
+<fieldset>
+	<legend>Formulaire d'inscription</legend>
+
+        {{ form_label(form.firstname, 'Prénom') }}
+        {{ form_errors(form.firstname) }}
+        {{ form_widget(form.firstname) }}<br>
+
+        {{ form_label(form.lastname, 'Nom') }}
+        {{ form_errors(form.lastname) }}
+        {{ form_widget(form.lastname) }}<br>
+
+        {{ form_label(form.username) }}
+        {{ form_errors(form.username) }}
+        {{ form_widget(form.username) }}<br>
+
+        {{ form_label(form.email) }}
+        {{ form_errors(form.email) }}
+        {{ form_widget(form.email) }}<br>
+
+        {{ form_label(form.birthday, 'Jour de naissance') }}
+        {{ form_errors(form.birthday) }}
+        {{ form_widget(form.birthday) }}<br>
+
+        {{ form_label(form.photo, 'Url de votre photo') }}
+        {{ form_errors(form.photo) }}
+        {{ form_widget(form.photo) }}<br>
+
+		{{ form_errors(form.plainPassword) }}
+		{{ form_widget(form.plainPassword) }}
+
     <div>
         <input type="submit" value="{{ 'registration.submit'|trans }}" />
     </div>
+</fieldset>
 {{ form_end(form) }}
+
+
+
+
+
