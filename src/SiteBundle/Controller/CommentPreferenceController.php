@@ -133,17 +133,13 @@ class CommentPreferenceController extends Controller
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 throw $this->createAccessDeniedException('Please login or signup to leave a comment.');
             }
-
             $user = $this->getUser();
 
             $em = $this->getDoctrine()->getManager();
             $comment = $em->getRepository('SiteBundle:Comment')->find($commentId);
-            //TODO : TEST IF EXIST ALREADY IN DB, SAME USER, SAME COMMENT, SAME PREFERNCE
-            // IF EXIST JUST CHANGE THE PREF, ELSE NEW OBJECT
-
+            //TEST IF EXIST ALREADY IN DB, SAME USER, SAME COMMENT, SAME PREFERNCE
+            //IF EXIST JUST CHANGE THE PREF, ELSE NEW OBJECT
             $prefExist = $em->getRepository('SiteBundle:CommentPreference')->findOneBy(array('user' => $user, 'comment' => $comment));
-            // var_dump($prefExist);
-            // die;
             if (!isset($prefExist)) {
                 $commentPreference = new CommentPreference();
                 $commentPreference->setUser($user)
@@ -161,7 +157,7 @@ class CommentPreferenceController extends Controller
                 } else {
                         //FLASHBAG DOESN'T WORK!!!!!!!!!!!!!!!!!!!!
                         $this->addFlash('alert', 'You\'ve already liked this comment!');
-                        return $this->redirectToRoute('series_show', array('id' => $seriesId));
+                        // return $this->redirectToRoute('series_show', array('id' => $seriesId));
                 }
             }
            

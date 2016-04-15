@@ -38,10 +38,17 @@ class SeriesRating
     /**
      * @var float
      *
-     * @ORM\Column(name="ratings", type="float", length=255)
+     * @ORM\Column(name="ratings", type="integer", length=255)
      */
     private $ratings;
 
+    /**
+     * Constructor
+     */
+    public function __construct(\SiteBundle\Entity\Series $series)
+    {
+        $this->series = $series;
+    }
 
     /**
      * Get id

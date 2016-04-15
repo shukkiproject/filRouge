@@ -1,16 +1,5 @@
-{% extends 'base.html.twig' %}
-
-{% block body %}
-    <h1>SeriesRating creation</h1>
-
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
+    {{ form_start(ratingForm) }}
+        {{ form_widget(ratingForm) }}
         <input type="submit" value="Create" />
-    {{ form_end(form) }}
+    {{ form_end(ratingForm) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('seriesrating_index') }}">Back to the list</a>
-        </li>
-    </ul>
-{% endblock %}

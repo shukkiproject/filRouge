@@ -24,6 +24,11 @@
                 <td>Persons</td>
                 <td>{{ series.persons }}</td>
             </tr>
+            <tr>
+                <td>Ratings</td>
+                <td>{{ average}}</td>
+            </tr>
+
             <tr>    
                 <td><a href="{{ path('series_edit', { 'id': series.id }) }}"><button>Edit this series</button></a></td>
                                         
@@ -36,11 +41,14 @@
                     {% endif %}
                 </td>
             </tr>            
+
+
         </tbody>
     </table>
+    {{ include('seriesrating/new.html.twig', { 'ratingForm': ratingForm }) }}
 
     {{ include('comment/show.html.twig', { 'series.comments': series.comments }) }}
 
-    {{ include('comment/new.html.twig', { 'series.comments': series.comments }) }}
+    {{ include('comment/new.html.twig', { 'form': form }) }}
 
 {% endblock %}

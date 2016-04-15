@@ -15,10 +15,9 @@ class SeriesRatingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('ratings')
-            ->add('user')
-            ->add('series')
+            ->add('ratings', 'integer', array('attr' => array('min' =>1, 'max' =>5,)))
         ;
+        
     }
     
     /**

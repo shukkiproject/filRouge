@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SiteBundle\Entity\SeriesRating;
 use SiteBundle\Form\SeriesRatingType;
+use SiteBundle\Entity\Series;
+use SiteBundle\Form\SeriesType;
 
 /**
  * SeriesRating controller.
@@ -22,15 +24,13 @@ class SeriesRatingController extends Controller
      * @Route("/", name="seriesrating_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $seriesRatings = $em->getRepository('SiteBundle:SeriesRating')->findAll();
+        $average = $em->getRepository('SiteBundle:SeriesRating')->avgRatings($id);
+        return $seriesRatings=intval($average);
 
-        return $this->render('seriesrating/index.html.twig', array(
-            'seriesRatings' => $seriesRatings,
-        ));
     }
 
     /**
@@ -39,24 +39,44 @@ class SeriesRatingController extends Controller
      * @Route("/new", name="seriesrating_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Series $series, Request $request)
     {
-        $seriesRating = new SeriesRating();
-        $form = $this->createForm('SiteBundle\Form\SeriesRatingType', $seriesRating);
-        $form->handleRequest($request);
+        $seriesRating = new SeriesRating($series);
+        $ratingForm = $this->createForm('SiteBundle\Form\SeriesRatingType', $seriesRating);
+        $ratingForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
+
+             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                throw $this->createAccessDeniedException('Please login or signup to rate the series.');
+            }
+            $user = $this->getUser();
+            
             $em = $this->getDoctrine()->getManager();
-            $em->persist($seriesRating);
-            $em->flush();
+            $prefExist = $em->getRepository('SiteBundle:SeriesRating')->findOneBy(array('user' => $user, 'series' => $series));
 
-            return $this->redirectToRoute('seriesrating_show', array('id' => $seriesRating->getId()));
+            if (!isset($prefExist)) {
+                $seriesRating->setUser($user)
+                            ->setSeries($series);
+                $em->persist($seriesRating);
+                $em->flush();
+            } else {
+
+                if(($prefExist->getRatings())!==($seriesRating->getRatings())){
+                        $prefExist->setRatings($seriesRating->getRatings());
+                        $em->persist($prefExist);
+                        $em->flush();
+                } else {
+                        //FLASHBAG DOESN'T WORK!!!!!!!!!!!!!!!!!!!!
+                        $this->addFlash('alert', 'You\'ve already given this series the same ratings!');
+                        // return $this->redirectToRoute('series_show', array('id' => $seriesId));
+                }
+            }
+
+            return $this->redirectToRoute('series_show', array('id' => $series->getId()));
         }
 
-        return $this->render('seriesrating/new.html.twig', array(
-            'seriesRating' => $seriesRating,
-            'form' => $form->createView(),
-        ));
+        return $ratingForm;
     }
 
     /**

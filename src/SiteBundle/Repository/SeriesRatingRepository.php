@@ -10,4 +10,14 @@ namespace SiteBundle\Repository;
  */
 class SeriesRatingRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function avgRatings($id){
+		//average of the series
+		return $this->createQueryBuilder('series_rating')
+		->select("avg(series_rating.ratings) as average")
+		->where('series_rating.series= :id')
+		->setParameter('id', $id)
+		->getQuery()
+		->getSingleScalarResult();
+	}
+
 }

@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SiteBundle\Entity\Comment;
 use SiteBundle\Form\CommentType;
+use SiteBundle\Entity\Series;
+use SiteBundle\Form\SeriesType;
 
 /**
  * Comment controller.
@@ -39,7 +41,7 @@ class CommentController extends Controller
      * @Route("/new", name="comment_new")
      * @Method({"GET", "POST"})
      */
-    public function newCommentAction(Series $series, Request $request)
+    public function newAction(Series $series, Request $request)
     {
          
         $comment = new Comment($series);
@@ -47,15 +49,12 @@ class CommentController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             //test if it's an object user/ logged in, then redirect to login
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 throw $this->createAccessDeniedException('Please login or signup to leave a comment.');
             }
             $user = $this->getUser();
             $comment->setUser($user);
-            // var_dump($user);
-            // die;
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
@@ -64,9 +63,7 @@ class CommentController extends Controller
             return $this->redirectToRoute('series_show', array('id' => $series->getId()));
         }
 
-        return array(
-            'form' => $form->createView(),
-        );
+        return $form;
     }
 
     /**
