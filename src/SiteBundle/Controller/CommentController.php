@@ -39,16 +39,14 @@ class CommentController extends Controller
      * @Route("/new", name="comment_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newCommentAction(Series $series, Request $request)
     {
-        // // var_dump($request);
-        // // die;
-        
-        // $comment = new Comment($series);
-        // $form = $this->createForm('SiteBundle\Form\CommentType', $comment);
-        // $form->handleRequest($request);
+         
+        $comment = new Comment($series);
+        $form = $this->createForm('SiteBundle\Form\CommentType', $comment);
+        $form->handleRequest($request);
 
-        // if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             //test if it's an object user/ logged in, then redirect to login
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -64,12 +62,11 @@ class CommentController extends Controller
             $em->flush();
 
             return $this->redirectToRoute('series_show', array('id' => $series->getId()));
-        // }
+        }
 
-        // return $this->render('comment/new.html.twig', array(
-        //     'comment' => $comment,
-        //     'form' => $form->createView(),
-        // ));
+        return array(
+            'form' => $form->createView(),
+        );
     }
 
     /**

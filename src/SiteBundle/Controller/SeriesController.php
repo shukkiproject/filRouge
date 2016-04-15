@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use SiteBundle\Controller\CommentController;
 use SiteBundle\Entity\Series;
 use SiteBundle\Form\SeriesType;
 use SiteBundle\Entity\Comment;
@@ -75,8 +76,10 @@ class SeriesController extends Controller
 
         //show all the comments of the series
         $em = $this->getDoctrine()->getManager();
-        $comments = $em->getRepository('SiteBundle:Series')->showDetails($series->getId());
+        // $comments = $em->getRepository('SiteBundle:Series')->showDetails($series->getId());
         
+        // $response = $this->forward('SiteBundle:Comment:new', array('comment'=> $comment, 'form' => $form));
+        // return $response; 
 
         // show the new comment input form
         $comment = new Comment($series);
@@ -86,9 +89,6 @@ class SeriesController extends Controller
         //TODO TRY TO MOVE THIS PART BACK TO THE COMMENT CONTROLLER !!!
         if ($form->isSubmitted() && $form->isValid()) {
         
-        // $response = $this->forward('SiteBundle:Comment:new', array('comment'=> $comment, 'form' => $form));
-        // return $response; 
-
         //test if it's an object user/ logged in, then redirect to login
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 throw $this->createAccessDeniedException('Please login or signup to leave a comment.');
