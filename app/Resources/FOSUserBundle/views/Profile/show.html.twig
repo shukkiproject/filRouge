@@ -1,6 +1,22 @@
-{% extends "layout.html.twig" %}
+{% extends "base.html.twig" %}
 
 
     {% block fos_user_content %}
 		{% include "FOSUserBundle:Profile:show_content.html.twig" %}
+
+
+		<nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li class="dropdown"><a href="{{ path('fos_user_profile_show')}}" >Profile</a></li>
+                <li class="dropdown"><a href="{{ path('fos_user_profile_edit')}}" >Modifier mon profil</a></li>
+                <li class="dropdown"><a href="{{ path('fos_user_resetting_request')}}" >Reset</a></li>
+                <li class="dropdown"><a href="{{ path('fos_user_change_password')}}" >change password</a></li>
+                <li class="dropdown"><a href="{{ path('fos_message_inbox')}}" >inbox</a></li>
+                <li class="dropdown"><a href="{{ path('fos_message_thread_new')}}" >new message</a></li>
+                <li class="dropdown"><a href="{{ path('fos_message_sent')}}" >message sent</a></li>
+                <li class="dropdown"><a href="{{ path('fos_message_deleted')}}" >message deleted</a></li>
+       		</ul>
+          </div>
+        </nav>
     {% endblock %}

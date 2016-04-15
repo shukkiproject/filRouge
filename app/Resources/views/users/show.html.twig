@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+
+
+  {#   {% block fos_user_content %}
+		{% include "FOSUserBundle/Profile/show_content.html.twig" %}
+        {{ include('users/index_content.html.twig', { 'user': user }) }}
+ #}
+    {% block body %}
+        <div class="fos_user_user_show">
+            {% if user.photo %}
+                <img src="{{ user.photo }}" alt="" height=300 />
+            {% endif %}
+            <p>{{ user.username }}</p>
+        </div>
+        <div>
+         <a href="{{ path('fos_message_thread_new')}}" >new message</a>
+        </div>
+
+
+    {% endblock %}

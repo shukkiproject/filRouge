@@ -49,17 +49,11 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="">Profile
+                <a class="dropdown-toggle" data-toggle="dropdown" href="">Profil
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ path('fos_user_profile_show')}}" >Profile</a></li>
-                    <li><a href="{{ path('fos_user_profile_edit')}}" >Edit Profile</a></li>
-                    <li><a href="{{ path('fos_user_resetting_request')}}" >Reset</a></li>
-                    <li><a href="{{ path('fos_user_change_password')}}" >change password</a></li>
-                    <li><a href="{{ path('fos_message_inbox')}}" >inbox</a></li>
-                    <li><a href="{{ path('fos_message_thread_new')}}" >new message</a></li>
-                    <li><a href="{{ path('fos_message_sent')}}" >message sent</a></li>
-                    <li><a href="{{ path('fos_message_deleted')}}" >message deleted</a></li>
+                    <li><a href="{{ path('fos_user_profile_show')}}" >mon Profil</a></li>
+                    <li><a href="{{ path('users_index')}}" >tout les Profil</a></li>
                     
                     {% if is_granted('ROLE_SUPER_ADMIN') %}    
                     <li><a href="{{ path('superadmin_index')}}">SUPER ADMIN ONLY</a></li> 
