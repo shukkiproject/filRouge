@@ -29,56 +29,67 @@ class SeriesRatingController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $average = $em->getRepository('SiteBundle:SeriesRating')->avgRatings($id);
-        return $seriesRatings=intval($average);
+        return $seriesRatings=number_format(floatval($average),1);
 
     }
 
     /**
      * Creates a new SeriesRating entity.
      *
-     * @Route("/new", name="seriesrating_new")
+     * @Route("/newform", name="seriesrating_newform")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Series $series, Request $request)
+    public function newFormAction(Series $series, Request $request)
     {
         $seriesRating = new SeriesRating($series);
         $ratingForm = $this->createForm('SiteBundle\Form\SeriesRatingType', $seriesRating);
         $ratingForm->handleRequest($request);
 
-        if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
+        return $ratingForm;
+    }
 
-             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+    /**
+     * Submit a new SeriesRating entity.
+     *
+     * @Route("/{id}/new/{ratings}", name="seriesrating_new")
+     * @Method("GET")
+     */
+    public function newAction(Series $series, $ratings)
+    {
+
+        $seriesRating = new SeriesRating($series);
+
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 throw $this->createAccessDeniedException('Please login or signup to rate the series.');
             }
-            $user = $this->getUser();
+        $user = $this->getUser();
             
-            $em = $this->getDoctrine()->getManager();
-            $prefExist = $em->getRepository('SiteBundle:SeriesRating')->findOneBy(array('user' => $user, 'series' => $series));
+        $em = $this->getDoctrine()->getManager();
+        $ratingExist = $em->getRepository('SiteBundle:SeriesRating')->findOneBy(array('user' => $user, 'series' => $series));
 
-            if (!isset($prefExist)) {
+            if (!isset($ratingExist)) {
                 $seriesRating->setUser($user)
-                            ->setSeries($series);
+                            ->setSeries($series)
+                            ->setRatings($ratings);
                 $em->persist($seriesRating);
                 $em->flush();
             } else {
 
-                if(($prefExist->getRatings())!==($seriesRating->getRatings())){
-                        $prefExist->setRatings($seriesRating->getRatings());
-                        $em->persist($prefExist);
+            // var_dump($ratings);
+            //  die;
+                if(($ratingExist->getRatings())!==intval($ratings)){
+                        $ratingExist->setRatings($ratings);
+                        $em->persist($ratingExist);
                         $em->flush();
                 } else {
                         //FLASHBAG DOESN'T WORK!!!!!!!!!!!!!!!!!!!!
                         $this->addFlash('alert', 'You\'ve already given this series the same ratings!');
-                        // return $this->redirectToRoute('series_show', array('id' => $seriesId));
                 }
             }
 
             return $this->redirectToRoute('series_show', array('id' => $series->getId()));
-        }
-
-        return $ratingForm;
+        // }
     }
-
     /**
      * Finds and displays a SeriesRating entity.
      *

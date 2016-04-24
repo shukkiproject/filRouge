@@ -28,13 +28,26 @@
                 <td>Ratings</td>
                 <td>{{ average}}</td>
             </tr>
+            <tr>
+                <td>Followed By</td>
+                <td>{% for user in series.followedBy %}
+                    {{user.username}}
+                {% endfor %}
+                </td>
+            </tr>
 
             <tr>    
-                <td><a href="{{ path('series_edit', { 'id': series.id }) }}"><button>Edit this series</button></a></td>
+                
+                <td><a href="{{ path('propose_changes', { 'id': series.id }) }}"><button>Propose Changes</button></a></td>
+                
+                <td><a href="{{ path('series_follow', { 'id': series.id }) }}"><button>Follow {{ series.name }}</button></a></td>                
+                {% if is_granted('ROLE_ADMIN') %}    
+                    {% if series.validated==0 %} 
+                        <td><a href="{{ path('series_validate', { 'id': series.id }) }}"><button>Validate</button></a></td>
+                    {% endif %}
+                <td><a href="{{ path('series_edit', { 'id': series.id }) }}"><button>Edit</button></a></td>
                                         
                 <td>
-                    {% if is_granted('ROLE_ADMIN') %}    
-
                         {{ form_start(delete_form) }}
                         <input type="submit" value="Delete series by admin only">
                         {{ form_end(delete_form) }}
@@ -45,10 +58,17 @@
 
         </tbody>
     </table>
-    {{ include('seriesrating/new.html.twig', { 'ratingForm': ratingForm }) }}
+    {{ include('seriesrating/new.html.twig') }}
 
     {{ include('comment/show.html.twig', { 'series.comments': series.comments }) }}
 
     {{ include('comment/new.html.twig', { 'form': form }) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('series_index') }}">Back to the series list</a>
+        </li>
+
+    </ul>
 
 {% endblock %}

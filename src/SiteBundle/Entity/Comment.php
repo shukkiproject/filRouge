@@ -67,7 +67,7 @@ class Comment
     /**
      * @var boolean
      *
-     * @ORM\Column(name="flagged", type="boolean")
+     * @ORM\Column(name="flagged", type="boolean", nullable=true)
      */
     private $flagged;
 

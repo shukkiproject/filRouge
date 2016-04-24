@@ -12,12 +12,6 @@
         <li>
             <a href="{{ path('series_index') }}">Back to the list</a>
         </li>
-        <li>
-            {% if is_granted('ROLE_ADMIN') %}    
-                {{ form_start(delete_form) }}
-                    <input type="submit" value="Delete by admin only">
-                {{ form_end(delete_form) }}
-            {% endif %}
-        </li>
+
     </ul>
 {% endblock %}

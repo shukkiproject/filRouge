@@ -1,5 +1,10 @@
-    {{ form_start(ratingForm) }}
-        {{ form_widget(ratingForm) }}
-        <input type="submit" value="Create" />
-    {{ form_end(ratingForm) }}
+<strong class="choice">Choose a rating</strong>
 
+<span class="star-rating">
+  <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 1 }) }}"><i class="fa fa-star" aria-hidden="true"></i></a>
+  <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 2 }) }}"><i class="fa fa-star" aria-hidden="true"></i></a>
+  <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 3 }) }}"><i class="fa fa-star" aria-hidden="true"></i></a>
+  <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 4 }) }}"><i class="fa fa-star" aria-hidden="true"></i></a>
+  <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 5 }) }}"><i class="fa fa-star" aria-hidden="true"></i></a>
+
+</span>

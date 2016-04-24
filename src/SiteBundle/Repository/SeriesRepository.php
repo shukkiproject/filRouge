@@ -10,14 +10,15 @@ namespace SiteBundle\Repository;
  */
 class SeriesRepository extends \Doctrine\ORM\EntityRepository
 {
-		public function showDetails($id){
+		public function seriesfollowed($id){
 		//order by the most recent articles
 		return $this->createQueryBuilder('series')
+
 		->where('series.id='.$id)
-		->leftJoin('series.comments', 'com')
+		->leftJoin('series.followedBy', 'follow')
 		// ->leftJoin('art.categories', 'cat')
 		// ->leftJoin('art.image', 'img')
 		->getQuery()
-		->getSingleResult();
+		->getResult();
 	}
 }

@@ -282,7 +282,7 @@ class Series
      *
      * @param string $followedBy
      *
-     * @return SeriesFr
+     * @return Series
      */
     public function setFollowedBy($followedBy)
     {

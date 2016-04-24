@@ -30,8 +30,27 @@
 
                 <td>{% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</td>
                 
-                <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}"><button>Like</button></a></td>
-                <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}"><button>Dislike</button></a></td>
+                <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}"><button>
+<!--                     
+                    {% for userPref in comment.usersPreferences %}
+
+                        {% if app.user==userPref.user and userPref.liked==1 %}Liked
+                        {% else %}Like 
+                        {% endif %}
+                    {% endfor %} -->
+                    Like
+                        </button></a></td>
+
+                <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}"><button>
+<!--                     {% for userPref in comment.usersPreferences %}
+                        {% if app.user==userPref.user and userPref.liked==1 %}Disliked
+                        {% else %}Dislike 
+                        {% endif %}
+                    {% endfor %} -->
+                    Dislike
+                        </button></a></td>
+
+               
                 {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
 
                     <td><a href="{{ path('comment_edit', { 'id': comment.id }) }}">Edit</a></td>
