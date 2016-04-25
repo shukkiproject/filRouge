@@ -115,7 +115,7 @@ class SeriesController extends Controller
 
         $deleteForm = $this->createDeleteForm($series);
 
-        $form=CommentController::newAction($series, $request);
+        $form=CommentController::newFormAction($series, $request);
         $average=SeriesRatingController::indexAction($series->getId());
         // var_dump($form);
         // die;

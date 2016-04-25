@@ -75,8 +75,6 @@ class SeriesRatingController extends Controller
                 $em->flush();
             } else {
 
-            // var_dump($ratings);
-            //  die;
                 if(($ratingExist->getRatings())!==intval($ratings)){
                         $ratingExist->setRatings($ratings);
                         $em->persist($ratingExist);

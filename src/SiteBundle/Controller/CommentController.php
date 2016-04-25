@@ -36,14 +36,29 @@ class CommentController extends Controller
     }
 
     /**
-     * Creates a new Comment entity.
+     * Creates a new Comment form.
      *
-     * @Route("/new", name="comment_new")
+     * @Route("/newform", name="comment_newform")
+     * @Method({"GET", "POST"})
+     */
+    public function newFormAction(Series $series, Request $request)
+    {
+         
+        $comment = new Comment($series);
+        $form = $this->createForm('SiteBundle\Form\CommentType', $comment);
+        $form->handleRequest($request);
+
+        return $form;
+    }
+
+    /**
+     * Creates a new Comment form.
+     *
+     * @Route("/{id}/new", name="comment_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Series $series, Request $request)
     {
-         
         $comment = new Comment($series);
         $form = $this->createForm('SiteBundle\Form\CommentType', $comment);
         $form->handleRequest($request);
@@ -60,12 +75,10 @@ class CommentController extends Controller
             $em->persist($comment);
             $em->flush();
 
-            return $this->redirectToRoute('series_show', array('id' => $series->getId()));
         }
 
-        return $form;
+        return $this->redirectToRoute('series_show', array('id' => $series->getId()));
     }
-
     /**
      * Finds and displays a Comment entity.
      *

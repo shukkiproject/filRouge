@@ -1,6 +1,6 @@
     <h1>Leave A Comment</h1>
-    {{ form_start(form) }}
-<!--     {{ form_start(form, {'action': path('comment_new'), 'method': 'POST'}) }} -->
+    <!-- {{ form_start(form) }} -->
+    {{ form_start(form, {'action': path('comment_new', { 'id': series.id }), 'method': 'POST'}) }}
         {{ form_widget(form) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}

@@ -67,7 +67,7 @@ class Episode
     /**
      * @var string
      *
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="episode")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="episode", cascade={"remove"})
      */
     private $comments;
 

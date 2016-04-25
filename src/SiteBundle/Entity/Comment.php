@@ -53,7 +53,7 @@ class Comment
     /**
      * @var string
      *
-     * @ORM\OneToMany(targetEntity="CommentPreference", mappedBy="comment")
+     * @ORM\OneToMany(targetEntity="CommentPreference", mappedBy="comment", cascade={"remove"})
      */
     private $usersPreferences;
 

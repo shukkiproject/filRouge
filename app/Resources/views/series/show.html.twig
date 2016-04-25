@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
     {% block body %}
     <h1>Series</h1>
-
-                {% if series.poster %}
+            {% if series.poster %}
                     <img src="{{ series.poster }}" alt="" height=300 />
                 {% endif %}
     <table class="table">
