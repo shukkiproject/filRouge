@@ -18,7 +18,8 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "friendsofsymfony/message-bundle": "^1.2"
+        "friendsofsymfony/message-bundle": "^1.2",
+        "vich/uploader-bundle": "^1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

@@ -18,6 +18,8 @@ class SeriesType extends AbstractType
             ->add('name')
             ->add('synopsis')
             ->add('poster')
+            ->add('imageFile', 'file')
+            ->add('imageName')
             ->add('persons')
         ;
     }
