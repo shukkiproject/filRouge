@@ -12,6 +12,7 @@ use SiteBundle\Entity\Series;
 use SiteBundle\Form\SeriesType;
 use SiteBundle\Entity\Comment;
 use SiteBundle\Form\CommentType;
+use SiteBundle\Entity\SeriesRating;
 use SiteBundle\Entity\User;
 
 
@@ -115,13 +116,22 @@ class SeriesController extends Controller
         // var_dump($series);
         $deleteForm = $this->createDeleteForm($series);
 
-        $form=CommentController::newFormAction($series, $request);
-        $average=SeriesRatingController::indexAction($series->getId());
+        $comment = new Comment($series);
+        $form = $this->createForm('SiteBundle\Form\CommentType', $comment);
+        $form->handleRequest($request);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $average = $em->getRepository('SiteBundle:SeriesRating')->avgRatings($series->getId());
+        $seriesRatings=number_format(floatval($average),1);
+
+        // $form=CommentController::newFormAction($series, $request);
+        // $average=SeriesRatingController::indexAction($series->getId());
         // var_dump($form);
         // die;
         return $this->render('series/show.html.twig', array(
             'series' => $series,
-            'average' => $average,
+            'average' => $seriesRatings,
             'delete_form' => $deleteForm->createView(),
             'form' => $form->createView(),
 

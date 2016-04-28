@@ -3,13 +3,13 @@
 {% block body %}
 
     {% if series %}
-    <ol class="breadcrumb">
-        <li><a href="{{ path('site_main_index') }}">Home</a></li>
-        <li><a href="{{ path('series_index') }}">Series</a></li>
-        <li class="active">{{ series.name }}</li>
-    </ol>
 
     <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('site_main_index') }}">Home</a></li>
+            <li><a href="{{ path('series_index') }}">Series</a></li>
+            <li class="active">{{ series.name }}</li>
+        </ol>
 
         <div class="col-lg-12">
             <h1 class="page-header">{{ series.name }}</h1>
