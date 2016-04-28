@@ -29,11 +29,11 @@ class Series
     private $name;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\OneToMany(targetEntity="Episode", mappedBy="series", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Season", mappedBy="series", cascade={"remove"})
      */
-    private $episodes;
+    private $seasons;
 
     /**
      * @var string
@@ -492,5 +492,39 @@ class Series
     public function getFlagged()
     {
         return $this->flagged;
+    }
+
+    /**
+     * Add season
+     *
+     * @param \SiteBundle\Entity\Season $season
+     *
+     * @return Series
+     */
+    public function addSeason(\SiteBundle\Entity\Season $season)
+    {
+        $this->seasons[] = $season;
+
+        return $this;
+    }
+
+    /**
+     * Remove season
+     *
+     * @param \SiteBundle\Entity\Season $season
+     */
+    public function removeSeason(\SiteBundle\Entity\Season $season)
+    {
+        $this->seasons->removeElement($season);
+    }
+
+    /**
+     * Get seasons
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSeasons()
+    {
+        return $this->seasons;
     }
 }

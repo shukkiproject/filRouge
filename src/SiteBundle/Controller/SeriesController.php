@@ -112,7 +112,7 @@ class SeriesController extends Controller
      */
     public function showAction(Series $series, Request $request)
     {
-
+        // var_dump($series);
         $deleteForm = $this->createDeleteForm($series);
 
         $form=CommentController::newFormAction($series, $request);

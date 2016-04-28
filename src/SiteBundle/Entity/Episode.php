@@ -22,16 +22,9 @@ class Episode
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\ManyToOne(targetEntity="Series", inversedBy="episodes")
-     */
-    private $series;
-
-    /**
      * @var int
      *
-     * @ORM\Column(name="season", type="integer")
+     * @ORM\ManyToOne(targetEntity="Season", inversedBy="episodes")
      */
     private $season;
 

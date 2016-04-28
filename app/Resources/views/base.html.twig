@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome to So What Series!{% endblock %}</title>
         {% block stylesheets %}
 
@@ -29,8 +30,14 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('series_index')}}" >All Series</a></li>
                         <li><a href="{{ path('series_new')}}" >Add a Series</a></li>
-                        {% block page %}
-                        {% endblock %}
+
+                    </ul>
+                </li>
+                 <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="">season<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('season_index')}}" >All season</a></li>
+                        <li><a href="{{ path('season_new')}}" >Add an season</a></li>
                     </ul>
                 </li>
 
@@ -52,11 +59,11 @@
                     <li><a href="{{ path('users_index')}}" >tout les Profil</a></li>
                     
                     {% if is_granted('ROLE_SUPER_ADMIN') %}    
-                    <li><a href="{{ path('superadmin_index')}}">SUPER ADMIN ONLY</a></li> 
+                    <li><a href="{{ path('superadmin_index')}}">Super Administrater's Page</a></li> 
                     {% endif %}
 
                     {% if is_granted('ROLE_ADMIN') %}    
-                    <li><a href="{{ path('site_main_admin')}}">ADMIN ONLY</a></li> 
+                    <li><a href="{{ path('site_main_admin')}}">Moderator's Page</a></li> 
                     {% endif %}
                           
                            
@@ -76,13 +83,7 @@
             </ul>
           </div>
         </nav>
-        <!-- <aside class="col-md-3">
-            <menu class="menu">
-                <ul>
-                  
-                </ul>
-            </menu>
-        </aside> -->
+
         {% endblock %}
 
         {% block header %}
@@ -109,8 +110,9 @@
 
         {% endblock %}
 
-        <main class="col-md-12">
-
+        <main>
+            <div class="container">
+                
         {% block body %}
             {% block fos_user_content %}
             {% endblock %}
@@ -118,6 +120,7 @@
             {% endblock %}
         {% endblock %}
         
+            </div>
         </main>
         {% block javascripts %}
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
