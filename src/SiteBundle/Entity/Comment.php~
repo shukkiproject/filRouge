@@ -321,28 +321,4 @@ class Comment
     {
         return $this->flagged;
     }
-
-    /**
-     * Set season
-     *
-     * @param \SiteBundle\Entity\Season $season
-     *
-     * @return Comment
-     */
-    public function setSeason(\SiteBundle\Entity\Season $season = null)
-    {
-        $this->season = $season;
-
-        return $this;
-    }
-
-    /**
-     * Get season
-     *
-     * @return \SiteBundle\Entity\Season
-     */
-    public function getSeason()
-    {
-        return $this->season;
-    }
 }

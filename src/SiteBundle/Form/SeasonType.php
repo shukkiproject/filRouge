@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EpisodeType extends AbstractType
+class SeasonType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,12 +15,8 @@ class EpisodeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-
             ->add('season')
-            ->add('episode')
-            ->add('title')
-            ->add('synopsis')
-
+            ->add('series')
         ;
     }
     
@@ -30,7 +26,7 @@ class EpisodeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SiteBundle\Entity\Episode'
+            'data_class' => 'SiteBundle\Entity\Season'
         ));
     }
 }

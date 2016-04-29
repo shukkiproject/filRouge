@@ -32,11 +32,11 @@ class Series
     private $name;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\OneToMany(targetEntity="Episode", mappedBy="series", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Season", mappedBy="series", cascade={"remove"})
      */
-    private $episodes;
+    private $seasons;
 
     /**
      * @var string
@@ -106,7 +106,7 @@ class Series
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
-     * @Vich\UploadableField(mapping="product_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="series_image", fileNameProperty="imageName")
      * 
      * @var File
      */
@@ -523,6 +523,7 @@ class Series
         return $this->flagged;
     }
 
+
     //Begin Methode VichUploaderBundle------------------------------------------------------------------------------------------
 
     /**
@@ -534,9 +535,9 @@ class Series
      *
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
      *
-     * @return Product
+     * @return Series
      */
-    public function setImageFile(File $image = null)
+    public function setImageFile(File $image)
     {
         $this->imageFile = $image;
 
@@ -560,7 +561,7 @@ class Series
     /**
      * @param string $imageName
      *
-     * @return Product
+     * @return Series
      */
     public function setImageName($imageName)
     {
@@ -577,6 +578,41 @@ class Series
         return $this->imageName;
     }
 
+    //End Methode VichUploaderBundle------------------------------------------------------------------------------------------
 
+
+    /**
+     * Add season
+     *
+     * @param \SiteBundle\Entity\Season $season
+     *
+     * @return Series
+     */
+    public function addSeason(\SiteBundle\Entity\Season $season)
+    {
+        $this->seasons[] = $season;
+
+        return $this;
+    }
+
+    /**
+     * Remove season
+     *
+     * @param \SiteBundle\Entity\Season $season
+     */
+    public function removeSeason(\SiteBundle\Entity\Season $season)
+    {
+        $this->seasons->removeElement($season);
+    }
+
+    /**
+     * Get seasons
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSeasons()
+    {
+        return $this->seasons;
+    }
 
 }

@@ -1,3 +1,7 @@
+site_season:
+    resource: "@SiteBundle/Controller/SeasonController.php"
+    type:     annotation
+
 site_series_rating:
     resource: "@SiteBundle/Controller/SeriesRatingController.php"
     type:     annotation
