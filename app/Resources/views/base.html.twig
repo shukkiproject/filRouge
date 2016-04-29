@@ -8,13 +8,14 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/framework/css/style.css')}}" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         
     </head>
     <body>
-        <div class="container">
+    <div class="container">
              
 
         {% block menu %}
@@ -32,7 +33,14 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{{ path('site_main_index') }}">Home</a></li>
+            <li><a href="{{ path('site_main_index') }}">Home</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="">Series<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('series_index')}}" >All Series</a></li>
+                    <li><a href="{{ path('series_new')}}" >Add a Series</a></li>
+                </ul>
+            </li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="">season<span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -60,14 +68,6 @@
 
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="">Series<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="{{ path('series_index')}}" >All Series</a></li>
-                    <li><a href="{{ path('series_new')}}" >Add a Series</a></li>
-                </ul>
-            </li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="">Profil
                 <span class="caret"></span></a>
@@ -138,9 +138,14 @@
         
             </div>
         </main>
+        <footer>
+            <h6 class="text-center">Copyright 2016 © Tous droits réservés</h6>
+            <h6 class="text-center">Propriété IMIE - Création SHUKAVAT</h6>
+        </footer>
+
         {% block javascripts %}
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-            <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
             <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>‌
 
 
@@ -168,6 +173,13 @@
                     });
                 }
             });
+
+            <script>
+            // $("li").on("click", function(){
+            //     $(".nav").find(".active").removeClass("active");
+            //     $(this).parent().addClass("active");
+            // });
+
             </script>
 
         {% endblock %}
