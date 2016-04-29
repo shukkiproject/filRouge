@@ -52,9 +52,9 @@
             {% endif %}
             <li><a data-toggle="tab" href="#comments">Comments</a></li>
             <li><a data-toggle="tab" href="#follow">Followed By ...</a></li>
-          </ul>
+        </ul>
 
-          <div class="tab-content">
+        <div class="tab-content">
             <div id="details" class="tab-pane fade in active">
               <h3>Synopsis</h3>
               <p>{{ series.synopsis }}</p>
@@ -63,14 +63,14 @@
             </div>
                 {% if series.seasons %}
                     {% for season in series.seasons %}
-                        <div id="season{{ season.season }}" class="tab-pane fade">
-                            <div class="panel-group" id="accordion">
+                    <div id="season{{ season.season }}" class="tab-pane fade">
+                        <div class="panel-group" id="accordion">
                             {% if season.episodes %}
                                 {% for epi in season.episodes %}
                                         <div class="panel panel-default">
                                           <div class="panel-heading">
                                             <h4 class="panel-title">
-                                              <!-- <a data-toggle="collapse" class="btn  collapsed" data-parent="#accordion" href="#{{epi.title}}">Episode {{epi.episode}} - {{epi.title}}</a> -->
+                                            
                                               <a data-toggle="collapse" data-parent="#accordion" href="#{{epi.title}}">Episode {{epi.episode}} - {{epi.title}}</a>
                                             </h4>
                                           </div>
@@ -80,29 +80,12 @@
                                             </div>
                                           </div>
                                         </div>
-                                    </div>
-<div class="panel-group" id="accordion">
-
-
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Collapsible Group 3</a>
-        </h4>
-      </div>
-      <div id="collapse3" class="panel-collapse collapse">
-        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-      </div>
-    </div>
-  </div> 
                                 {% endfor %} 
                             {% endif %}    
                         </div>
+                    </div>
                     {% endfor %}
                 {% endif %}  
-
             <div id="comments" class="tab-pane fade">
                 {{ include('comment/show.html.twig', { 'series.comments': series.comments }) }}
                 {{ include('comment/new.html.twig', { 'form': form }) }}
@@ -113,7 +96,7 @@
                         {{user.username}}
                     {% endfor %}</p>
             </div>
-          </div>
+        </div>
 
 
     {% endif %}
