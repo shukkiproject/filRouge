@@ -10,16 +10,16 @@ use SiteBundle\Entity\User;
 
 
 /**
- * Users controller.
+ * User controller.
  *
- * @Route("/users")
+ * @Route("/user")
  */
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * Lists all Series entities.
      *
-     * @Route("/", name="users_index")
+     * @Route("/", name="user_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -36,7 +36,7 @@ class UsersController extends Controller
      /**
      * Finds and displays a User.
      *
-     * @Route("/{id}", name="users_show")
+     * @Route("/{id}", name="user_show")
      * @Method("GET")
      */
     public function showAction($id)

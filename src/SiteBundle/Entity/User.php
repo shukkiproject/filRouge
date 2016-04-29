@@ -7,7 +7,7 @@ use FOS\MessageBundle\Model\ParticipantInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SiteBundle\Repository\UserRepository")
  * @ORM\Table(name="fos_user")
  */
 class User extends BaseUser implements ParticipantInterface

@@ -21,4 +21,34 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
 		->getQuery()
 		->getResult();
 	}
+
+	    public function searchMethod($term){
+        $query = $this->createQueryBuilder('s')
+            ->select('s')
+            ->orderBy('s.name','ASC')
+            ->where('s.validated= :is_validated' )
+            ->andWhere('s.name LIKE :term')
+            ->setParameter(':is_validated',true)
+            ->setParameter(':term','%'.$term.'%')
+            //->setMaxResults($limit)
+            ->getQuery();
+        return $query->getResult();
+    }
+    //méthode pour autocomplétion
+    	public function listeSeries($term)
+	{
+		$qb = $this->createQueryBuilder('s');
+		$qb ->select('s.name')
+			->where('s.name LIKE :term')
+			->setParameter('term', '%'.$term.'%');
+		$arrayAss= $qb->getQuery()
+                   ->getArrayResult();
+		//Transformer le tableau associatif en un tableau standard
+		$array = array();
+		foreach($arrayAss as $data)
+		{
+			$array[] = $data['name'];
+		}
+		return $arrayAss;
+	}
 }

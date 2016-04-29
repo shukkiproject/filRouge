@@ -1,7 +1,7 @@
 
     {% for user in users %}
      
-            <a href="{{ path('users_show', { 'id': user.id }) }}">{{ user.username }}
+            <a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.username }}
 
            {#  <img src="{{ series.poster }}" alt="{{ series.name }}" height=300 /> #}
             </a>
