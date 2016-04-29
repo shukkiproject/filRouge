@@ -23,8 +23,8 @@ site_episode:
     requirements:
         _locale: en|fr
 
-site_users:
-    resource: "@SiteBundle/Controller/UsersController.php"
+site_user:
+    resource: "@SiteBundle/Controller/UserController.php"
     type:     annotation
     prefix:   /{_locale}/
     requirements:
