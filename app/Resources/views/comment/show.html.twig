@@ -1,64 +1,53 @@
+ <h3>Comment</h3>
+    {% for comment in series.comments %}
 
-     <h1>Comment</h1>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 thumb"> 
 
-    <table class="table">
-        
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>User</th>
-                <th>Episode</th>
-                <th>Comment</th>
-                <th>Date</th>
-                <th>Actions</th>
+            <div class="media">
+                  <div class="media-left">
+                    <a href="{{ path('user_show', { 'id': comment.user.id }) }}">
+                      <img class="media-object img-reponsive img-rounded pull-left" src="{{ comment.user.photo }}" alt="{{ comment.user }}" width="100">
+                    </a>
+                  </div>
+              <div class="media-body">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                <h4 class="media-heading">{{ comment.user }} <small><i>Posted on {% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}"><button type="button" class="btn btn-secondary">
+            <!--                     
+                                {% for userPref in comment.usersPreferences %}
 
-            </tr>
-        </thead>
-        <tbody>
-            {% for comment in series.comments %}
-            <tr>
-                
-                <td>{{ comment.id }}</td>  
-                <td>{{ comment.user }}</td>
+                                    {% if app.user==userPref.user and userPref.liked==1 %}Liked
+                                    {% else %}Like 
+                                    {% endif %}
+                                {% endfor %} -->
+                Like</button></a>
 
-                {% if comment.episode %}
-                    
-                    <td>{{ comment.episode }}</td>
+                <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}"><button type="button" class="btn btn-secondary">
+            <!--                     {% for userPref in comment.usersPreferences %}
+                                    {% if app.user==userPref.user and userPref.liked==1 %}Disliked
+                                    {% else %}Dislike 
+                                    {% endif %}
+                                {% endfor %} -->
+                                Dislike</button></a>
+            {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
+
+                <a href="{{ path('comment_edit', { 'id': comment.id }) }}"><button type="button" class="btn btn-secondary">Edit</button></a>
+                <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button type="button" class="btn btn-secondary">Delete</button></a>
+            {% endif %}
+            
+                </div>
+                </div>
+                {% if comment.episode %}               
+                <p>Episode {{ comment.episode }}</p>
                 {% endif %}
-
-                <td>{{ comment.comment }}</td>
-
-                <td>{% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</td>
-                
-                <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}"><button>
-<!--                     
-                    {% for userPref in comment.usersPreferences %}
-
-                        {% if app.user==userPref.user and userPref.liked==1 %}Liked
-                        {% else %}Like 
-                        {% endif %}
-                    {% endfor %} -->
-                    Like
-                        </button></a></td>
-
-                <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}"><button>
-<!--                     {% for userPref in comment.usersPreferences %}
-                        {% if app.user==userPref.user and userPref.liked==1 %}Disliked
-                        {% else %}Dislike 
-                        {% endif %}
-                    {% endfor %} -->
-                    Dislike
-                        </button></a></td>
-
-               
-                {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
-
-                    <td><a href="{{ path('comment_edit', { 'id': comment.id }) }}">Edit</a></td>
-                    <td><a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button>Delete this comment</button></a></td>
-                {% endif %}
-            </tr>
-
-        {% endfor %}    
-        </tbody>
-    </table>
+                <p>{{ comment.comment }}</p>
+  
+              </div>
+            </div>
+            <hr/>
+        </div>
+{% endfor %}    
 

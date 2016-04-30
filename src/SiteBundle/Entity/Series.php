@@ -92,14 +92,6 @@ class Series
     private $oldId;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="flagged", type="boolean", nullable=true)
-     */
-    private $flagged;
-
-
-    /**
      * Get id
      *
      * @return int
@@ -468,30 +460,6 @@ class Series
     public function getOldId()
     {
         return $this->oldId;
-    }
-
-    /**
-     * Set flagged
-     *
-     * @param boolean $flagged
-     *
-     * @return Series
-     */
-    public function setFlagged($flagged)
-    {
-        $this->flagged = $flagged;
-
-        return $this;
-    }
-
-    /**
-     * Get flagged
-     *
-     * @return boolean
-     */
-    public function getFlagged()
-    {
-        return $this->flagged;
     }
 
     /**

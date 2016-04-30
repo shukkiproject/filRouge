@@ -65,14 +65,6 @@ class Episode
     private $comments;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="flagged", type="boolean", nullable=true)
-     */
-    private $flagged;
-
-
-    /**
      * Get id
      *
      * @return int
@@ -256,31 +248,6 @@ class Episode
     public function getTitle()
     {
         return $this->title;
-    }
-
-
-    /**
-     * Set flagged
-     *
-     * @param boolean $flagged
-     *
-     * @return Episode
-     */
-    public function setFlagged($flagged)
-    {
-        $this->flagged = $flagged;
-
-        return $this;
-    }
-
-    /**
-     * Get flagged
-     *
-     * @return boolean
-     */
-    public function getFlagged()
-    {
-        return $this->flagged;
     }
 
     /**
