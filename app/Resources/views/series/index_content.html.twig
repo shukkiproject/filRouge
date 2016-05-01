@@ -6,10 +6,10 @@
     </ul>
 
 
-    {% for serie in series %}
+    {% for s in series %}
         <figure>
-            <a href="{{ path('series_show', { 'id': serie.id }) }}"><img src="{{ serie.poster }}" alt="{{ serie.name }}" height=300 /></a>
-            <figcaption>{{ serie.name }}</figcaption>
+            <a href="{{ path('series_show', { 'id': s.id }) }}"><img src="{{ asset('bundles/framework/images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}" height=300 /></a>
+            <figcaption>{{ s.name }}</figcaption>
             
         </figure>
 

@@ -80,3 +80,21 @@ fos_message:
     db_driver: orm
     thread_class: SiteBundle\Entity\Thread
     message_class: SiteBundle\Entity\Message
+
+# VichUploaderBundle > persistence engine
+vich_uploader:
+    db_driver: orm
+    mappings: 
+        series_image: 
+            uri_prefix:          /images/series
+            upload_destination:  %kernel.root_dir%/../web/bundles/framework/images/series
+            inject_on_load:      false 
+            delete_on_update:    true 
+            delete_on_remove:    true
+
+        user_image: 
+            uri_prefix:          /images/users
+            upload_destination:  %kernel.root_dir%/../web/bundles/framework/images/users
+            inject_on_load:      false 
+            delete_on_update:    true 
+            delete_on_remove:    true

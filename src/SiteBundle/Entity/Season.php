@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Season
  *
  * @ORM\Table(name="season")
- * @ORM\Entity(repositoryClass="SiteBundle\Repository\SeasonRepository")
+ * @ORM\Entity(repositoryClass="SiteBundle\Repository\SeasonRepository") @ORM\HasLifecycleCallbacks
  */
 class Season
 {
@@ -150,5 +150,39 @@ class Season
 
     public function __toString() {
         return strval($this->season);
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \SiteBundle\Entity\Comment $comment
+     *
+     * @return Season
+     */
+    public function addComment(\SiteBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \SiteBundle\Entity\Comment $comment
+     */
+    public function removeComment(\SiteBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

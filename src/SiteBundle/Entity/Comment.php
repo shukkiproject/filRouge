@@ -51,6 +51,14 @@ class Comment
 
     /**
      * @var string
+     * @ORM\Column(name="title", type="text")
+     *
+     * 
+     */
+    private $title;
+
+    /**
+     * @var string
      * @ORM\Column(name="comment", type="text")
      *
      * 
@@ -70,6 +78,13 @@ class Comment
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="update_date", type="datetime", nullable=true)
+     */
+    private $updateDate;
 
     /**
      * @var boolean
@@ -288,15 +303,15 @@ class Comment
         $this->setDate($date);
     }
 
-    // /**
-    //  * @ORM\PreUpdate
-    //  */
-    // public function EditedDate()
-    // {
-    //     $editedDate = new \DateTime('now');
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
+    {
+        $updateDate = new \DateTime('now');
         
-    //     $this->setDate($editedDate);
-    // }
+        $this->setUpdateDate($updateDate);
+    }
 
     /**
      * Set flagged
@@ -344,5 +359,53 @@ class Comment
     public function getSeason()
     {
         return $this->season;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Comment
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     *
+     * @return Comment
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
     }
 }

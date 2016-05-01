@@ -3,7 +3,7 @@
 {% block body %}
 
     {% if series %}
-
+{% set dir = "/home/imie/public_html/filRouge/web/bundles/framework/images/series" %}
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="{{ path('site_main_index') }}">Home</a></li>
@@ -11,9 +11,12 @@
             <li class="active">{{ series.name }}</li>
         </ol>
 
-        {% if series.poster %}
-        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 thumb">       
-                <img class="thumbnail img-responsive" src="{{ series.poster }}" alt="{{ series.name }}" > 
+        {% if series.imageName %}
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 thumb">  
+
+           
+                <img class="thumbnail img-responsive" src="{{ asset('bundles/framework/images/series/' ~ series.getImageName()) }}" alt="{{ series.name }}" > 
+            
         </div>
         {% endif %}
         <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 thumb">
@@ -23,23 +26,23 @@
                     <li>{{ average }}</li>
                  
                 {{ include('seriesrating/new.html.twig') }}
-                    {% if is_granted('ROLE_ADMIN')==false %}
-                    <li><a href="{{ path('propose_changes', { 'id': series.id }) }}"><button>Propose Changes</button></a></li>
-                    {% endif %}
-                    <li><a href="{{ path('series_follow', { 'id': series.id }) }}"><button>Follow {{ series.name }}</button></a></li>                
-                    {% if is_granted('ROLE_ADMIN') %}    
-                        {% if series.validated==0 %} 
-                            <li><a href="{{ path('series_validate', { 'id': series.id }) }}"><button>Validate</button></a></li>
+
+                    <div class="btn-group" role="group">                
+                        {% if is_granted('ROLE_ADMIN')==false %}
+                       <a href="{{ path('propose_changes', { 'id': series.id }) }}"><button class="btn btn-info">Propose Changes</button></a>
                         {% endif %}
-                    <li><a href="{{ path('series_edit', { 'id': series.id }) }}"><button>Edit</button></a></li>
-                                            
-                    <li>
+                       <a href="{{ path('series_follow', { 'id': series.id }) }}"><button class="btn btn-success">Follow</button></a>                
+                        {% if is_granted('ROLE_ADMIN') %}    
+                            {% if series.validated==0 %} 
+                               <a href="{{ path('series_validate', { 'id': series.id }) }}"><button class="btn btn-warning">Validate</button></a>
+                            {% endif %}                   
+                            <a href="{{ path('series_edit', { 'id': series.id }) }}"><button class="btn btn-info">Edit</button></a>
                             {{ form_start(delete_form) }}
-                            <input type="submit" value="Delete series">
+                            <input class="btn btn-danger" type="submit" value="Delete series">
                             {{ form_end(delete_form) }}
                         {% endif %}
-                    </li>
-                
+                        
+                    </div>
         </div>
     </div>
 
@@ -58,25 +61,36 @@
             <div id="details" class="tab-pane fade in active">
               <h3>Synopsis</h3>
               <p>{{ series.synopsis }}</p>
-              <h3>Persons</h3>
-                <p>{{ series.persons }}</p>
+              <h3>Casts</h3>
+              {% for person in series.persons %}
+                <p>{{ person.character }} : {{ person }}</p>
+              {% endfor %}  
             </div>
                 {% if series.seasons %}
                     {% for season in series.seasons %}
                     <div id="season{{ season.season }}" class="tab-pane fade">
                         <div class="panel-group" id="accordion">
                             {% if season.episodes %}
-                                {% for epi in season.episodes %}
+                                {% for episode in season.episodes %}
                                         <div class="panel panel-default">
                                           <div class="panel-heading">
                                             <h4 class="panel-title">
                                             
-                                              <a data-toggle="collapse" data-parent="#accordion" href="#{{epi.title}}">Episode {{epi.episode}} - {{epi.title}}</a>
+                                              <a data-toggle="collapse" data-parent="#accordion" href="#{{episode.id}}">Episode {{episode}}</a>
+
                                             </h4>
                                           </div>
-                                          <div id="{{epi.title}}" class="panel-collapse collapse">
+                                          <div id="{{episode.id}}" class="panel-collapse collapse">
                                             <div class="panel-body">
-                                                <p>{{epi.synopsis}}</p>
+                                                <div class="btn-group pull-right" role="group">
+                                              <a href="{{ path('episode_view', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary">Viewed</button></a>
+                                                {% if is_granted('ROLE_ADMIN') %}    
+                                                    <a href="{{ path('episode_edit', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary">Edit</button></a>
+                                                    <a href="{{ path('episode_delete', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary">Delete</button></a>
+                                                {% endif %}
+                                                
+                                                </div>
+                                                <p>{{episode.synopsis}}</p>
                                             </div>
                                           </div>
                                         </div>

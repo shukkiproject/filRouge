@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SiteBundle\Entity\Episode;
 use SiteBundle\Form\EpisodeType;
+use SiteBundle\Entity\User;
 
 /**
  * Episode controller.
@@ -83,6 +84,7 @@ class EpisodeController extends Controller
      */
     public function editAction(Request $request, Episode $episode)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
         $deleteForm = $this->createDeleteForm($episode);
         $editForm = $this->createForm('SiteBundle\Form\EpisodeType', $episode);
         $editForm->handleRequest($request);
@@ -105,22 +107,46 @@ class EpisodeController extends Controller
     /**
      * Deletes a Episode entity.
      *
-     * @Route("/{id}", name="episode_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="episode_delete")
+     * @Method("GET")
      */
     public function deleteAction(Request $request, Episode $episode)
     {
-        $form = $this->createDeleteForm($episode);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
             $em = $this->getDoctrine()->getManager();
+            $series=$episode->getSeason()->getSeries();
             $em->remove($episode);
             $em->flush();
-        }
 
-        return $this->redirectToRoute('episode_index');
+        return $this->redirectToRoute('series_show', array('id' => $series->getId()));
     }
+
+    /**
+     * update if user has watched an episode
+     *
+     * @Route("/{id}/view", name="episode_view")
+     * @Method("GET")
+     */
+    public function viewAction(Episode $episode)
+    {
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                throw $this->createAccessDeniedException('Please login or signup.');
+            }
+            $user = $this->getUser();
+            if (!$user->getEpisodesViewed()->contains($episode)) {
+                $user->addEpisodesViewed($episode);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+            }
+            // $check = $user->getEpisodesViewed()->contains($episode);
+            // var_dump($check);
+            // die;
+            $series=$episode->getSeason()->getSeries();
+
+        return $this->redirectToRoute('series_show', array('id' => $series->getId()));
+    }
+
 
     /**
      * Creates a form to delete a Episode entity.

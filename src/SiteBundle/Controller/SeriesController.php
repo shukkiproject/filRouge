@@ -6,14 +6,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SiteBundle\Controller\CommentController;
-use SiteBundle\Controller\SeriesRatingController;
+use Doctrine\Common\Collections\ArrayCollection;
 use SiteBundle\Entity\Series;
 use SiteBundle\Form\SeriesType;
 use SiteBundle\Entity\Comment;
 use SiteBundle\Form\CommentType;
 use SiteBundle\Entity\SeriesRating;
 use SiteBundle\Entity\User;
+use SiteBundle\Entity\Person;
 
 
 /**
@@ -47,16 +47,18 @@ class SeriesController extends Controller
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
-    {
+    {   
+
         $series = new Series();
+
         $form = $this->createForm('SiteBundle\Form\SeriesType', $series);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-
             $series->setValidated(false);
+
             $em->persist($series);
             $em->flush();
         
@@ -75,9 +77,9 @@ class SeriesController extends Controller
      * @Route("/{id}/proposechanges", defaults={"id": 0}, name="propose_changes")
      * @Method({"GET", "POST"})
      */
-    public function proposeChangesAction(Request $request,Series $series, $id)
+    public function proposeChangesAction($id, Request $request,Series $series)
     {
-        
+        //  var_dump($series);
         $form = $this->createForm('SiteBundle\Form\SeriesType', $series);
         $form->handleRequest($request);
 
@@ -87,8 +89,7 @@ class SeriesController extends Controller
             $seriesC->setOldId($series->getId());
             $seriesC->setName($series->getName());
             $seriesC->setSynopsis($series->getSynopsis());
-            $seriesC->setPoster($series->getPoster());
-            $seriesC->setPersons($series->getPersons());
+            
             $seriesC->setValidated(false);
 
             $em = $this->getDoctrine()->getManager();
@@ -155,8 +156,8 @@ class SeriesController extends Controller
             $oldSeries = $em->getRepository('SiteBundle:Series')->find($series->getOldId());
             $oldSeries->setName($series->getName());
             $oldSeries->setSynopsis($series->getSynopsis());
-            $oldSeries->setPoster($series->getPoster());
-            $oldSeries->setPersons($series->getPersons());
+            // $oldSeries->setPoster($series->getPoster());
+            // $oldSeries->setPersons($series->getPersons());
             $oldSeries->setValidated(true);
             $em->persist($oldSeries);
             $em->remove($series);
@@ -209,10 +210,14 @@ class SeriesController extends Controller
         }
         $user = $this->getUser();
 
-        $em = $this->getDoctrine()->getManager();
-        $user->addSeriesFollowed($series);
-        $em->persist($user);
-        $em->flush();
+        if (!$user->getSeriesFollowed()->contains($series)) {
+            $user->addSeriesFollowed($series);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('series_show', array('id' => $series->getId()));
         //TODO : WARNING IF ALREADY FOLLOWED
         // if (!$em->persist($user)->flush()) {
         //     throw new HttpException(404, "Whoops! Looks like you\'ve already followed the series!");

@@ -5,6 +5,7 @@ namespace SiteBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class SeriesType extends AbstractType
 {
@@ -16,9 +17,19 @@ class SeriesType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('synopsis')
-            ->add('poster')
-            ->add('persons')
+            ->add('creator')
+            ->add('year', 'datetime', array(
+                'widget' => 'single_text',
+                'format' => 'yyyy'
+            ))
+            ->add('imageFile', 'file', array(
+                     'data_class'   =>  null,
+                     'required'   =>  false,
+                ))
+            ->add('imageName')
+            ->add('synopsis', 'textarea')
+            ->add('persons', CollectionType::class, array('entry_type' => PersonType::class, 'allow_add' => true, 'allow_delete' => true, 'by_reference' => false,))
+            ->add('language','choice', array('choices'  => array('English' => 'English', 'Français' => 'Français')))
         ;
     }
     
