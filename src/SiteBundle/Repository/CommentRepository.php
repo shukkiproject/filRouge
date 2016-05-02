@@ -10,4 +10,14 @@ namespace SiteBundle\Repository;
  */
 class CommentRepository extends \Doctrine\ORM\EntityRepository
 {
+
+	public function findByUserid($id){
+		//order by the most recent comment
+		return $this->createQueryBuilder('comment')
+	    ->select('comment')
+	    ->orderBy('comment.id','DESC')
+		->where('comment.user='.$id)
+		->getQuery()
+		->getResult();
+	}
 }

@@ -1,11 +1,74 @@
 {% extends "base.html.twig" %}
 
+{% block body %}
 
-    {% block fos_user_content %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('site_main_index') }}">Home</a></li>
+        <li>My Profil</li>
+    </ol>
+
+
+    {% block fos_user_content %}{# 
 		{% include "FOSUserBundle:Profile:show_content.html.twig" %}
+ #}
+        <div class="fos_user_user_show " class="row">
+            {% if user.photo %}
+                <img src="{{ user.photo }}" alt="" height=300 class="col-l4g- col-md-4 col-sm-8 col-xs-12 thumb"/>
+            {% endif %}
+            <h1 class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">{{ user.username }}</h1>
+            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
+                <a href="{{ path('fos_user_profile_edit')}}" ><button >Edit my Profil</button></a>
+            </div>
+        </div>
 
+        </div>
 
-		<nav class="navbar navbar-inverse">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+            <li><a data-toggle="tab" href="#series">My Series</a></li>
+            <li><a data-toggle="tab" href="#friends">My Friends</a></li>
+            <li><a data-toggle="tab" href="#criticise">My Criticises</a></li>
+            <li><a data-toggle="tab" href="#messages">My Messages</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+
+            </div>
+
+            <div id="series" class="tab-pane fade panel-group" id="accordion">
+                {% for serie in  user.seriesFollowed %}
+                    <div id="serie{{ serie.name }}" class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 thumb">
+                            <a href="{{ path('series_show', { 'id': serie.id }) }}"><img class="thumbnail img-responsive" src="{{ serie.poster }}" alt="{{ serie.name }}" ></a>
+                        </div>
+
+                        <div class="panel panel-default col-lg-8 col-md-6 col-sm-8 col-xs-12 thumb">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#{{serie.synopsis}}">{{ serie.name }}</a>
+                                </h4>
+                            </div>
+                            <div id="{{serie.synopsis}}" class="panel-collapse collapse in">
+                                <div class="panel-body">{{serie.synopsis}}</div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div id="friends" class="tab-pane fade">
+                
+            </div>
+
+            <div id="criticise" class="tab-pane fade">
+
+            </div>
+
+            <div id="messages" class="tab-pane fade">
+
+            </div>
+{# 		<nav class="navbar navbar-inverse">
           <div class="container-fluid">
             <ul class="nav navbar-nav">
                 <li class="dropdown"><a href="{{ path('fos_user_profile_show')}}" >Profile</a></li>
@@ -18,5 +81,6 @@
                 <li class="dropdown"><a href="{{ path('fos_message_deleted')}}" >message deleted</a></li>
        		</ul>
           </div>
-        </nav>
+        </nav> #}
     {% endblock %}
+{% endblock %}
