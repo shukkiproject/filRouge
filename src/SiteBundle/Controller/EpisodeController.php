@@ -139,9 +139,7 @@ class EpisodeController extends Controller
                 $em->persist($user);
                 $em->flush();
             }
-            // $check = $user->getEpisodesViewed()->contains($episode);
-            // var_dump($check);
-            // die;
+            
             $series=$episode->getSeason()->getSeries();
 
         return $this->redirectToRoute('series_show', array('id' => $series->getId()));

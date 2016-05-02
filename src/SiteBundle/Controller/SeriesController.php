@@ -79,20 +79,45 @@ class SeriesController extends Controller
      */
     public function proposeChangesAction($id, Request $request,Series $series)
     {
-        //  var_dump($series);
+
+         // var_dump($originalPersons);
+         // die;
+        
         $form = $this->createForm('SiteBundle\Form\SeriesType', $series);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $seriesC = new Series();
-            $seriesC->setOldId($series->getId());
-            $seriesC->setName($series->getName());
-            $seriesC->setSynopsis($series->getSynopsis());
-            
-            $seriesC->setValidated(false);
-
             $em = $this->getDoctrine()->getManager();
+            $seriesC = new Series();
+            $seriesC = clone $series;
+            $seriesC->setOldId($series->getId());
+            $seriesC->setValidated(false);
+            foreach ($seriesC->getPersons() as $person) {
+                $personC= new Person();
+                $personC = clone $person;
+                $personC->setOldId($person->getId());
+                $personC->setValidated(false);
+                // $seriesC->addPerson($personC);
+                $seriesC->removePerson($person);
+                $em->detach($person);
+                unset($person);
+                $em->persist($personC);
+                // // var_dump($person);
+                // var_dump($personC);
+                //     die;
+
+            }
+            // var_dump($seriesC->getPersons());
+            // die;
+            // $seriesC->setName($series->getName());
+            // $seriesC->setCreator($series->getCreator());
+            // $seriesC->setYear($series->getYear());
+            // $seriesC->setImageFile($series->getImageFile());
+            // $seriesC->setImageName($series->getImageName());
+            // $seriesC->setSynopsis($series->getSynopsis());
+            // $seriesC->setLanguage($series->getLanguage());
+
             $em->detach($series);
             $em->persist($seriesC);
             $em->flush();
@@ -217,12 +242,6 @@ class SeriesController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('series_show', array('id' => $series->getId()));
-        //TODO : WARNING IF ALREADY FOLLOWED
-        // if (!$em->persist($user)->flush()) {
-        //     throw new HttpException(404, "Whoops! Looks like you\'ve already followed the series!");
-        // }
- 
         return $this->redirectToRoute('series_show', array('id' => $series->getId()));
     }
 

@@ -18,10 +18,7 @@ class SeriesType extends AbstractType
         $builder
             ->add('name')
             ->add('creator')
-            ->add('year', 'datetime', array(
-                'widget' => 'single_text',
-                'format' => 'yyyy'
-            ))
+            ->add('year', 'choice', array('choices' => range(Date('Y') + 1, date('Y')-30)))
             ->add('imageFile', 'file', array(
                      'data_class'   =>  null,
                      'required'   =>  false,

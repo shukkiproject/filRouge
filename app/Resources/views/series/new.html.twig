@@ -18,9 +18,10 @@
         {% for person in form.persons %}
             <li>{{ form_row(person.firstname) }}</li>
             <li>{{ form_row(person.lastname) }}</li>
-            <li>{{ form_row(person.role) }}</li>
+            <li>{{ form_row(person.character) }}</li>            
         {% endfor %}
     </ul>
+        
 
     
         <input type="submit" value="Submit" />
@@ -62,7 +63,7 @@ jQuery(document).ready(function() {
     });
 
     // add a delete link to all of the existing tag form li elements
-    $collectionHolder.find('li').each(function() {
+    $collectionHolder.find('ul.persons').each(function() {
         addPersonFormDeleteLink($(this));
     });
 
