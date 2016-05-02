@@ -65,3 +65,42 @@ form:
     password_confirmation: Vérification
     new_password: 'Nouveau mot de passe'
     new_password_confirmation: Vérification
+
+navbar:
+    profil:
+        index: 'Mon Profil'
+        all: 'Tout les Profils'
+        superadmin: 'Page Superadmin'
+        moderator: 'Page Modérateur'
+    home: 'Accueil'
+    series:
+        index: 'Séries'
+        all: 'Toutes les Séries'
+        add: 'Ajouter une série'
+    season:
+        index: 'Saisons'
+        all: 'Toutes les saisons'
+        add: 'Ajouter une saison'
+    episode:
+        all: 'Tous les épisodes'
+        add: 'Ajouter un épisode'
+    log:
+        signup: 'S''inscrire'
+        logout: 'Se '
+        login: 'Se connecter'
+
+series:
+    propose: 'Proposer une nouvelle série'
+    back: 'Retour à la liste'
+    list: 'Toutes les Séries'
+    rating: 'Notes'
+    choose: 'Noter la série'
+    change: 'Proposer des changements'
+    follow: 'Suivre'
+    edit: 'Modifier'
+    validate: 'Valider'
+    delete: 'Effacer la série'
+    detail: 'Fiche de la Série'
+    season: 'Saison'
+    comments: 'Critiques'
+    followedby: "Suivie par ..."

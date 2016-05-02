@@ -85,3 +85,43 @@ form:
     password_confirmation: 'Repeat password'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
+
+navbar:
+    profil:
+        index: 'My Profil'
+        all: 'All Profils'
+        superadmin: 'Super Administrater''s Page'
+        moderator: 'Moderator''s Page'
+    home: 'Home'
+    series:
+        index: 'Séries'
+        all: 'All Series'
+        add: 'Add a serie'
+    season:
+        index: 'Season'
+        all: 'All season'
+        add: 'Add an season'
+    episode:
+        all: 'All Episodes'
+        add: 'Add an Episode'
+    log:
+        signup: 'Sign Up'
+        logout: 'Logout'
+        login: 'Login'
+
+series:
+    propose: 'Propose a new serie'
+    back: 'Back to the list'
+    list: 'All Séries'
+    rating: 'Ratings'
+    choose: 'Rate the serie'
+    change: 'Propose Changes'
+    follow: 'Follow'
+    edit: 'Edit'
+    validate: 'Validate'
+    delete: 'Delete Serie'
+    detail: 'Details of the series'
+    season: 'Season'
+    comments: 'Comments'
+    followedby: 'Followed by ...'
+

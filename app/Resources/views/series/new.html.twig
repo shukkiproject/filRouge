@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
 
 {% block body %}
-    <h1>Series Form</h1>
+    <h1>{{ 'series.propose'|trans }}</h1>
 
     {{ form_start(form) }}
     <li>{{ form_row(form.name) }}</li>
@@ -30,7 +31,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('series_index') }}">Back to the list</a>
+            <a href="{{ path('series_index') }}">{{ 'series.back'|trans }}</a>
         </li>
     </ul>
 

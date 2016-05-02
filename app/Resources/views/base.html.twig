@@ -13,13 +13,15 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/framework/css/style.css')}}" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
     </head>
     <body>
     <div class="container">
              
 
         {% block menu %}
+        {% trans_default_domain 'FOSUserBundle' %}
             <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -37,25 +39,26 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="{{ path('site_main_index') }}">Home</a></li>
+            <li><a href="{{ path('site_main_index') }}">{{ 'navbar.home'|trans }}</a></li>
             <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="">Series<span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="">{{ 'navbar.series.index'|trans }}<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ path('series_index')}}" >All Series</a></li>
-                    <li><a href="{{ path('series_new')}}" >Add a Series</a></li>
-                     <li><a href="{{ path('season_index')}}" >All season</a></li>
-                    <li><a href="{{ path('season_new')}}" >Add a season</a></li>
-                    <li><a href="{{ path('episode_index')}}" >All Episodes</a></li>
-                    <li><a href="{{ path('episode_new')}}" >Add an Episode</a></li>
+                    <li><a href="{{ path('series_index')}}" >{{ 'navbar.series.all'|trans }}</a></li>
+                    <li><a href="{{ path('series_new')}}" >{{ 'navbar.series.add'|trans }}</a></li>
                 </ul>
             </li>
-
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="">{{ 'navbar.season.index'|trans }}<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('season_index')}}">{{ 'navbar.season.all'|trans }}</a></li>
+                    <li><a href="{{ path('season_new')}}">{{ 'navbar.season.add'|trans }}</a></li>
+                </ul>
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="">Person<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ path('person_index')}}" >All Person</a></li>
-                    <li><a href="{{ path('person_new')}}" >Add a Person</a></li>
+                    <li><a href="{{ path('episode_index')}}" >{{ 'navbar.episode.all'|trans }}</a></li>
+                    <li><a href="{{ path('episode_new')}}" >{{ 'navbar.episode.add'|trans }}</a></li>
                 </ul>
             </li>
             <li class="navbar-form navbar-left" role="search">
@@ -75,25 +78,25 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="">Profil
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ path('fos_user_profile_show')}}" >mon Profil</a></li>
-                    <li><a href="{{ path('user_index')}}" >tout les Profil</a></li>
+                    <li><a href="{{ path('fos_user_profile_show')}}" >{{ 'navbar.profil.index'|trans }}</a></li>
+                    <li><a href="{{ path('user_index')}}" >{{ 'navbar.profil.all'|trans }}</a></li>
                     <li role="separator" class="divider"></li>
                     <li class="dropdown-header">Administration</li>
                     {% if is_granted('ROLE_SUPER_ADMIN') %}    
-                    <li><a href="{{ path('superadmin_index')}}">Super Administrater's Page</a></li> 
+                    <li><a href="{{ path('superadmin_index')}}">{{ 'navbar.profil.superadmin'|trans }}</a></li> 
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}    
-                    <li><a href="{{ path('site_main_admin')}}">Moderator's Page</a></li> 
+                    <li><a href="{{ path('site_main_admin')}}">{{ 'navbar.profil.moderator'|trans }}</a></li> 
                     {% endif %}         
                 </ul>
                 </li>
-                <li><a href="{{ path('fos_user_registration_register')}}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="{{ path('fos_user_registration_register')}}"><span class="glyphicon glyphicon-user"></span> {{ 'navbar.log.signup'|trans }}</a></li>
 
                 <li>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                    <a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+                    <a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> {{ 'navbar.log.logout'|trans }}</a>
                 {% else %}
-                    <a href="{{ path('fos_user_security_login')}}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    <a href="{{ path('fos_user_security_login')}}"><span class="glyphicon glyphicon-log-in"></span>{{ 'navbar.log.login'|trans }}</a>
                 {% endif %}
                 </li>
                 <li><a href="{{ path('site_main_index', { '_locale': 'en' }) }}">En</a></li>
