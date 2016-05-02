@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'FOSUserBundle' %}
+
 {% block body %}
 
     {% if series %}
 
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ path('site_main_index') }}">Home</a></li>
-            <li><a href="{{ path('series_index') }}">Series</a></li>
+            <li><a href="{{ path('site_main_index') }}">{{ 'navbar.home'|trans }}</a></li>
+            <li><a href="{{ path('series_index') }}">{{ 'navbar.series.index'|trans }}</a></li>
             <li class="active">{{ series.name }}</li>
         </ol>
 
@@ -19,23 +21,23 @@
         <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 thumb">
             <h1 class="page-header">{{ series.name }}</h1>
                 
-                    <h3>Ratings</h3>
+                    <h3>{{ 'series.rating'|trans }}</h3>
                     <li>{{ average }}</li>
                  
                 {{ include('seriesrating/new.html.twig') }}
                     {% if is_granted('ROLE_ADMIN')==false %}
-                    <li><a href="{{ path('propose_changes', { 'id': series.id }) }}"><button>Propose Changes</button></a></li>
+                    <li><a href="{{ path('propose_changes', { 'id': series.id }) }}"><button>{{ 'series.change'|trans }}</button></a></li>
                     {% endif %}
-                    <li><a href="{{ path('series_follow', { 'id': series.id }) }}"><button>Follow {{ series.name }}</button></a></li>                
+                    <li><a href="{{ path('series_follow', { 'id': series.id }) }}"><button>{{ 'series.follow'|trans }} {{ series.name }}</button></a></li>                
                     {% if is_granted('ROLE_ADMIN') %}    
                         {% if series.validated==0 %} 
-                            <li><a href="{{ path('series_validate', { 'id': series.id }) }}"><button>Validate</button></a></li>
+                            <li><a href="{{ path('series_validate', { 'id': series.id }) }}"><button>{{ 'series.validate'|trans }}</button></a></li>
                         {% endif %}
-                    <li><a href="{{ path('series_edit', { 'id': series.id }) }}"><button>Edit</button></a></li>
+                    <li><a href="{{ path('series_edit', { 'id': series.id }) }}"><button>{{ 'series.edit'|trans }}</button></a></li>
                                             
                     <li>
                             {{ form_start(delete_form) }}
-                            <input type="submit" value="Delete series">
+                            <input type="submit" value="{{ 'series.delete'|trans }}">
                             {{ form_end(delete_form) }}
                         {% endif %}
                     </li>
@@ -44,21 +46,21 @@
     </div>
 
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#details">Details of the series</a></li>
+            <li class="active"><a data-toggle="tab" href="#details">{{ 'series.detail'|trans }}</a></li>
             {% if series.seasons %}
                 {% for season in series.seasons %}
-                    <li><a data-toggle="tab" href="#season{{ season.season }}">Season {{ season.season }}</a></li>
+                    <li><a data-toggle="tab" href="#season{{ season.season }}">{{ 'series.season'|trans }} {{ season.season }}</a></li>
                 {% endfor %}
             {% endif %}
-            <li><a data-toggle="tab" href="#comments">Comments</a></li>
-            <li><a data-toggle="tab" href="#follow">Followed By ...</a></li>
+            <li><a data-toggle="tab" href="#comments">{{ 'series.comments'|trans }}</a></li>
+            <li><a data-toggle="tab" href="#follow">{{ 'series.followedby'|trans }}</a></li>
         </ul>
 
         <div class="tab-content">
             <div id="details" class="tab-pane fade in active">
               <h3>Synopsis</h3>
               <p>{{ series.synopsis }}</p>
-              <h3>Persons</h3>
+              <h3>Casting</h3>
                 <p>{{ series.persons }}</p>
             </div>
                 {% if series.seasons %}

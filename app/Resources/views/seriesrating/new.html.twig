@@ -1,4 +1,6 @@
-<strong class="choice">Choose a rating</strong>
+{% trans_default_domain 'FOSUserBundle' %}
+
+<strong class="choice">{{ 'series.choose'|trans }}</strong>
 
 <span class="star-rating">
   <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 1 }) }}"><i class="fa fa-star" aria-hidden="true"></i></a>
