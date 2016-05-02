@@ -88,6 +88,7 @@ vich_uploader:
         series_image: 
             uri_prefix:          /images/series
             upload_destination:  %kernel.root_dir%/../web/images/series
+            namer:               vich_uploader.namer_uniqid
             inject_on_load:      false 
             delete_on_update:    true 
             delete_on_remove:    true
@@ -95,6 +96,7 @@ vich_uploader:
         user_image: 
             uri_prefix:          /images/users
             upload_destination:  %kernel.root_dir%/../web/images/users
+            namer:               vich_uploader.namer_uniqid
             inject_on_load:      false 
             delete_on_update:    true 
             delete_on_remove:    true
