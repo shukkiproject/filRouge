@@ -13,21 +13,11 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
                 <div class="btn-group" role="group">
                     <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}"><button type="button" class="btn btn-secondary">
-            <!--                     
-                                {% for userPref in comment.usersPreferences %}
-
-                                    {% if app.user==userPref.user and userPref.liked==1 %}Liked
-                                    {% else %}Like 
-                                    {% endif %}
-                                {% endfor %} -->
+ 
                 Like</button></a>
 
                 <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}"><button type="button" class="btn btn-secondary">
-            <!--                     {% for userPref in comment.usersPreferences %}
-                                    {% if app.user==userPref.user and userPref.liked==1 %}Disliked
-                                    {% else %}Dislike 
-                                    {% endif %}
-                                {% endfor %} -->
+
                                 Dislike</button></a>
             {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
 

@@ -29,22 +29,28 @@
                  
                 {{ include('seriesrating/new.html.twig') }}
                     {% if is_granted('ROLE_ADMIN')==false %}
-                    <li><a href="{{ path('propose_changes', { 'id': series.id }) }}"><button>{{ 'series.change'|trans }}</button></a></li>
+                   <a href="{{ path('propose_changes', { 'id': series.id }) }}"><button class="btn btn-info">{{ 'series.change'|trans }}</button></a>
                     {% endif %}
-                    <li><a href="{{ path('series_follow', { 'id': series.id }) }}"><button>{{ 'series.follow'|trans }} {{ series.name }}</button></a></li>                
+
+                    {% if app.user %}
+                   <a><button class="btn btn-success" id="followSeries">{{ 'series.follow'|trans }}</button></a> 
+                    {% else %} 
+                    <a href="{{ path('series_follow', { 'id': series.id }) }}"><button class="btn btn-success">{{ 'series.follow'|trans }}</button></a> 
+                    {% endif %} 
+
                     {% if is_granted('ROLE_ADMIN') %}    
                         {% if series.validated==0 %} 
-                            <li><a href="{{ path('series_validate', { 'id': series.id }) }}"><button>{{ 'series.validate'|trans }}</button></a></li>
+                           <a href="{{ path('series_validate', { 'id': series.id }) }}"><button class="btn btn-warning">{{ 'series.validate'|trans }}</button></a>
                         {% endif %}
-                    <li><a href="{{ path('series_edit', { 'id': series.id }) }}"><button>{{ 'series.edit'|trans }}</button></a></li>
+                   <a href="{{ path('series_edit', { 'id': series.id }) }}"><button class="btn btn-info">{{ 'series.edit'|trans }}</button></a>
                                             
-                    <li>
+                   
                             {{ form_start(delete_form) }}
-                            <input type="submit" value="{{ 'series.delete'|trans }}">
+                            <input class="btn btn-danger" type="submit" value="{{ 'series.delete'|trans }}">
                             {{ form_end(delete_form) }}
                         {% endif %}
                         
-                    </div>
+                    
         </div>
     </div>
 
@@ -63,15 +69,10 @@
             <div id="details" class="tab-pane fade in active">
               <h3>Synopsis</h3>
               <p>{{ series.synopsis }}</p>
-<<<<<<< HEAD
               <h3>Casts</h3>
               {% for person in series.persons %}
                 <p>{{ person.character }} : {{ person }}</p>
               {% endfor %}  
-=======
-              <h3>Casting</h3>
-                <p>{{ series.persons }}</p>
->>>>>>> 28f05af6e7c1ddecd178a607c4c85027f8586897
             </div>
                 {% if series.seasons %}
                     {% for season in series.seasons %}
@@ -113,12 +114,47 @@
             </div>
             <div id="follow" class="tab-pane fade">
                 <h3>Users</h3>
-                <p>{% for user in series.followedBy %}
-                        {{user.username}}
-                    {% endfor %}</p>
+                {% for user in series.followedBy %}
+                        <p id='{{user.username}}'>{{user.username}}</p>
+                    {% endfor %}
             </div>
         </div>
+        {% if app.user %}
+            <script>
+            $("#followSeries").on('click', function(){
 
+                    $.ajax({
+                        url: "{{ path('series_follow', { 'id': series.id }) }}",
+                        // data: ,
+                        success: function(){  
+                            if ($("#followSeries").text()=='Follow') {
+                                $("#followSeries").text('Unfollow');
+                                 
+                                $("#follow").append( '<p id="{{app.user.username}}">{{ app.user.username }}</p>' );  
+                                
+                            } else {
+                                $("#followSeries").text('Follow');
+                                $("#{{ app.user.username }}").remove(); 
+                                
+                            }
+                        },
+                        error: function() { 
+                        },
+                    });
+
+            });
+            $.ajax({
+                    url: "{{ path('series_isfollow', { 'id': series.id }) }}",
+                    // data: ,
+                    success: function(data){  
+                            
+                            $("#followSeries").text(data);
+                    },
+                    error: function() { 
+                    },
+                });
+            </script>
+        {% endif %}       
 
     {% endif %}
 {% endblock %}

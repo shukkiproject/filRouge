@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use SiteBundle\Entity\CommentPreference;
 use SiteBundle\Form\CommentPreferenceType;
 
@@ -121,8 +122,7 @@ class CommentPreferenceController extends Controller
 
         return $this->redirectToRoute('commentpreference_index');
     }
-
-    /**
+ /**
      * Create a CommentPreference entity.
      *
      * @Route("series/{seriesId}/comment/{commentId}/preference/{pref}", name="commentpreference_pref")
@@ -131,33 +131,58 @@ class CommentPreferenceController extends Controller
     public function preferenceAction($seriesId, $commentId, $pref)
     {
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-                throw $this->createAccessDeniedException('Please login or signup to leave a comment.');
+                throw $this->createAccessDeniedException('Please login or signup.');
             }
             $user = $this->getUser();
 
             $em = $this->getDoctrine()->getManager();
             $comment = $em->getRepository('SiteBundle:Comment')->find($commentId);
-            //TEST IF EXIST ALREADY IN DB, SAME USER, SAME COMMENT, SAME PREFERNCE
+            //TEST IF EXIST ALREADY IN DB, SAME USER, SAME COMMENT
             //IF EXIST JUST CHANGE THE PREF, ELSE NEW OBJECT
             $prefExist = $em->getRepository('SiteBundle:CommentPreference')->findOneBy(array('user' => $user, 'comment' => $comment));
             if (!isset($prefExist)) {
                 $commentPreference = new CommentPreference();
                 $commentPreference->setUser($user)
-                    ->setComment($comment)
+                    ->setComment($comment)   
                     ->setLiked($pref);
                 $em->persist($commentPreference);
                 $em->flush();
 
-            } else {
+            } else{
+                $prefExist->setLiked($pref);
+                $em->persist($prefExist);
+                $em->flush();
+            }
+           
 
-                if(($prefExist->getLiked())!==$pref){
-                        $prefExist->setLiked($pref);
-                        $em->persist($prefExist);
-                        $em->flush();
+        return $this->redirectToRoute('series_show', array('id' => $seriesId));
+    }
+
+    /**
+     * Check whetehr a comment is liked/disliked.
+     *
+     * @Route("series/{seriesId}/comment/{commentId}", name="commentpreference_isliked")
+     * @Method("GET")
+     */
+    public function isLikedAction($seriesId, $commentId)
+    {
+            if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                throw $this->createAccessDeniedException('Please login or signup.');
+            }
+            $user = $this->getUser();
+
+            $em = $this->getDoctrine()->getManager();
+            $comment = $em->getRepository('SiteBundle:Comment')->find($commentId);
+            //TEST IF EXIST ALREADY IN DB, SAME USER, SAME COMMENT
+            //IF EXIST JUST CHANGE THE PREF, ELSE NEW OBJECT
+            $prefExist = $em->getRepository('SiteBundle:CommentPreference')->findOneBy(array('user' => $user, 'comment' => $comment));
+            if (!isset($prefExist)) {
+                return new JsonResponse(false);
+            } else{
+                if ($prefExist->getLiked()) {
+                    return new JsonResponse('Liked');
                 } else {
-                        //FLASHBAG DOESN'T WORK!!!!!!!!!!!!!!!!!!!!
-                        $this->addFlash('alert', 'You\'ve already liked this comment!');
-                        // return $this->redirectToRoute('series_show', array('id' => $seriesId));
+                    return new JsonResponse('Disliked');
                 }
             }
            
