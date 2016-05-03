@@ -20,4 +20,6 @@ class SeriesRatingRepository extends \Doctrine\ORM\EntityRepository
 		->getSingleScalarResult();
 	}
 
+
+
 }

@@ -2,7 +2,7 @@
     {% for comment in series.comments %}
             <div class="media">
                   <div class="media-left">
-                    <a href="{{ path('user_show', { 'id': comment.user.id }) }}">
+                    <a href="{{ path('fos_user_profile_show', { 'id': comment.user.id }) }}">
                       <img class="media-object img-reponsive img-rounded pull-left" src="{{ asset('bundles/framework/images/users/' ~ comment.user.getImageName()) }}" alt="{{ comment.user }}" width="100">
                     </a>
                   </div>

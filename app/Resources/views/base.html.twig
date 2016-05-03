@@ -10,10 +10,10 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="{{ asset('bundles/framework/js/bootstrap.min.js')}}"></script>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" type="text/css" href="{{ asset('bundles/framework/css/style.css')}}" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
     </head>
     <body>
@@ -55,7 +55,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="">Person<span class="caret"></span></a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="">Episode<span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ path('episode_index')}}" >{{ 'navbar.episode.all'|trans }}</a></li>
                     <li><a href="{{ path('episode_new')}}" >{{ 'navbar.episode.add'|trans }}</a></li>
@@ -150,7 +150,7 @@
         {% block javascripts %}
 
 
-            <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>‌
+           
 
 
             <script >

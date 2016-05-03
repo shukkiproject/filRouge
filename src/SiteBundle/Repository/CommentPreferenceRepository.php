@@ -10,4 +10,5 @@ namespace SiteBundle\Repository;
  */
 class CommentPreferenceRepository extends \Doctrine\ORM\EntityRepository
 {
+
 }

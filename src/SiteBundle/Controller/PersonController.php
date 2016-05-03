@@ -102,6 +102,40 @@ class PersonController extends Controller
         ));
     }
 
+     /**
+         * Validate an existing Person entity by admin.
+         *
+         * @Route("/{id}/validate", name="person_validate")
+         * @Method("GET")
+         */
+        public function validateAction(Person $person)
+        {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
+
+            $em = $this->getDoctrine()->getManager();
+
+            if (($person->getOldId())!==null) {
+                $oldPerson = $em->getRepository('SiteBundle:Person')->find($person->getOldId());
+                $oldPerson->setLastName($person->getLastName());
+                $oldPerson->setFirstName($person->getFirstName());
+                $oldPerson->setCharacter($person->getCharacter());
+                $oldPerson->setValidated(true);
+
+                $em->persist($oldPerson);
+                $em->remove($person);
+                $em->flush();
+                // TODO: RETURN TO CURRENT SERIES
+                return $this->redirectToRoute('site_main_admin');
+            }
+                $person->setValidated(true);
+                $em->persist($person);
+                $em->flush();
+
+            return $this->redirectToRoute('site_main_admin');
+        
+        }
+
+
     /**
      * Deletes a Person entity.
      *

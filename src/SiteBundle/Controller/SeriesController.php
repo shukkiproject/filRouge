@@ -49,7 +49,9 @@ class SeriesController extends Controller
      */
     public function newAction(Request $request)
     {   
-
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException('Please login or signup.');
+        }
         $series = new Series();
 
         $form = $this->createForm('SiteBundle\Form\SeriesType', $series);
@@ -65,7 +67,6 @@ class SeriesController extends Controller
         
             return $this->redirectToRoute('series_index');
         }
-
         return $this->render('series/new.html.twig', array(
             'series' => $series,
             'form' => $form->createView(),
@@ -99,10 +100,10 @@ class SeriesController extends Controller
                 $personC = clone $person;
                 $personC->setOldId($person->getId());
                 $personC->setValidated(false);
-                // $seriesC->addPerson($personC);
+                $series->addPerson($person);
                 $seriesC->removePerson($person);
                 $em->detach($person);
-                unset($person);
+                // unset($person);
                 $em->persist($personC);
                 // // var_dump($person);
                 // var_dump($personC);
@@ -168,17 +169,18 @@ class SeriesController extends Controller
             $oldSeries = $em->getRepository('SiteBundle:Series')->find($series->getOldId());
             $oldSeries->setName($series->getName());
             $oldSeries->setSynopsis($series->getSynopsis());
-            // $oldSeries->
-            // $oldSeries->setPersons($series->getPersons());
+            $oldSeries->setYear($series->getYear());
+            $oldSeries->setCreator($series->getCreator());
+            $oldSeries->setLanguage($series->getLanguage());
             $oldSeries->setValidated(true);
+
             $em->persist($oldSeries);
             $em->remove($series);
             $em->flush();
 
             return $this->redirectToRoute('site_main_admin');
         }
-
-        $series->setValidated(true);
+        $oldSeries->setValidated(true);
         $em->persist($series);
         $em->flush();
 

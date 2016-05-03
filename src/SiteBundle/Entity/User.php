@@ -10,7 +10,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="SiteBundle\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="SiteBundle\Repository\UserRepository") @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="fos_user")
  * @Vich\Uploadable
  */

@@ -10,7 +10,7 @@ namespace SiteBundle\Repository;
  */
 class SeriesRepository extends \Doctrine\ORM\EntityRepository
 {
-		public function seriesfollowed($id){
+	public function seriesfollowed($id){
 		//order by the most recent articles
 		return $this->createQueryBuilder('series')
 
@@ -21,8 +21,8 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
 		->getQuery()
 		->getResult();
 	}
-
-	    public function searchMethod($term){
+	//méthode pour la recherche 
+	public function searchMethod($term){
         $query = $this->createQueryBuilder('s')
             ->select('s')
             ->orderBy('s.name','ASC')
@@ -35,7 +35,7 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
         return $query->getResult();
     }
     //méthode pour autocomplétion
-    	public function listeSeries($term)
+    public function listeSeries($term)
 	{
 		$qb = $this->createQueryBuilder('s');
 		$qb ->select('s.name')
@@ -50,5 +50,14 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
 			$array[] = $data['name'];
 		}
 		return $arrayAss;
+	}
+	public function findByUserid($id){
+		//order by the most recent comment
+		return $this->createQueryBuilder('series')
+	    ->select('series')
+	    ->leftJoin('series.followedBy', 'follow')
+		->where('follow.id='.$id)
+		->getQuery()
+		->getResult();
 	}
 }
