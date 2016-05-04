@@ -2,13 +2,14 @@
 
 {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
    
-<fieldset>
-	<legend>Formulaire d'inscription</legend>
-
-        {{ form_label(form.firstname, 'Prénom') }}
-        {{ form_errors(form.firstname) }}
-        {{ form_widget(form.firstname) }}<br>
-
+<div class="container">
+	<h2>Formulaire d'inscription</h2>
+    <form role="form">
+        <div class="form-group">
+            {{ form_label(form.firstname, 'Prénom') }}
+            {{ form_errors(form.firstname) }}
+            {{ form_widget(form.firstname) }}<br>
+        </div>
         {{ form_label(form.lastname, 'Nom') }}
         {{ form_errors(form.lastname) }}
         {{ form_widget(form.lastname) }}<br>
@@ -36,10 +37,11 @@
 		{{ form_errors(form.plainPassword) }}
 		{{ form_widget(form.plainPassword) }}
 
-    <div>
-        <input type="submit" value="{{ 'registration.submit'|trans }}" />
-    </div>
-</fieldset>
+        <div>
+            <input type="submit" value="{{ 'registration.submit'|trans }}" />
+        </div>
+    </form>
+</div>
 {{ form_end(form) }}
 
 
