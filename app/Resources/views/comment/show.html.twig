@@ -15,17 +15,17 @@
 
                 <div class="btn-group" role="group">
                    {% if app.user %}
-                   <a><button type="button" class="btn btn-secondary" id="like{{ comment.id }}">Like</button></a>
-                   <a><button id="dislike{{ comment.id }}">Dislike</button></a>
+                   <a><button type="button" class="btn btn-secondary" id="like{{ comment.id }}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
+                   <a><button type="button" class="btn btn-secondary" id="dislike{{ comment.id }}"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
                 {% else %} 
-                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}" ><button>Like</button></a>
-                     <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}" ><button>Dislike</button></a>
+                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}" ><buttontype="button" class="btn btn-secondary" ><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
+                     <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}" ><buttontype="button" class="btn btn-secondary" ><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
                 {% endif %} 
 
                 {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
 
-                   <a href="{{ path('comment_edit', { 'id': comment.id }) }}">Edit</a>
-                   <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button>Delete this comment</button></a>
+                   <a href="{{ path('comment_edit', { 'id': comment.id }) }}"><button type="button" class="btn btn-secondary" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                   <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button type="button" class="btn btn-secondary" ><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
                 {% endif %}
                 </div>
                 </div>
@@ -38,7 +38,7 @@
               </div>
             </div>
             <hr/>
-         {% if app.user %}
+<!--          {% if app.user %}
                 <script>
                     $("#like{{ comment.id }}").on('click', function(){
                         $.ajax({
@@ -88,6 +88,6 @@
                     });
 
                 </script>
-            {% endif %}
+            {% endif %} -->
 {% endfor %}    
 

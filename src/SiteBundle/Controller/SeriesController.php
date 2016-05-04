@@ -263,16 +263,11 @@ class SeriesController extends Controller
      * @Route("/{id}", name="series_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Series $series)
+    public function deleteAction(Series $series)
     {
-        $form = $this->createDeleteForm($series);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($series);
             $em->flush();
-        }
 
         return $this->redirectToRoute('series_index');
     }
