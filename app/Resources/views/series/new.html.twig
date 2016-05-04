@@ -5,8 +5,28 @@
     <h1>{{ 'series.propose'|trans }}</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+    <li>{{ form_row(form.name) }}</li>
+    <li>{{ form_row(form.creator) }}</li>
+    <li>{{ form_row(form.year) }}</li>
+    <li>{{ form_row(form.synopsis) }}</li>
+    <li>{{ form_row(form.imageFile) }}</li>
+    <li>{{ form_row(form.imageName) }}</li>
+    <li>{{ form_row(form.language) }}</li>
+
+    <h3>Casts</h3>
+    <ul class="persons" data-prototype="{{ form_widget(form.persons.vars.prototype)|e}}">
+        {# iterate over each existing tag and render its only field: name #}
+        {% for person in form.persons %}
+            <li>{{ form_row(person.firstname) }}</li>
+            <li>{{ form_row(person.lastname) }}</li>
+            <li>{{ form_row(person.character) }}</li>            
+        {% endfor %}
+    </ul>
+        
+
+    
         <input type="submit" value="Submit" />
+        {% do form.persons.setRendered %} 
     {{ form_end(form) }}
 
     <ul>
@@ -14,4 +34,77 @@
             <a href="{{ path('series_index') }}">{{ 'series.back'|trans }}</a>
         </li>
     </ul>
+
+
+<script>
+    
+var $collectionHolder;
+
+// setup an "add a tag" link
+var $addTagLink = $('<a href="#" class="add_person_link">Add a Person</a>');
+var $newLinkLi = $('<button></button>').append($addTagLink);
+
+jQuery(document).ready(function() {
+    // Get the ul that holds the collection of tags
+    $collectionHolder = $('ul.persons');
+
+    // add the "add a tag" anchor and li to the tags ul
+    $collectionHolder.append($newLinkLi);
+
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+    $addTagLink.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // add a new tag form (see next code block)
+        addPersonForm($collectionHolder, $newLinkLi);
+    });
+
+    // add a delete link to all of the existing tag form li elements
+    $collectionHolder.find('ul.persons').each(function() {
+        addPersonFormDeleteLink($(this));
+    });
+
+
+});
+
+function addPersonForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = prototype.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a tag" link li
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLinkLi.before($newFormLi);
+
+    // add a delete link to the new form
+    addPersonFormDeleteLink($newFormLi);
+}
+
+function addPersonFormDeleteLink($tagFormLi) {
+    var $removeFormA = $('<button><a href="#">delete this Person</a></button>');
+    $tagFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // remove the li for the tag form
+        $tagFormLi.remove();
+    });
+}
+</script>
+
 {% endblock %}

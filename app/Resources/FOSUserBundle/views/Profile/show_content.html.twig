@@ -1,8 +1,9 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="fos_user_user_show">
-	{% if user.photo %}
-        <img src="{{ user.photo }}" alt="" height=300 />
+
+	{% if user.imageName %}
+        <img src="{{ asset('bundles/framework/images/users/' ~ user.getImageName()) }}" alt="" height=300 />
     {% endif %}
     <p>{{ user.username }}</p>
 

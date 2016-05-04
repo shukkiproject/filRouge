@@ -1,9 +1,14 @@
 
     {% for user in users %}
      
-            <a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.username }}
+            {# <a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.username }}
 
-           {#  <img src="{{ series.poster }}" alt="{{ series.name }}" height=300 /> #}
+             <img src="{{ series.poster }}" alt="{{ series.name }}" height=300 />
             </a>
-
+            #}
+ 			<div class="media-left">
+                    <a href="{{ path('fos_user_profile_show', { 'id': user.id }) }}">
+                    <img class="media-object img-reponsive img-rounded pull-left" src="{{ asset('bundles/framework/images/users/' ~ user.getImageName()) }}" alt="{{ user.username }}" width="100">
+                    {{ user.username }}</a>
+                  </div>
     {% endfor %}

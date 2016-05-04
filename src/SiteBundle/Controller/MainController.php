@@ -50,26 +50,6 @@ class MainController extends Controller
         
     }
 
-    // /**
-    //  * @Route("/admin/users/promoSuper/{username}", name="imie_blog_blog_promosuper")
-    //  * @Method("GET")
-    //  */
-    // public function promoSuperAction($username)
-    // {
-    //     $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
-        
-    //     $userManager = $this->get('fos_user.user_manager');
-
-    //     $userManipulator = new UserManipulator($userManager);
-
-    //     $userManipulator->promote($username);
-
-    //     $users=$userManager->findUsers();
-    //     return $this->render('default/superAdmin.html.twig', array('users' => $users,));
-        
-    // }
-
-    
     /**
      * Search
      *

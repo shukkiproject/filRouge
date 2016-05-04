@@ -17,7 +17,6 @@ class RegistrationType extends AbstractType
             'widget'=>'single_text',
             'format'=>'yyyy-MM-dd',
             ))
-            ->add('photo', 'url')
             ->add('imageFile', 'file')
         ;
     }

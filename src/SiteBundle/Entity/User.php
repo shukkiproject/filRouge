@@ -7,9 +7,10 @@ use FOS\MessageBundle\Model\ParticipantInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="SiteBundle\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="SiteBundle\Repository\UserRepository") @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="fos_user")
  * @Vich\Uploadable
  */
@@ -45,42 +46,35 @@ class User extends BaseUser implements ParticipantInterface
 
     /**
      * @var string
-     * @ORM\Column(name="photo", type="text", length=255)
-     * 
-     */
-    private $photo;
-
-    /**
-     * @var string
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="user", cascade={"remove"})
      * 
      */
     private $comments;
 
     /**
      * @var string
-     * @ORM\OneToMany(targetEntity="SeriesRating", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="SeriesRating", mappedBy="user", cascade={"remove"})
      * 
      */
     private $seriesRatings;
 
     /**
      * @var string
-     * @ORM\OneToMany(targetEntity="CommentPreference", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="CommentPreference", mappedBy="user", cascade={"remove"})
      * 
      */
     private $commentsPreferences;
 
     /**
      * @var string
-     * @ORM\ManyToMany(targetEntity="Series", inversedBy="followedBy")
+     * @ORM\ManyToMany(targetEntity="Series", inversedBy="followedBy", cascade={"remove"})
      * 
      */
     private $seriesFollowed;
 
     /**
      * @var string
-     * @ORM\ManyToMany(targetEntity="Episode", inversedBy="viewedBy")
+     * @ORM\ManyToMany(targetEntity="Episode", inversedBy="viewedBy", cascade={"persist"})
      * 
      */
     private $episodesViewed;
@@ -99,26 +93,62 @@ class User extends BaseUser implements ParticipantInterface
      */
     private $flagged;
 
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
+    /**
+     * @var string
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="myFriends")
+     */
+    private $friendsWithMe;
+
+    /**
+     * @var string
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="friendsWithMe")
+     * @ORM\JoinTable(name="friends",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
+     *      )
+     */
+    private $myFriends;
+
     //Begin Entities VichUploaderBundle ------------------------------------------------------------------------------------------
     
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Vich\UploadableField(mapping="user_image", fileNameProperty="imageName")
-     * 
+     * @ORM\Column(name="image_file", type="string", length=255, nullable=true)
+     *    @Assert\Image(
+     *     minWidth = 200,
+     *     minHeight = 200,
+     *     mimeTypes = "image/*",
+     *     maxSize = "2M",
+     *     maxSizeMessage = " The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.",
+     *     mimeTypesMessage = "This file is not a valid image.",
+     *     disallowEmptyMessage = "An empty file is not allowed.",
+     *     notFoundMessage =  "The file could not be found.",
+     *     notReadableMessage = "The file is not readable.",
+     *     uploadIniSizeErrorMessage = "The file is too large. Allowed maximum size is {{ limit }} {{ suffix }}.",
+     *     uploadErrorMessage = "The file could not be uploaded.", 
+     * )
      * @var File
      */
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="image_name", type="string", length=255, nullable=true)
      *
      * @var string
      */
     private $imageName;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="update_at", type="datetime")
      *
      * @var \DateTime
      */
@@ -129,7 +159,8 @@ class User extends BaseUser implements ParticipantInterface
     public function __construct()
     {
         parent::__construct();
-        // your own logic
+        $this->friendsWithMe = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->myFriends = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -325,6 +356,7 @@ class User extends BaseUser implements ParticipantInterface
      */
     public function addEpisodesViewed(\SiteBundle\Entity\Episode $episodesViewed)
     {
+        $episodesViewed->addViewedBy($this);
         $this->episodesViewed[] = $episodesViewed;
 
         return $this;
@@ -501,4 +533,130 @@ class User extends BaseUser implements ParticipantInterface
     }
 
     //End Methode VichUploaderBundle------------------------------------------------------------------------------------------
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return User
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Add friendsWithMe
+     *
+     * @param \SiteBundle\Entity\User $friendsWithMe
+     *
+     * @return User
+     */
+    public function addFriendsWithMe(\SiteBundle\Entity\User $friendsWithMe)
+    {
+        $this->friendsWithMe[] = $friendsWithMe;
+
+        return $this;
+    }
+
+    /**
+     * Remove friendsWithMe
+     *
+     * @param \SiteBundle\Entity\User $friendsWithMe
+     */
+    public function removeFriendsWithMe(\SiteBundle\Entity\User $friendsWithMe)
+    {
+        $this->friendsWithMe->removeElement($friendsWithMe);
+    }
+
+    /**
+     * Get friendsWithMe
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFriendsWithMe()
+    {
+        return $this->friendsWithMe;
+    }
+
+    /**
+     * Add myFriend
+     *
+     * @param \SiteBundle\Entity\User $myFriend
+     *
+     * @return User
+     */
+    public function addMyFriend(\SiteBundle\Entity\User $myFriend)
+    {
+        $this->myFriends[] = $myFriend;
+
+        return $this;
+    }
+
+    /**
+     * Remove myFriend
+     *
+     * @param \SiteBundle\Entity\User $myFriend
+     */
+    public function removeMyFriend(\SiteBundle\Entity\User $myFriend)
+    {
+        $this->myFriends->removeElement($myFriend);
+    }
+
+    /**
+     * Get myFriends
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMyFriends()
+    {
+        return $this->myFriends;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function initializeDate()
+    {
+        $date = new \DateTime('now');
+        $this->setDate($date);
+    }
+
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return User
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
 }

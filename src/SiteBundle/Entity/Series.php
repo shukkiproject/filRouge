@@ -5,12 +5,13 @@ namespace SiteBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Series
  *
  * @ORM\Table(name="series")
- * @ORM\Entity(repositoryClass="SiteBundle\Repository\SeriesRepository")
+ * @ORM\Entity(repositoryClass="SiteBundle\Repository\SeriesRepository") @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
  */
 class Series
@@ -46,16 +47,23 @@ class Series
     private $synopsis;
 
     /**
-     * @var string
+     * @var int
      *
-     * @ORM\Column(name="poster", type="string", length=255)
+     * @ORM\Column(name="year", type="integer", length=255)
      */
-    private $poster;
+    private $year;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="persons", type="string", length=255)
+     * @ORM\Column(name="creator", type="text", length=255)
+     */
+    private $creator;
+
+    /**
+     * @var string
+     *
+     * @ORM\ManyToMany(targetEntity="Person", inversedBy="series", cascade={"persist"})
      */
     private $persons;
 
@@ -76,9 +84,16 @@ class Series
     /**
      * @var string
      *
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="seriesFollowed", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="seriesFollowed")
      */
     private $followedBy;
+
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="language", type="text", nullable=false)
+     */
+    private $language;
 
     /**
      * @var boolean
@@ -95,11 +110,18 @@ class Series
     private $oldId;
 
     /**
-     * @var boolean
+     * @var datetime
      *
-     * @ORM\Column(name="flagged", type="boolean", nullable=true)
+     * @ORM\Column(name="date", type="datetime")
      */
-    private $flagged;
+    private $date;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="update_date", type="datetime", nullable=true)
+     */
+    private $updateDate;
 
     //Begin Entities VichUploaderBundle ------------------------------------------------------------------------------------------
     
@@ -107,20 +129,34 @@ class Series
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Vich\UploadableField(mapping="series_image", fileNameProperty="imageName")
-     * 
+     * @ORM\Column(name="image_file", type="string", length=255, nullable=true)
+     *    @Assert\Image(
+     *     minWidth = 200,
+     *     minHeight = 200,
+     *     mimeTypes = "image/*",
+     *     maxSize = "2M",
+     *     maxSizeMessage = " The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.",
+     *     mimeTypesMessage = "This file is not a valid image.",
+     *     disallowEmptyMessage = "An empty file is not allowed.",
+     *     notFoundMessage =  "The file could not be found.",
+     *     notReadableMessage = "The file is not readable.",
+     *     uploadIniSizeErrorMessage = "The file is too large. Allowed maximum size is {{ limit }} {{ suffix }}.",
+     *     uploadErrorMessage = "The file could not be uploaded.",
+     *     
+     * )
      * @var File
      */
     private $imageFile;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="image_name", type="string", length=255, nullable=true)
      *
      * @var string
      */
     private $imageName;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="update_at", type="datetime")
      *
      * @var \DateTime
      */
@@ -208,30 +244,6 @@ class Series
     public function getSynopsis()
     {
         return $this->synopsis;
-    }
-
-    /**
-     * Set poster
-     *
-     * @param string $poster
-     *
-     * @return SeriesFr
-     */
-    public function setPoster($poster)
-    {
-        $this->poster = $poster;
-
-        return $this;
-    }
-
-    /**
-     * Get poster
-     *
-     * @return string
-     */
-    public function getPoster()
-    {
-        return $this->poster;
     }
 
     /**
@@ -338,6 +350,7 @@ class Series
         $this->ratings = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->followedBy = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->persons = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -499,31 +512,6 @@ class Series
         return $this->oldId;
     }
 
-    /**
-     * Set flagged
-     *
-     * @param boolean $flagged
-     *
-     * @return Series
-     */
-    public function setFlagged($flagged)
-    {
-        $this->flagged = $flagged;
-
-        return $this;
-    }
-
-    /**
-     * Get flagged
-     *
-     * @return boolean
-     */
-    public function getFlagged()
-    {
-        return $this->flagged;
-    }
-
-
     //Begin Methode VichUploaderBundle------------------------------------------------------------------------------------------
 
     /**
@@ -537,7 +525,7 @@ class Series
      *
      * @return Series
      */
-    public function setImageFile(File $image)
+    public function setImageFile(File $image=null)
     {
         $this->imageFile = $image;
 
@@ -615,4 +603,192 @@ class Series
         return $this->seasons;
     }
 
+
+    /**
+     * Set language
+     *
+     * @param string $language
+     *
+     * @return Series
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Set updatedAt
+     *
+     * @param \DateTime $updatedAt
+     *
+     * @return Series
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Add person
+     *
+     * @param \SiteBundle\Entity\Person $person
+     *
+     * @return Series
+     */
+    public function addPerson(\SiteBundle\Entity\Person $person)
+    {
+        $person->addSeries($this);
+        $this->persons->add($person);
+
+        return $this;
+    }
+
+    /**
+     * Remove person
+     *
+     * @param \SiteBundle\Entity\Person $person
+     */
+    public function removePerson(\SiteBundle\Entity\Person $person)
+    {
+        $this->persons->removeElement($person);
+    }
+
+    /**
+     * Set year
+     *
+     * @param integer $year
+     *
+     * @return Series
+     */
+    public function setYear($year)
+    {
+        $this->year = $year;
+
+        return $this;
+    }
+
+    /**
+     * Get year
+     *
+     * @return integer
+     */
+    public function getYear()
+    {
+        return $this->year;
+    }
+
+    /**
+     * Set creator
+     *
+     * @param string $creator
+     *
+     * @return Series
+     */
+    public function setCreator($creator)
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * Get creator
+     *
+     * @return string
+     */
+    public function getCreator()
+    {
+        return $this->creator;
+    }
+
+        /**
+     * @ORM\PrePersist
+     */
+    public function initializeDate()
+    {
+        $date = new \DateTime('now');
+        $this->setDate($date);
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
+    {
+        $updateDate = new \DateTime('now');
+        
+        $this->setUpdateDate($updateDate);
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Series
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     *
+     * @return Series
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
 }

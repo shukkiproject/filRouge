@@ -2,20 +2,25 @@
 
 {% block body %}
 
+
     <ol class="breadcrumb">
         <li><a href="{{ path('site_main_index') }}">Home</a></li>
         <li>My Profil</li>
     </ol>
 
 
-    {% block fos_user_content %}{# 
-		{% include "FOSUserBundle:Profile:show_content.html.twig" %}
- #}
+    {% block fos_user_content %}
+
         <div class="fos_user_user_show " class="row">
-            {% if user.photo %}
-                <img src="{{ user.photo }}" alt="" height=300 class="col-l4g- col-md-4 col-sm-8 col-xs-12 thumb"/>
+            {% if user.imageName %}
+                <img src="{{ asset('images/users/' ~ user.getImageName()) }}" alt="{{ user.username }}" class="thumbnail img-responsive" class="col-l4g- col-md-4 col-sm-8 col-xs-12 thumb"/>
             {% endif %}
             <h1 class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">{{ user.username }}</h1>
+            <div>
+            {% for oneRating in user.seriesRatings %}
+                {{ oneRating.series.name }} : {{ oneRating.ratings }}
+            {% endfor %}
+            </div>
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
                 <a href="{{ path('fos_user_profile_edit')}}" ><button >Edit my Profil</button></a>
             </div>
@@ -37,10 +42,11 @@
             </div>
 
             <div id="series" class="tab-pane fade panel-group" id="accordion">
+            {% if user.seriesFollowed %}
                 {% for serie in  user.seriesFollowed %}
                     <div id="serie{{ serie.name }}" class="row">
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 thumb">
-                            <a href="{{ path('series_show', { 'id': serie.id }) }}"><img class="thumbnail img-responsive" src="{{ serie.poster }}" alt="{{ serie.name }}" ></a>
+                            <a href="{{ path('series_show', { 'id': serie.id }) }}"><img class="thumbnail img-responsive" src="{{ asset('images/series/' ~ serie.getImageName()) }}" alt="{{ serie.name }}" ></a>
                         </div>
 
                         <div class="panel panel-default col-lg-8 col-md-6 col-sm-8 col-xs-12 thumb">
@@ -55,6 +61,7 @@
                         </div>
                     </div>
                 {% endfor %}
+            {% endif %}
             </div>
 
             <div id="friends" class="tab-pane fade">

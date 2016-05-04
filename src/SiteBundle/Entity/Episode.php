@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Episode
  *
  * @ORM\Table(name="episode")
- * @ORM\Entity(repositoryClass="SiteBundle\Repository\EpisodeRepository")
+ * @ORM\Entity(repositoryClass="SiteBundle\Repository\EpisodeRepository") @ORM\HasLifecycleCallbacks
  */
 class Episode
 {
@@ -56,6 +56,20 @@ class Episode
      */
     private $viewedBy;
 
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="update_date", type="datetime", nullable=true)
+     */
+    private $updateDate;
+
 
     /**
      * @var string
@@ -63,14 +77,6 @@ class Episode
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="episode", cascade={"remove"})
      */
     private $comments;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="flagged", type="boolean", nullable=true)
-     */
-    private $flagged;
-
 
     /**
      * Get id
@@ -171,7 +177,11 @@ class Episode
      */
     public function addViewedBy(\SiteBundle\Entity\User $viewedBy)
     {
-        $this->viewedBy[] = $viewedBy;
+        // $viewedBy->addEpisodesViewed($this);
+        if (!$this->viewedBy->contains($viewedBy)) {
+            $this->viewedBy[] = $viewedBy;
+        }
+
 
         return $this;
     }
@@ -230,10 +240,6 @@ class Episode
         return $this->comments;
     }
 
-    public function __toString() {
-        return $this->title;
-    }
-
     /**
      * Set title
      *
@@ -258,31 +264,6 @@ class Episode
         return $this->title;
     }
 
-
-    /**
-     * Set flagged
-     *
-     * @param boolean $flagged
-     *
-     * @return Episode
-     */
-    public function setFlagged($flagged)
-    {
-        $this->flagged = $flagged;
-
-        return $this;
-    }
-
-    /**
-     * Get flagged
-     *
-     * @return boolean
-     */
-    public function getFlagged()
-    {
-        return $this->flagged;
-    }
-
     /**
      * Set episode
      *
@@ -305,5 +286,76 @@ class Episode
     public function getEpisode()
     {
         return $this->episode;
+    }
+
+    public function __toString() {
+        return $this->episode." ".$this->title;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function initializeDate()
+    {
+        $date = new \DateTime('now');
+        $this->setDate($date);
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
+    {
+        $updateDate = new \DateTime('now');
+        
+        $this->setUpdateDate($updateDate);
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return Episode
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     *
+     * @return Episode
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
     }
 }

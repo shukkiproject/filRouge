@@ -6,14 +6,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use SiteBundle\Controller\CommentController;
-use SiteBundle\Controller\SeriesRatingController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\Common\Collections\ArrayCollection;
 use SiteBundle\Entity\Series;
 use SiteBundle\Form\SeriesType;
 use SiteBundle\Entity\Comment;
 use SiteBundle\Form\CommentType;
 use SiteBundle\Entity\SeriesRating;
 use SiteBundle\Entity\User;
+use SiteBundle\Entity\Person;
 
 
 /**
@@ -47,22 +48,25 @@ class SeriesController extends Controller
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
-    {
+    {   
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException('Please login or signup.');
+        }
         $series = new Series();
+
         $form = $this->createForm('SiteBundle\Form\SeriesType', $series);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-
             $series->setValidated(false);
+
             $em->persist($series);
             $em->flush();
         
             return $this->redirectToRoute('series_index');
         }
-
         return $this->render('series/new.html.twig', array(
             'series' => $series,
             'form' => $form->createView(),
@@ -75,23 +79,37 @@ class SeriesController extends Controller
      * @Route("/{id}/proposechanges", defaults={"id": 0}, name="propose_changes")
      * @Method({"GET", "POST"})
      */
-    public function proposeChangesAction(Request $request,Series $series, $id)
+    public function proposeChangesAction($id, Request $request,Series $series)
     {
+
+         // var_dump($originalPersons);
+         // die;
         
         $form = $this->createForm('SiteBundle\Form\SeriesType', $series);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $seriesC = new Series();
-            $seriesC->setOldId($series->getId());
-            $seriesC->setName($series->getName());
-            $seriesC->setSynopsis($series->getSynopsis());
-            $seriesC->setPoster($series->getPoster());
-            $seriesC->setPersons($series->getPersons());
-            $seriesC->setValidated(false);
-
             $em = $this->getDoctrine()->getManager();
+            $seriesC = new Series();
+            $seriesC = clone $series;
+            $seriesC->setOldId($series->getId());
+            $seriesC->setValidated(false);
+            foreach ($seriesC->getPersons() as $person) {
+                $personC= new Person();
+                $personC = clone $person;
+                $personC->setOldId($person->getId());
+                $personC->setValidated(false);
+                $series->addPerson($person);
+                $seriesC->removePerson($person);
+                $em->detach($person);
+                // unset($person);
+                $em->persist($personC);
+                // // var_dump($person);
+                // var_dump($personC);
+                //     die;
+            }
+ 
             $em->detach($series);
             $em->persist($seriesC);
             $em->flush();
@@ -125,10 +143,6 @@ class SeriesController extends Controller
         $average = $em->getRepository('SiteBundle:SeriesRating')->avgRatings($series->getId());
         $seriesRatings=number_format(floatval($average),1);
 
-        // $form=CommentController::newFormAction($series, $request);
-        // $average=SeriesRatingController::indexAction($series->getId());
-        // var_dump($form);
-        // die;
         return $this->render('series/show.html.twig', array(
             'series' => $series,
             'average' => $seriesRatings,
@@ -155,17 +169,18 @@ class SeriesController extends Controller
             $oldSeries = $em->getRepository('SiteBundle:Series')->find($series->getOldId());
             $oldSeries->setName($series->getName());
             $oldSeries->setSynopsis($series->getSynopsis());
-            $oldSeries->setPoster($series->getPoster());
-            $oldSeries->setPersons($series->getPersons());
+            $oldSeries->setYear($series->getYear());
+            $oldSeries->setCreator($series->getCreator());
+            $oldSeries->setLanguage($series->getLanguage());
             $oldSeries->setValidated(true);
+
             $em->persist($oldSeries);
             $em->remove($series);
             $em->flush();
 
             return $this->redirectToRoute('site_main_admin');
         }
-
-        $series->setValidated(true);
+        $oldSeries->setValidated(true);
         $em->persist($series);
         $em->flush();
 
@@ -208,19 +223,39 @@ class SeriesController extends Controller
             throw $this->createAccessDeniedException('Please login or signup to follow the series.');
         }
         $user = $this->getUser();
+        if ($user->getSeriesFollowed()->contains($series)) {
+            $user->removeSeriesFollowed($series);
+        } else {
+            $user->addSeriesFollowed($series);  
+        }
 
         $em = $this->getDoctrine()->getManager();
-        $user->addSeriesFollowed($series);
         $em->persist($user);
         $em->flush();
-        //TODO : WARNING IF ALREADY FOLLOWED
-        // if (!$em->persist($user)->flush()) {
-        //     throw new HttpException(404, "Whoops! Looks like you\'ve already followed the series!");
-        // }
- 
+
         return $this->redirectToRoute('series_show', array('id' => $series->getId()));
     }
 
+    /**
+     * Check whetehr a series is followed.
+     *
+     * @Route("/{id}/isfollow", name="series_isfollow")
+     * @Method("GET")
+     */
+    public function isfollowAction(Series $series)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException('Please login or signup to follow the series.');
+        }
+        $user = $this->getUser();
+
+        if ($user->getSeriesFollowed()->contains($series)) {
+            return new JsonResponse('Unfollow');
+        } else {
+            return new JsonResponse('Follow');
+        }
+
+    }
 
     /**
      * Deletes a Series entity.

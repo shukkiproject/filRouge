@@ -1,3 +1,11 @@
+site_person:
+    resource: "@SiteBundle/Controller/PersonController.php"
+    type:     annotation
+
+site_person:
+    resource: "@SiteBundle/Controller/PersonController.php"
+    type:     annotation
+
 site_season:
     resource: "@SiteBundle/Controller/SeasonController.php"
     type:     annotation
