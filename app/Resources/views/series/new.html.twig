@@ -2,38 +2,59 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block body %}
-    <h1>{{ 'series.propose'|trans }}</h1>
 
-    {{ form_start(form) }}
-    <li>{{ form_row(form.name) }}</li>
-    <li>{{ form_row(form.creator) }}</li>
-    <li>{{ form_row(form.year) }}</li>
-    <li>{{ form_row(form.synopsis) }}</li>
-    <li>{{ form_row(form.imageFile) }}</li>
-    <li>{{ form_row(form.imageName) }}</li>
-    <li>{{ form_row(form.language) }}</li>
+<div class="col-md-6 col-md-offset-3">
+    <h2>{{ 'series.propose'|trans }}</h2>
+    <form role="form">
+        <div class="form-group">
 
-    <h3>Casts</h3>
-    <ul class="persons" data-prototype="{{ form_widget(form.persons.vars.prototype)|e}}">
-        {# iterate over each existing tag and render its only field: name #}
-        {% for person in form.persons %}
-            <li>{{ form_row(person.firstname) }}</li>
-            <li>{{ form_row(person.lastname) }}</li>
-            <li>{{ form_row(person.character) }}</li>            
-        {% endfor %}
-    </ul>
-        
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}<br>
 
-    
-        <input type="submit" value="Submit" />
-        {% do form.persons.setRendered %} 
-    {{ form_end(form) }}
+            {{ form_label(form.creator) }}
+            {{ form_widget(form.creator, {'attr': {'class': 'form-control'}}) }}<br>
 
-    <ul>
-        <li>
-            <a href="{{ path('series_index') }}">{{ 'series.back'|trans }}</a>
-        </li>
-    </ul>
+            {{ form_label(form.year) }}
+            {{ form_widget(form.year, {'attr': {'class': 'form-control'}}) }}<br>
+
+            {{ form_label(form.synopsis) }}
+            {{ form_widget(form.synopsis, {'attr': {'class': 'form-control'}}) }}<br>
+
+            {{ form_label(form.imageFile) }}
+            {{ form_widget(form.imageFile, {'attr': {'class': 'btn btn-default'}}) }}<br>
+
+            {{ form_label(form.language) }}
+            {{ form_widget(form.language, {'attr': {'class': 'form-control'}}) }}<br>
+
+        </div>
+            <h3>Casts</h3>
+            <ul class="persons" data-prototype="{{ form_widget(form.persons.vars.prototype)|e}}">
+                {# iterate over each existing tag and render its only field: name #}
+                {% for person in form.persons %}
+                    {{ form_label(person.firstname) }}
+                    {{ form_widget(person.firstname, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_label(person.lastname) }}
+                    {{ form_widget(person.lastname, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_label(person.character) }}
+                    {{ form_widget(person.character, {'attr': {'class': 'form-control'}}) }}
+                {% endfor %}
+                {% do form.persons.setRendered %} 
+            </ul>
+                
+
+            
+            <button type="submit" class="btn btn-default"/>{{ 'registration.submit'|trans }}</button>
+
+
+            <ul>
+                <li>
+                    <a href="{{ path('series_index') }}">{{ 'series.back'|trans }}</a>
+                </li>
+            </ul>
+
+        </div>
+    </form>
+</div>
 
 
 <script>

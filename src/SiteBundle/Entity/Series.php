@@ -56,7 +56,7 @@ class Series
     /**
      * @var string
      *
-     * @ORM\Column(name="creator", type="text", length=255)
+     * @ORM\Column(name="creator", type="string", length=255)
      */
     private $creator;
 
