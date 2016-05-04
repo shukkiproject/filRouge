@@ -3,7 +3,7 @@
             <div class="media">
                   <div class="media-left">
                     <a href="{{ path('fos_user_profile_show', { 'id': comment.user.id }) }}">
-                      <img class="media-object img-reponsive img-rounded pull-left" src="{{ asset('bundles/framework/images/users/' ~ comment.user.getImageName()) }}" alt="{{ comment.user }}" width="100">
+                      <img class="media-object img-reponsive img-rounded pull-left" src="{{ asset('images/users/' ~ comment.user.getImageName()) }}" alt="{{ comment.user }}" width="100">
                     </a>
                   </div>
               <div class="media-body">
@@ -11,20 +11,22 @@
                 <h4 class="media-heading">{{ comment.user }} <small><i>Posted on {% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                
+
                 <div class="btn-group" role="group">
-                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}"><button type="button" class="btn btn-secondary">
- 
-                Like</button></a>
+                   {% if app.user %}
+                   <a><button type="button" class="btn btn-secondary" id="like{{ comment.id }}">Like</button></a>
+                   <a><button id="dislike{{ comment.id }}">Dislike</button></a>
+                {% else %} 
+                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}" ><button>Like</button></a>
+                     <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}" ><button>Dislike</button></a>
+                {% endif %} 
 
-                <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}"><button type="button" class="btn btn-secondary">
+                {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
 
-                                Dislike</button></a>
-            {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
-
-                <a href="{{ path('comment_edit', { 'id': comment.id }) }}"><button type="button" class="btn btn-secondary">Edit</button></a>
-                <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button type="button" class="btn btn-secondary">Delete</button></a>
-            {% endif %}
-            
+                   <a href="{{ path('comment_edit', { 'id': comment.id }) }}">Edit</a>
+                   <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button>Delete this comment</button></a>
+                {% endif %}
                 </div>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -36,6 +38,56 @@
               </div>
             </div>
             <hr/>
-        
+         {% if app.user %}
+                <script>
+                    $("#like{{ comment.id }}").on('click', function(){
+                        $.ajax({
+                            url: "{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}",
+                            success: function(){  
+                                if ($("#like{{ comment.id }}").text()=='Like') {
+                                     $("#like{{ comment.id }}").text('Liked');
+                                } else {
+                                    $("#like{{ comment.id }}").text('Like');
+                                }
+                            },
+                            error: function() { 
+                            },
+                        });
+                    });
+
+                    $.ajax({
+                            url: "{{ path('commentpreference_isliked', { 'commentId': comment.id, 'seriesId': series.id}) }}",
+                            // data: ,
+                            success: function(data){  
+                                    console.log(data);
+                                    if(data){
+                                        if (data == 'Liked') {
+                                            $("#like{{ comment.id }}").text('Liked');
+                                        } else {
+                                            $("#dislike{{ comment.id }}").text('Disliked');
+                                        }                                        
+                                    }
+                            },
+                            error: function() { 
+                            },
+                        });
+
+                    $("#dislike{{ comment.id }}").on('click', function(){
+                        $.ajax({
+                            url: "{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}",
+                            success: function(){  
+                                if ($("#dislike{{ comment.id }}").text()=='Dislike') {
+                                     $("#dislike{{ comment.id }}").text('Disliked');
+                                } else {
+                                    $("#dislike{{ comment.id }}").text('Dislike');
+                                }
+                            },
+                            error: function() { 
+                            },
+                        });
+                    });
+
+                </script>
+            {% endif %}
 {% endfor %}    
 

@@ -13,7 +13,7 @@
 
         <div class="fos_user_user_show " class="row">
             {% if user.imageName %}
-                <img src="{{ asset('bundles/framework/images/users/' ~ user.getImageName()) }}" alt="{{ user.username }}" class="thumbnail img-responsive" class="col-l4g- col-md-4 col-sm-8 col-xs-12 thumb"/>
+                <img src="{{ asset('images/users/' ~ user.getImageName()) }}" alt="{{ user.username }}" class="thumbnail img-responsive" class="col-l4g- col-md-4 col-sm-8 col-xs-12 thumb"/>
             {% endif %}
             <h1 class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">{{ user.username }}</h1>
             <div>
@@ -46,7 +46,7 @@
                 {% for serie in  user.seriesFollowed %}
                     <div id="serie{{ serie.name }}" class="row">
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 thumb">
-                            <a href="{{ path('series_show', { 'id': serie.id }) }}"><img class="thumbnail img-responsive" src="{{ asset('bundles/framework/images/series/' ~ serie.getImageName()) }}" alt="{{ serie.name }}" ></a>
+                            <a href="{{ path('series_show', { 'id': serie.id }) }}"><img class="thumbnail img-responsive" src="{{ asset('images/series/' ~ serie.getImageName()) }}" alt="{{ serie.name }}" ></a>
                         </div>
 
                         <div class="panel panel-default col-lg-8 col-md-6 col-sm-8 col-xs-12 thumb">

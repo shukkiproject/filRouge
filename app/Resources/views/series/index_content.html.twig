@@ -8,7 +8,7 @@
 
     {% for s in series %}
         <figure>
-            <a href="{{ path('series_show', { 'id': s.id }) }}"><img src="{{ asset('bundles/framework/images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}" height=300 /></a>
+            <a href="{{ path('series_show', { 'id': s.id }) }}"><img src="{{ asset('images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}" height=300 /></a>
             <figcaption>{{ s.name }}</figcaption>
             
         </figure>
