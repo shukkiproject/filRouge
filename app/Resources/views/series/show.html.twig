@@ -15,24 +15,22 @@
         </ol>
 <!-- breadcrumb -->
 
-<!-- series info -->
+        <!-- series info -->
         {% if series.imageName %}
         <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 thumb">  
-
-           
                 <img class="thumbnail img-responsive" src="{{ asset('images/series/' ~ series.getImageName()) }}" alt="{{ series.name }}" > 
             
         </div>
         {% endif %}
         <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 thumb">
             <h1 class="page-header">{{ series.name }} <small>( {{ series.year }} )</small></h1>
-                    <h4>Creator : {{ series.creator }}</h4>
-                    <h3>{{ 'series.rating'|trans }} <big>{{ average }}</big></h3>
+            <h4>Creator : {{ series.creator }}</h4>
+            <h3>{{ 'series.rating'|trans }} <big>{{ average }}</big></h3>
                     
-<!-- include ratings  -->                
+                <!-- include ratings  -->                
                 {{ include('seriesrating/new.html.twig') }}
-<!-- include ratings  -->  
-<!-- buttons for series-->
+                <!-- include ratings  -->  
+                <!-- buttons for series-->
 
                     {% if is_granted('ROLE_ADMIN')==false %}
                         <a href="{{ path('propose_changes', { 'id': series.id }) }}"><button class="btn btn-info">{{ 'series.change'|trans }}</button></a>
@@ -53,9 +51,8 @@
               
                        
                     {% endif %}
-<!-- buttons for series-->
-<!-- series info -->                        
-                    
+                <!-- buttons for series-->
+            <!-- series info -->                           
         </div>
     </div>
 <!-- tab menu -->
@@ -74,15 +71,15 @@
 <!-- tab content series details -->
             <div id="details" class="tab-pane fade in active">
 
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                {{ include('person/index.html.twig', { 'series': series }) }}
-            </div> 
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <h3>Synopsis</h3>
-                <hr/>
-                <p>{{ series.synopsis }}</p>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    {{ include('person/index.html.twig', { 'series': series }) }}
+                </div> 
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <h3>Synopsis</h3>
+                    <hr/>
+                    <p>{{ series.synopsis }}</p>
+                </div>
             </div>
-    </div>
 <!-- tab content series details -->
 <!-- tab content of each season with episodes -->
                 {% if series.seasons %}
@@ -134,7 +131,7 @@
 
             });
             $.ajax({
-                    url: "{{ path('series_isfollow', { 'id': series.id }) }}",
+                    url: "{{ path('series_isfollowed', { 'id': series.id }) }}",
                     // data: ,
                     success: function(data){  
                             

@@ -239,10 +239,10 @@ class SeriesController extends Controller
     /**
      * Check whetehr a series is followed.
      *
-     * @Route("/{id}/isfollow", name="series_isfollow")
+     * @Route("/{id}/isfollowed", name="series_isfollowed")
      * @Method("GET")
      */
-    public function isfollowAction(Series $series)
+    public function isFollowedAction(Series $series)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException('Please login or signup to follow the series.');

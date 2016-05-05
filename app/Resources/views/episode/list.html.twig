@@ -1,30 +1,62 @@
-                            {% if season.episodes %}
-                                {% for episode in season.episodes %}
-<!-- accordion for episodes in a series -->
-                                    <div class="panel panel-default">
-<!-- episodes numbers and titles --> 
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
 
-                                              <a data-toggle="collapse" data-parent="#accordion" href="#episode{{episode.id}}">Episode {{episode.episode}} - {{episode.title}}</a>
-                                            </h4>
-                                        </div>
-<!-- episodes numbers and titles --> 
-                                          <div id="episode{{episode.id}}" class="panel-collapse collapse">
-                                            <div class="panel-body">
-<!-- episode buttons : viewed/edit/delete --> 
-                                                <div class="btn-group pull-right" role="group">
-                                                    <a href="{{ path('episode_view', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
-                                                {% if is_granted('ROLE_ADMIN') %}    
-                                                    <a href="{{ path('episode_edit', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                                                    <a href="{{ path('episode_delete', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
-                                                {% endif %}                                                
-                                                </div>
-<!-- episode buttons : viewed/edit/delete --> 
-                                                <p>{{episode.synopsis}}</p>
-                                            </div>
-                                        </div>
-                                    </div>
+    {% if season.episodes %}
+        {% for episode in season.episodes %}
 <!-- accordion for episodes in a series -->
-                                {% endfor %} 
-                            {% endif %} 
+            <div class="panel panel-default">
+<!-- episodes numbers and titles --> 
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+
+                      <a data-toggle="collapse" data-parent="#accordion" href="#episode{{episode.id}}">Episode {{episode.episode}} - {{episode.title}}</a>
+                    </h4>
+                </div>
+<!-- episodes numbers and titles --> 
+                  <div id="episode{{episode.id}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+<!-- episode buttons : viewed/edit/delete --> 
+                        <div class="btn-group pull-right" role="group">
+                            <a><button type="button" class="btn btn-secondary" id="watch{{episode.id}}"><i class="fa fa-eye" id="eye{{episode.id}}" aria-hidden="true"></i></button></a>
+                        {% if is_granted('ROLE_ADMIN') %}    
+                            <a href="{{ path('episode_edit', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                            <a href="{{ path('episode_delete', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                        {% endif %}                                                
+                        </div>
+<!-- episode buttons : viewed/edit/delete --> 
+                        <p>{{episode.synopsis}}</p>
+                    </div>
+                </div>
+            </div>
+<!-- accordion for episodes in a series -->
+<script>
+            $("#watch{{episode.id}}").on('click', function(){
+
+                    $.ajax({
+                        url: "{{ path('episode_watch', { 'id': episode.id }) }}",
+                        // data: ,
+                        success: function(){
+                            if ($("#eye{{episode.id}}").hasClass("fa fa-eye")){
+                                $("#eye{{episode.id}}").addClass("fa fa-eye-slash").removeClass("fa fa-eye"); 
+                            } else {
+                                $("#eye{{episode.id}}").addClass("fa fa-eye").removeClass("fa fa-eye-slash"); 
+                            }
+                              
+                        },
+                        error: function() { 
+                        },
+                            
+                    });
+            });
+            $.ajax({
+                    url: "{{ path('series_iswatched', { 'id': episode.id }) }}",
+                    // data: ,
+                    success: function(data){                              
+                        if (data==='Watched') {
+                            $("#eye{{episode.id}}").addClass("fa fa-eye-slash").removeClass("fa fa-eye"); 
+                        }
+                    },
+                    error: function() { 
+                    },
+                });
+            </script>
+        {% endfor %} 
+    {% endif %} 

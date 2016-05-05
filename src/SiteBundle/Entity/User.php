@@ -74,10 +74,10 @@ class User extends BaseUser implements ParticipantInterface
 
     /**
      * @var string
-     * @ORM\ManyToMany(targetEntity="Episode", inversedBy="viewedBy", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Episode", inversedBy="watchedBy", cascade={"persist"})
      * 
      */
-    private $episodesViewed;
+    private $episodesWatched;
 
     /**
      * @var string

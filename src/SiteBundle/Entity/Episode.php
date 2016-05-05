@@ -51,10 +51,10 @@ class Episode
 
     /**
      * @var string
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="episodesViewed")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="episodesWatched")
      * 
      */
-    private $viewedBy;
+    private $watchedBy;
 
     /**
      * @var datetime

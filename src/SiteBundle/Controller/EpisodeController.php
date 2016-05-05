@@ -124,19 +124,19 @@ class EpisodeController extends Controller
     /**
      * update if user has watched an episode
      *
-     * @Route("/{id}/view", name="episode_view")
+     * @Route("/{id}/watch", name="episode_watch")
      * @Method("GET")
      */
-    public function viewAction(Episode $episode)
+    public function watchAction(Episode $episode)
     {
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 throw $this->createAccessDeniedException('Please login or signup.');
             }
             $user = $this->getUser();
-            if (!$user->getEpisodesViewed()->contains($episode)) {
-                $user->addEpisodesViewed($episode);
+            if (!$user->getEpisodesWatched()->contains($episode)) {
+                $user->addEpisodesWatched($episode);
             } else {
-                $user->removeEpisodesViewed($episode);
+                $user->removeEpisodesWatched($episode);
             }
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
@@ -147,6 +147,26 @@ class EpisodeController extends Controller
         return $this->redirectToRoute('series_show', array('id' => $series->getId()));
     }
 
+    /**
+     * Check whetehr an episode is watched.
+     *
+     * @Route("/{id}/iswatched", name="series_iswatched")
+     * @Method("GET")
+     */
+    public function isWatchedAction(Episode $episode)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException('Please login or signup to follow the series.');
+        }
+        $user = $this->getUser();
+
+        if ($user->getEpisodesWatched()->contains($episode)) {
+            return new JsonResponse('Watched');
+        } else {
+            return new JsonResponse('Watch');
+        }
+
+    }
 
     /**
      * Creates a form to delete a Episode entity.
