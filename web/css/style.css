@@ -1,24 +1,33 @@
-/*.fa-star {
-  display: none;
+/*star ratings */
+.rating{
+  unicode-bidi:bidi-override;
+  direction:rtl;
+  font-size:20px;
 }
-
-.fa-star-o:hover {
-  display: none;
+.rating a.star{
+  font-family:FontAwesome;
+  font-weight:normal;
+  font-style:normal;
+  display:inline-block;
 }
-
-
-.fa-star:hover {
-  display: inline;
-}*/
+.rating a.star:hover{
+  cursor:pointer;
+  text-decoration: none;
+}
+.rating a.star:before{
+  content:"\f006";
+  color:#777;
+}
+.rating a.star:hover:before,
+.rating a.star:hover~.star:before{
+  content:"\f005";
+  color:#e3cf7a;
+}
+/* end - star ratings */
 
 body {
     margin-top: 70px;
 }
-
-  /* Icon when the collapsible content is hidden */
-.btn.collapsed:after {
-    content: "\e080";
-  }
 
 /* Caroussel
 -------------------------------------------------- */

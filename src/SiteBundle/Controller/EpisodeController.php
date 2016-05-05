@@ -135,11 +135,13 @@ class EpisodeController extends Controller
             $user = $this->getUser();
             if (!$user->getEpisodesViewed()->contains($episode)) {
                 $user->addEpisodesViewed($episode);
+            } else {
+                $user->removeEpisodesViewed($episode);
+            }
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
-            }
-            
+
             $series=$episode->getSeason()->getSeries();
 
         return $this->redirectToRoute('series_show', array('id' => $series->getId()));

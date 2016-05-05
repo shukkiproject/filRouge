@@ -59,7 +59,7 @@ class Comment
 
     /**
      * @var string
-     * @ORM\Column(name="comment", type="text")
+     * @ORM\Column(name="comment", type="string")
      *
      * 
      */
