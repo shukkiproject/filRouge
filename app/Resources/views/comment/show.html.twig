@@ -1,43 +1,41 @@
  <h3>Comments</h3>
     {% for comment in series.comments %}
             <div class="media">
-                  <div class="media-left">
+                <div class="media-left">
                     <a href="{{ path('fos_user_profile_show', { 'id': comment.user.id }) }}">
                       <img class="media-object img-reponsive img-rounded pull-left" src="{{ asset('images/users/' ~ comment.user.getImageName()) }}" alt="{{ comment.user }}" width="100">
                     </a>
-                  </div>
-              <div class="media-body">
-              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
-                <h4 class="media-heading">{{ comment.user }} <small><i>Posted on {% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
-                
+                <div class="media-body">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                        <h4 class="media-heading">{{ comment.user }} <small><i>Posted on {% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                        <div class="btn-group" role="group">
+                           {% if app.user %}
+                           <a><button type="button" class="btn btn-secondary" id="like{{ comment.id }}">Like</button></a>
+                           <a><button id="dislike{{ comment.id }}">Dislike</button></a>
+                            {% else %} 
+                            <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}" ><button>Like</button></a>
+                             <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}" ><button>Dislike</button></a>
+                            {% endif %} 
 
-                <div class="btn-group" role="group">
-                   {% if app.user %}
-                   <a><button type="button" class="btn btn-secondary" id="like{{ comment.id }}">Like</button></a>
-                   <a><button id="dislike{{ comment.id }}">Dislike</button></a>
-                {% else %} 
-                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}" ><button>Like</button></a>
-                     <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}" ><button>Dislike</button></a>
-                {% endif %} 
+                            {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
 
-                {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
-
-                   <a href="{{ path('comment_edit', { 'id': comment.id }) }}">Edit</a>
-                   <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button>Delete this comment</button></a>
-                {% endif %}
+                            <a href="{{ path('comment_edit', { 'id': comment.id }) }}">Edit</a>
+                            <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button>Delete this comment</button></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        {% if comment.episode %}               
+                        <p>Episode {{ comment.episode }}</p>
+                        {% endif %}
+                        <p>{{ comment.comment }}</p>
+                    </div>
                 </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                {% if comment.episode %}               
-                <p>Episode {{ comment.episode }}</p>
-                {% endif %}
-                <p>{{ comment.comment }}</p>
-                </div>
-              </div>
             </div>
-            <hr/>
+        <hr/>
          {% if app.user %}
                 <script>
                     $("#like{{ comment.id }}").on('click', function(){

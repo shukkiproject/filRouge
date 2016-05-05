@@ -99,7 +99,7 @@ navbar:
         add: 'Ajouter un épisode'
     log:
         signup: 'S''inscrire'
-        logout: 'Se '
+        logout: 'Se déconnecter'
         login: 'Se connecter'
 
 series:

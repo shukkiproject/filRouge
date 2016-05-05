@@ -11,8 +11,27 @@
   display: inline;
 }*/
 
+
+
+
 body {
-    margin-top: 70px;
+    /*margin-top: 70px;*/
+}
+/*image same size for user.messages list*/
+.center-cropped-user {
+    width: 50px;
+    height: 50px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100px;
+}
+/*image same size for series list*/
+.center-cropped {
+    width: 100px;
+    height: 100px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 250px;
 }
 
   /* Icon when the collapsible content is hidden */
@@ -33,8 +52,7 @@ body {
     
     margin-bottom: 40px;
 }
-​
-​
+
 /* MARKETING CONTENT
 -------------------------------------------------- */
 ​
@@ -51,3 +69,4 @@ body {
   margin-left: .75rem;
 }
 ​
+
