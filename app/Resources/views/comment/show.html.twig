@@ -15,17 +15,17 @@
 
                 <div class="btn-group" role="group">
                    {% if app.user %}
-                   <a><button type="button" class="btn btn-secondary" id="like{{ comment.id }}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
-                   <a><button type="button" class="btn btn-secondary" id="dislike{{ comment.id }}"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
+                   <a><button  class="btn btn-secondary" id="like{{ comment.id }}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
+                   <a><button  class="btn btn-secondary" id="dislike{{ comment.id }}"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
                 {% else %} 
-                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}" ><buttontype="button" class="btn btn-secondary" ><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
-                     <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}" ><buttontype="button" class="btn btn-secondary" ><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
+                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}" ><button class="btn btn-secondary" ><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
+                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}" ><button  class="btn btn-secondary" ><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
                 {% endif %} 
 
                 {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
 
-                   <a href="{{ path('comment_edit', { 'id': comment.id }) }}"><button type="button" class="btn btn-secondary" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                   <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button type="button" class="btn btn-secondary" ><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                   <a href="{{ path('comment_edit', { 'id': comment.id }) }}"><button class="btn btn-info" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                   <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button  class="btn btn-warning" ><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
                 {% endif %}
                 </div>
                 </div>
@@ -38,17 +38,17 @@
               </div>
             </div>
             <hr/>
-<!--          {% if app.user %}
+         {% if app.user %}
                 <script>
                     $("#like{{ comment.id }}").on('click', function(){
                         $.ajax({
                             url: "{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}",
                             success: function(){  
-                                if ($("#like{{ comment.id }}").text()=='Like') {
-                                     $("#like{{ comment.id }}").text('Liked');
-                                } else {
-                                    $("#like{{ comment.id }}").text('Like');
-                                }
+                                // if ($("#like{{ comment.id }}").text()=='Like') {
+                                //      $("#like{{ comment.id }}").text('Liked');
+                                // } else {
+                                //     $("#like{{ comment.id }}").text('Like');
+                                // }
                             },
                             error: function() { 
                             },
@@ -74,13 +74,14 @@
 
                     $("#dislike{{ comment.id }}").on('click', function(){
                         $.ajax({
-                            url: "{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}",
+                            url: "{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref': data }) }}",
+                            data: { 'pref': 0 },
                             success: function(){  
-                                if ($("#dislike{{ comment.id }}").text()=='Dislike') {
-                                     $("#dislike{{ comment.id }}").text('Disliked');
-                                } else {
-                                    $("#dislike{{ comment.id }}").text('Dislike');
-                                }
+                                // if ($("#dislike{{ comment.id }}").text()=='Dislike') {
+                                //      $("#dislike{{ comment.id }}").text('Disliked');
+                                // } else {
+                                //     $("#dislike{{ comment.id }}").text('Dislike');
+                                // }
                             },
                             error: function() { 
                             },
@@ -88,6 +89,6 @@
                     });
 
                 </script>
-            {% endif %} -->
+            {% endif %}
 {% endfor %}    
 

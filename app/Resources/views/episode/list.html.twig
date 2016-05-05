@@ -15,7 +15,12 @@
                     <div class="panel-body">
 <!-- episode buttons : viewed/edit/delete --> 
                         <div class="btn-group pull-right" role="group">
-                            <a><button type="button" class="btn btn-secondary" id="watch{{episode.id}}"><i class="fa fa-eye" id="eye{{episode.id}}" aria-hidden="true"></i></button></a>
+                        {% if app.user %}
+                            <a><button class="btn btn-info" id="watch{{episode.id}}"><i class="fa fa-eye" id="eye{{episode.id}}" aria-hidden="true"></i></button></a>
+                        {% else %}  
+                            <a href="{{ path('episode_watch', { 'id': episode.id }) }}"><button class="btn btn-info" ><i class="fa fa-eye" aria-hidden="true"></i></button></a>
+                        {% endif %} 
+
                         {% if is_granted('ROLE_ADMIN') %}    
                             <a href="{{ path('episode_edit', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
                             <a href="{{ path('episode_delete', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
@@ -34,24 +39,21 @@
                         url: "{{ path('episode_watch', { 'id': episode.id }) }}",
                         // data: ,
                         success: function(){
-                            if ($("#eye{{episode.id}}").hasClass("fa fa-eye")){
-                                $("#eye{{episode.id}}").addClass("fa fa-eye-slash").removeClass("fa fa-eye"); 
+                            if ($("#eye{{episode.id}}").hasClass("fa-eye")){
+                                $("#eye{{episode.id}}").addClass("fa-eye-slash").removeClass("fa-eye"); 
                             } else {
                                 $("#eye{{episode.id}}").addClass("fa fa-eye").removeClass("fa fa-eye-slash"); 
-                            }
-                              
+                            }                              
                         },
-                        error: function() { 
-                        },
-                            
+                        error: function() { },                            
                     });
             });
             $.ajax({
-                    url: "{{ path('series_iswatched', { 'id': episode.id }) }}",
+                    url: "{{ path('episode_iswatched', { 'id': episode.id }) }}",
                     // data: ,
                     success: function(data){                              
                         if (data==='Watched') {
-                            $("#eye{{episode.id}}").addClass("fa fa-eye-slash").removeClass("fa fa-eye"); 
+                            $("#eye{{episode.id}}").addClass("fa-eye-slash").removeClass("fa-eye"); 
                         }
                     },
                     error: function() { 

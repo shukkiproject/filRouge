@@ -23,6 +23,10 @@
   content:"\f005";
   color:#e3cf7a;
 }
+.rating a.star:after{
+  
+  text-decoration: none;
+}
 /* end - star ratings */
 
 body {

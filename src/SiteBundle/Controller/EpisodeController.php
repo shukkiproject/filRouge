@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use SiteBundle\Entity\Episode;
 use SiteBundle\Form\EpisodeType;
 use SiteBundle\Entity\User;
@@ -150,7 +151,7 @@ class EpisodeController extends Controller
     /**
      * Check whetehr an episode is watched.
      *
-     * @Route("/{id}/iswatched", name="series_iswatched")
+     * @Route("/{id}/iswatched", name="episode_iswatched")
      * @Method("GET")
      */
     public function isWatchedAction(Episode $episode)

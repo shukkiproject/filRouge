@@ -81,10 +81,9 @@ class SeriesController extends Controller
      */
     public function proposeChangesAction($id, Request $request,Series $series)
     {
-
-         // var_dump($originalPersons);
-         // die;
-        
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException('Please login or signup.');
+        }
         $form = $this->createForm('SiteBundle\Form\SeriesType', $series);
         $form->handleRequest($request);
 

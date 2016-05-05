@@ -659,4 +659,38 @@ class User extends BaseUser implements ParticipantInterface
     {
         return $this->date;
     }
+
+    /**
+     * Add episodesWatched
+     *
+     * @param \SiteBundle\Entity\Episode $episodesWatched
+     *
+     * @return User
+     */
+    public function addEpisodesWatched(\SiteBundle\Entity\Episode $episodesWatched)
+    {
+        $this->episodesWatched[] = $episodesWatched;
+
+        return $this;
+    }
+
+    /**
+     * Remove episodesWatched
+     *
+     * @param \SiteBundle\Entity\Episode $episodesWatched
+     */
+    public function removeEpisodesWatched(\SiteBundle\Entity\Episode $episodesWatched)
+    {
+        $this->episodesWatched->removeElement($episodesWatched);
+    }
+
+    /**
+     * Get episodesWatched
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEpisodesWatched()
+    {
+        return $this->episodesWatched;
+    }
 }

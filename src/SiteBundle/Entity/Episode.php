@@ -358,4 +358,38 @@ class Episode
     {
         return $this->updateDate;
     }
+
+    /**
+     * Add watchedBy
+     *
+     * @param \SiteBundle\Entity\User $watchedBy
+     *
+     * @return Episode
+     */
+    public function addWatchedBy(\SiteBundle\Entity\User $watchedBy)
+    {
+        $this->watchedBy[] = $watchedBy;
+
+        return $this;
+    }
+
+    /**
+     * Remove watchedBy
+     *
+     * @param \SiteBundle\Entity\User $watchedBy
+     */
+    public function removeWatchedBy(\SiteBundle\Entity\User $watchedBy)
+    {
+        $this->watchedBy->removeElement($watchedBy);
+    }
+
+    /**
+     * Get watchedBy
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getWatchedBy()
+    {
+        return $this->watchedBy;
+    }
 }
