@@ -10,6 +10,7 @@ use FOS\UserBundle\Util\UserManipulator;
 use SiteBundle\Entity\Series;
 use SiteBundle\Repository\MainRepository;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Main controller.
@@ -24,10 +25,16 @@ class MainController extends Controller
      * })
      */
     public function indexAction(Request $request){
-        $locale = $request->getLocale();    
-        // $response = $this->forward('ImieBlogBundle:Article:index', array('page'=> '1'));
-        // return $response; 
-         return $this->render('default/index.html.twig');
+        $newLocale = $request->getLocale();   
+        $url = $this->getRequest()->headers->get("referer");
+        if (isset($url)) {
+        $oldLocale = ($newLocale==='en')? 'fr' : 'en';   
+        //replace the old by te new, even if it's the same language, it w'ont be affected.     
+        $newUrl= str_replace($oldLocale, $newLocale, $url);
+
+        return new RedirectResponse($newUrl); 
+        }
+        return $this->render('default/index.html.twig');
     } 
 
      /**

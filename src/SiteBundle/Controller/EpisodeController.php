@@ -157,16 +157,17 @@ class EpisodeController extends Controller
     public function isWatchedAction(Episode $episode)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createAccessDeniedException('Please login or signup to follow the series.');
+            throw $this->createAccessDeniedException('Please login or signup.');
         }
         $user = $this->getUser();
+        $response = new JsonResponse();
 
         if ($user->getEpisodesWatched()->contains($episode)) {
-            return new JsonResponse('Watched');
+            $response->setData(array('watched' => true));
         } else {
-            return new JsonResponse('Watch');
+            $response->setData(array('watched' => false));
         }
-
+            return $response;
     }
 
     /**

@@ -31,7 +31,7 @@
                 {{ include('seriesrating/new.html.twig') }}
                 <!-- include ratings  -->  
                 <!-- buttons for series-->
-
+                <div class="btn-group" role="group">
                     {% if is_granted('ROLE_ADMIN')==false %}
                         <a href="{{ path('propose_changes', { 'id': series.id }) }}"><button class="btn btn-info">{{ 'series.change'|trans }}</button></a>
                     {% endif %}
@@ -44,13 +44,12 @@
 
                     {% if is_granted('ROLE_ADMIN') %}    
                         {% if series.validated==0 %} 
-                           <a href="{{ path('series_validate', { 'id': series.id }) }}"><button class="btn btn-warning">{{ 'series.validate'|trans }}</button></a>
+                           <a href="{{ path('series_validate', { 'id': series.id }) }}"><button class="btn btn-success">{{ 'series.validate'|trans }}</button></a>
                         {% endif %}
                         <a href="{{ path('series_edit', { 'id': series.id }) }}"><button class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                        <a href="{{ path('series_delete', { 'id': series.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-              
-                       
+                        <a href="{{ path('series_delete', { 'id': series.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>                      
                     {% endif %}
+                </div>
                 <!-- buttons for series-->
             <!-- series info -->                           
         </div>
@@ -112,30 +111,22 @@
 
                     $.ajax({
                         url: "{{ path('series_follow', { 'id': series.id }) }}",
-                        // data: ,
-                        success: function(){  
-                            if ($("#followSeries").text()=='Follow') {
-                                $("#followSeries").text('Unfollow');
-                                 
-                                $("#follow").append( '<p id="{{app.user.username}}">{{ app.user.username }}</p>' );  
-                                
-                            } else {
-                                $("#followSeries").text('Follow');
+                        success: function(data){  
+                            $("#followSeries").text(data.status);
+                            if (data.status==='Follow' || data.status==='Suivre') {
                                 $("#{{ app.user.username }}").remove(); 
-                                
+                            } else {
+                                $("#follow").append( '<p id="{{app.user.username}}">{{ app.user.username }}</p>' );
                             }
                         },
                         error: function() { 
                         },
                     });
-
             });
             $.ajax({
                     url: "{{ path('series_isfollowed', { 'id': series.id }) }}",
-                    // data: ,
                     success: function(data){  
-                            
-                            $("#followSeries").text(data);
+                            $("#followSeries").text(data.status);
                     },
                     error: function() { 
                     },

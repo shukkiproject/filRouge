@@ -8,8 +8,16 @@
 	  <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 4 }) }}" class="star"></a>
 	  <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 3 }) }}" class="star"></a>
 	  <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 2 }) }}" class="star"></a>
-	  <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 1 }) }}" class="star"></a>
-          
+	  <a href="{{ path('seriesrating_new', { 'id': series.id, 'ratings' : 1 }) }}" class="star"></a>          
 </span>
+
+ {# this should be on user page
+<div class="btn-group" role="group">
+    {% if is_granted('ROLE_ADMIN') %}    
+        <a href="{{ path('seriesrating_edit', { 'id': seriesrating.id }) }}"><button class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+        <a href="{{ path('seriesrating_delete', { 'id': seriesrating.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>                      
+    {% endif %}
+</div>
+#}
 
 <hr/>

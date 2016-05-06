@@ -42,7 +42,7 @@
                             if ($("#eye{{episode.id}}").hasClass("fa-eye")){
                                 $("#eye{{episode.id}}").addClass("fa-eye-slash").removeClass("fa-eye"); 
                             } else {
-                                $("#eye{{episode.id}}").addClass("fa fa-eye").removeClass("fa fa-eye-slash"); 
+                                $("#eye{{episode.id}}").addClass("fa-eye").removeClass("fa-eye-slash"); 
                             }                              
                         },
                         error: function() { },                            
@@ -52,12 +52,11 @@
                     url: "{{ path('episode_iswatched', { 'id': episode.id }) }}",
                     // data: ,
                     success: function(data){                              
-                        if (data==='Watched') {
+                        if (data.watched) {
                             $("#eye{{episode.id}}").addClass("fa-eye-slash").removeClass("fa-eye"); 
                         }
                     },
-                    error: function() { 
-                    },
+                    error: function() {},
                 });
             </script>
         {% endfor %} 

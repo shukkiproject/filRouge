@@ -179,7 +179,7 @@ class SeriesController extends Controller
 
             return $this->redirectToRoute('site_main_admin');
         }
-        $oldSeries->setValidated(true);
+        $series->setValidated(true);
         $em->persist($series);
         $em->flush();
 
@@ -216,7 +216,7 @@ class SeriesController extends Controller
      * @Route("/{id}/follow", name="series_follow")
      * @Method("GET")
      */
-    public function followAction(Series $series)
+    public function followAction(Series $series, Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException('Please login or signup to follow the series.');
@@ -227,12 +227,10 @@ class SeriesController extends Controller
         } else {
             $user->addSeriesFollowed($series);  
         }
-
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
-
-        return $this->redirectToRoute('series_show', array('id' => $series->getId()));
+        return $this->isfollowedAction($series, $request);
     }
 
     /**
@@ -241,19 +239,23 @@ class SeriesController extends Controller
      * @Route("/{id}/isfollowed", name="series_isfollowed")
      * @Method("GET")
      */
-    public function isFollowedAction(Series $series)
+    public function isFollowedAction(Series $series, Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException('Please login or signup to follow the series.');
         }
         $user = $this->getUser();
+        $locale = $request->getLocale(); 
 
+        $response = new JsonResponse();
         if ($user->getSeriesFollowed()->contains($series)) {
-            return new JsonResponse('Unfollow');
+            $status = ($locale==='en')? 'Unfollow' : 'Ne pas suivre';
+            $response->setData(array('status' => $status));
         } else {
-            return new JsonResponse('Follow');
+            $status = ($locale==='en')? 'Follow' : 'Suivre';
+            $response->setData(array('status' => $status));
         }
-
+        return $response;
     }
 
     /**

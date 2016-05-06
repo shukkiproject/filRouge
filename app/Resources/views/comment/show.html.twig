@@ -13,13 +13,22 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
                 
 
-                <div class="btn-group" role="group">
+                <div class="btn-group pull-right" role="group">
                    {% if app.user %}
-                   <a><button  class="btn btn-secondary" id="like{{ comment.id }}"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
-                   <a><button  class="btn btn-secondary" id="dislike{{ comment.id }}"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
+                   <a><button  class="btn btn-success" id="like{{ comment.id }}">
+                   <span id='likeCount{{ comment.id }}'></span>
+                   <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
+
+                   <a><button  class="btn btn-danger" id="dislike{{ comment.id }}">
+                   <span id='dislikeCount{{ comment.id }}'></span>
+                   <i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
                 {% else %} 
-                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}" ><button class="btn btn-secondary" ><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
-                    <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}" ><button  class="btn btn-secondary" ><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
+                    <a href="{{ path('commentpreference_setpref', { 'id': comment.id, 'pref':1 }) }}" ><button class="btn btn-success" >
+                    <span id='likeCount{{ comment.id }}'></span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
+
+                    <a href="{{ path('commentpreference_setpref', { 'id': comment.id, 'pref':0 }) }}" ><button class="btn btn-danger" >
+                    <span id='dislikeCount{{ comment.id }}'></span>
+                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
                 {% endif %} 
 
                 {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
@@ -38,57 +47,43 @@
               </div>
             </div>
             <hr/>
-         {% if app.user %}
                 <script>
+                    $.ajax({
+                        url: "{{ path('commentpreference_isliked', { 'id': comment.id}) }}",
+                        success: function(data){  
+                            $("#likeCount{{ comment.id }}").text(data.like+" ");     
+                            $("#dislikeCount{{ comment.id }}").text(data.dislike+" ");   
+                        },
+                        error: function() { 
+                        },
+                    }); 
+         {% if app.user %}
                     $("#like{{ comment.id }}").on('click', function(){
                         $.ajax({
-                            url: "{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}",
-                            success: function(){  
-                                // if ($("#like{{ comment.id }}").text()=='Like') {
-                                //      $("#like{{ comment.id }}").text('Liked');
-                                // } else {
-                                //     $("#like{{ comment.id }}").text('Like');
-                                // }
+                            url: "{{ path('commentpreference_setpref', { 'id': comment.id, 'pref':1 }) }}",
+                            success: function(data){  
+                                $("#likeCount{{ comment.id }}").text(data.like+' ');     
+                                $("#dislikeCount{{ comment.id }}").text(data.dislike+' ');
                             },
                             error: function() { 
                             },
                         });
                     });
 
-                    $.ajax({
-                            url: "{{ path('commentpreference_isliked', { 'commentId': comment.id, 'seriesId': series.id}) }}",
-                            // data: ,
-                            success: function(data){  
-                                    console.log(data);
-                                    if(data){
-                                        if (data == 'Liked') {
-                                            $("#like{{ comment.id }}").text('Liked');
-                                        } else {
-                                            $("#dislike{{ comment.id }}").text('Disliked');
-                                        }                                        
-                                    }
-                            },
-                            error: function() { 
-                            },
-                        });
 
                     $("#dislike{{ comment.id }}").on('click', function(){
                         $.ajax({
-                            url: "{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref': data }) }}",
-                            data: { 'pref': 0 },
-                            success: function(){  
-                                // if ($("#dislike{{ comment.id }}").text()=='Dislike') {
-                                //      $("#dislike{{ comment.id }}").text('Disliked');
-                                // } else {
-                                //     $("#dislike{{ comment.id }}").text('Dislike');
-                                // }
+                            url: "{{ path('commentpreference_setpref', { 'id': comment.id, 'pref':0 }) }}",
+                            success: function(data){  
+                                $("#likeCount{{ comment.id }}").text(data.like+' ');     
+                                $("#dislikeCount{{ comment.id }}").text(data.dislike+' ');
                             },
                             error: function() { 
                             },
                         });
                     });
 
-                </script>
             {% endif %}
+                </script>
 {% endfor %}    
 
