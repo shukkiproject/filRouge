@@ -65,7 +65,7 @@
                         <a href="{{ path('user_show',{'id':user.id}) }}">
                             <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
                                 <figure class="thumbnail">
-                                    <img src="{{ user.photo }}" class="img-responsive"/>
+                                    <img src="{{ asset("images/users/" ~ user.getImageName()) }}" class="img-responsive"/>
                                     <figcaption>{{ user.username }}</figcaption>
                                 </figure>
                             </div>

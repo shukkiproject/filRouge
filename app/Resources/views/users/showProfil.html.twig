@@ -1,0 +1,101 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <ol class="breadcrumb">
+        <li><a href="{{ path('site_main_index') }}">Home</a></li>
+        <li>My Profil</li>
+    </ol>
+
+    {% block fos_user_content %}
+
+        <div class="fos_user_user_show " class="row">
+            {% if user.imageName %}
+                <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
+                     <img src="{{ asset('images/users/' ~ user.getImageName()) }}" alt="{{ user.username }}" class="thumbnail" height="300" />
+                </div>
+               
+            {% endif %}
+            <h1 class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">{{ user.username }}</h1>
+            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
+                <a href="{{ path('fos_user_profile_edit')}}" ><button >Edit my Profil</button></a>
+            </div>
+        </div>
+
+        </div>
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+            <li><a data-toggle="tab" href="#series">My Series</a></li>
+            <li><a data-toggle="tab" href="#friends">My Friends</a></li>
+            <li><a data-toggle="tab" href="#criticise">My Criticises</a></li>
+            <li><a data-toggle="tab" href="#messages">My Messages</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+
+            </div>
+
+
+            <div id="series" class="tab-pane fade">
+              <div class="panel-group" id="accordion">
+                  {% if user.seriesFollowed %}
+                    {% for serie in  user.seriesFollowed %}
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title row">
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 thumb" >
+                                <a href="{{ path('series_show', { 'id': serie.id }) }}">
+                                    <div class="center-cropped" style="background-image: url('{{ asset("images/series/" ~ serie.getImageName()) }}');">
+                                    </div>
+                                </a>
+                                </div>
+                                <div class=" col-lg-6 col-md-6 col-sm-8 col-xs-12 thumb">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#{{serie.id}}"><h1>{{ serie.name }}</h1></a>
+                                </div>
+                                {% if user.seriesRatings %}
+                                <div class=" col-lg-3 col-md-3 col-sm-8 col-xs-12 thumb">Ma Note : 
+                                    {% for oneRating in user.seriesRatings %}
+                                        {{ oneRating.ratings }}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </h4>
+                          </div>
+                          <div id="{{serie.id}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                              <p>{{serie.synopsis}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      {% endfor %} 
+                  {% endif %}    
+              </div>
+            </div>
+
+            <div id="friends" class="tab-pane fade">
+                
+            </div>
+
+            <div id="criticise" class="tab-pane fade">
+              {% for comment in  user.comments %}
+                {{ comment.comment}}
+            {% endfor   %}
+            </div>
+
+            <div id="messages" class="tab-pane fade">
+
+            {{ include('users/message.html.twig') }}
+                    
+            </div>
+
+    {% endblock %}
+
+{# {{ path('fos_message_inbox')}} #}
+{% endblock %}
+{# 
+<li class="dropdown"><a href="{{ path('fos_user_profile_edit')}}" >Modifier mon profil</a></li>
+<li class="dropdown"><a href="{{ path('fos_user_resetting_request')}}" >Reset</a></li>
+<li class="dropdown"><a href="{{ path('fos_user_change_password')}}" >change password</a></li> #}
+

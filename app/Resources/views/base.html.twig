@@ -23,7 +23,7 @@
         {% block menu %}
         {% trans_default_domain 'FOSUserBundle' %}
             <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default ">
       <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -78,7 +78,11 @@
                 <a class="dropdown-toggle" data-toggle="dropdown" href="">Profil
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="{{ path('fos_user_profile_show')}}" >{{ 'navbar.profil.index'|trans }}</a></li>
+                    <li><a href="{{ path('user_profil')}}" >
+{#                     {% if fos_message_nb_unread() != 0 %}
+                    {{ fos_message_nb_unread() }} <i class="fa fa-envelope"></i>
+                    {% endif %} #}
+                    {{ 'navbar.profil.index'|trans }}</a></li>
                     <li><a href="{{ path('user_index')}}" >{{ 'navbar.profil.all'|trans }}</a></li>
                     <li role="separator" class="divider"></li>
                     <li class="dropdown-header">Administration</li>
@@ -101,6 +105,8 @@
                 </li>
                 <li><a href="{{ path('site_main_index', { '_locale': 'en' }) }}">En</a></li>
                 <li><a href="{{ path('site_main_index', { '_locale': 'fr' }) }}">Fr</a></li>
+
+                
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -166,6 +172,7 @@
                             {
                                 tab.push(donnees[i].name);
                             }
+                            console.log(tab);
                             input.autocomplete({
                             source: tab
                             });

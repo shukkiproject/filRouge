@@ -42,7 +42,7 @@ class Series
     /**
      * @var string
      *
-     * @ORM\Column(name="synopsis", type="text", length=255)
+     * @ORM\Column(name="synopsis", type="text", length=65535)
      */
     private $synopsis;
 
