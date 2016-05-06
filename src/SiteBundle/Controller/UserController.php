@@ -45,18 +45,15 @@ class UserController extends Controller
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        //$comments = $em->getRepository('SiteBundle:Comment')->findByUserid($user->getId());
-        // $series = $em->getRepository('SiteBundle:Series')->findByUserid($user->getId());
         // if (!is_object($user) || !$user instanceof UserInterface) {
         //     throw new AccessDeniedException('This user does not have access to this section.');
         // }
         $provider = $this->container->get('fos_message.provider');
         $threads = $provider->getInboxThreads();
+
         return $this->render('users/showProfil.html.twig', array(
             'user' => $user,
             'threads' => $threads,
-            //'comments' => $comments,
-            // 'series' => $series,
         ));
     }
 
@@ -71,14 +68,13 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $user = $em->getRepository('SiteBundle:User')->findOneById($id);
-        $provider = $this->container->get('fos_message.provider');
-        $threads = $provider->getInboxThreads();
-        $comments = $em->getRepository('SiteBundle:Comment')->findByUserid($id);
-        $series = $em->getRepository('SiteBundle:Series')->findByUserid($id);
+
+        // $comments = $em->getRepository('SiteBundle:Comment')->findByUserid($id);
+        // $series = $em->getRepository('SiteBundle:Series')->findByUserid($id);
         return $this->render('users/showUser.html.twig', array(
             'user' => $user,
-            'comments' => $comments,
-            'series' => $series,
+            // 'comments' => $comments,
+            // 'series' => $series,
         ));
     }
 

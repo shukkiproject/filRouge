@@ -38,6 +38,13 @@ site_user:
     requirements:
         _locale: en|fr
 
+site_message:
+    resource: "@SiteBundle/Controller/MessController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
 site_comment_preference:
     resource: "@SiteBundle/Controller/CommentPreferenceController.php"
     type:     annotation
