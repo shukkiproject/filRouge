@@ -3,9 +3,11 @@
 
 {% block body %}
 
+
 <div class="col-md-6 col-md-offset-3">
     <h2>{{ 'series.propose'|trans }}</h2>
-    <form role="form">
+
+{{ form_start(form, {'method': 'post', 'action': path('series_new')}) }}
         <div class="form-group">
 
             {{ form_label(form.name) }}
@@ -29,7 +31,7 @@
         </div>
             <h3>Casts</h3>
             <ul class="persons" data-prototype="{{ form_widget(form.persons.vars.prototype)|e}}">
-                {# iterate over each existing tag and render its only field: name #}
+                {# iterate over each existing tag #}
                 {% for person in form.persons %}
                     {{ form_label(person.firstname) }}
                     {{ form_widget(person.firstname, {'attr': {'class': 'form-control'}}) }}
@@ -42,8 +44,9 @@
             </ul>
                 
 
-            
-            <button type="submit" class="btn btn-default"/>{{ 'registration.submit'|trans }}</button>
+            <input type="submit" class="btn btn-default" value="Create" />
+        </div>
+{{ form_end(form) }}
 
 
             <ul>
@@ -52,39 +55,37 @@
                 </li>
             </ul>
 
-        </div>
-    </form>
-</div>
 
+</div>
 
 <script>
     
 var $collectionHolder;
 
-// setup an "add a tag" link
-var $addTagLink = $('<a href="#" class="add_person_link">Add a Person</a>');
-var $newLinkLi = $('<button></button>').append($addTagLink);
+// setup an "add a person" button
+var $addPersonLink = $('<a href="#" class="add_person_link">Add a Person</a>');
+var $newLinkLi = $('<button></button>').append($addPersonLink);
 
 jQuery(document).ready(function() {
-    // Get the ul that holds the collection of tags
+    // Get the ul that holds the collection of persons
     $collectionHolder = $('ul.persons');
 
-    // add the "add a tag" anchor and li to the tags ul
+    // add the "add a person" anchor and li to the persons ul
     $collectionHolder.append($newLinkLi);
 
-    // count the current form inputs we have (e.g. 2), use that as the new
+    // count the current form ipersonnputs we have (e.g. 2), use that as the new
     // index when inserting a new item (e.g. 2)
     $collectionHolder.data('index', $collectionHolder.find(':input').length);
 
-    $addTagLink.on('click', function(e) {
+    $addPersonLink.on('click', function(e) {
         // prevent the link from creating a "#" on the URL
         e.preventDefault();
 
-        // add a new tag form (see next code block)
+        // add a new person form (see next code block)
         addPersonForm($collectionHolder, $newLinkLi);
     });
 
-    // add a delete link to all of the existing tag form li elements
+    // add a delete link to all of the existing person form li elements
     $collectionHolder.find('ul.persons').each(function() {
         addPersonFormDeleteLink($(this));
     });
@@ -106,7 +107,7 @@ function addPersonForm($collectionHolder, $newLinkLi) {
     // increase the index with one for the next item
     $collectionHolder.data('index', index + 1);
 
-    // Display the form in the page in an li, before the "Add a tag" link li
+    // Display the form in the page in an li, before the "Add a person" link li
     var $newFormLi = $('<li></li>').append(newForm);
     $newLinkLi.before($newFormLi);
 
@@ -114,16 +115,16 @@ function addPersonForm($collectionHolder, $newLinkLi) {
     addPersonFormDeleteLink($newFormLi);
 }
 
-function addPersonFormDeleteLink($tagFormLi) {
+function addPersonFormDeleteLink($personFormLi) {
     var $removeFormA = $('<button><a href="#">delete this Person</a></button>');
-    $tagFormLi.append($removeFormA);
+    $personFormLi.append($removeFormA);
 
     $removeFormA.on('click', function(e) {
         // prevent the link from creating a "#" on the URL
         e.preventDefault();
 
-        // remove the li for the tag form
-        $tagFormLi.remove();
+        // remove the li for the person form
+        $personFormLi.remove();
     });
 }
 </script>

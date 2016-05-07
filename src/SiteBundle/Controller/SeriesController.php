@@ -61,7 +61,6 @@ class SeriesController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $series->setValidated(false);
-
             $em->persist($series);
             $em->flush();
         
@@ -79,7 +78,7 @@ class SeriesController extends Controller
      * @Route("/{id}/proposechanges", defaults={"id": 0}, name="propose_changes")
      * @Method({"GET", "POST"})
      */
-    public function proposeChangesAction($id, Request $request,Series $series)
+    public function proposeChangesAction(Request $request,Series $series)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException('Please login or signup.');
@@ -102,18 +101,13 @@ class SeriesController extends Controller
                 $series->addPerson($person);
                 $seriesC->removePerson($person);
                 $em->detach($person);
-                // unset($person);
                 $em->persist($personC);
-                // // var_dump($person);
-                // var_dump($personC);
-                //     die;
-            }
- 
+            } 
             $em->detach($series);
             $em->persist($seriesC);
             $em->flush();
 
-            return $this->redirectToRoute('series_show', array('id' => $id));
+            return $this->redirectToRoute('series_show', array('id' => $series->getId()));
         }
 
         return $this->render('series/new.html.twig', array(
@@ -261,8 +255,8 @@ class SeriesController extends Controller
     /**
      * Deletes a Series entity.
      *
-     * @Route("/{id}", name="series_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="series_delete")
+     * @Method("GET")
      */
     public function deleteAction(Series $series)
     {
