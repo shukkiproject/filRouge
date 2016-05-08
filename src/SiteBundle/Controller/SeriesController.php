@@ -61,7 +61,6 @@ class SeriesController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $series->setValidated(false);
-
             $em->persist($series);
             $em->flush();
         
@@ -79,12 +78,11 @@ class SeriesController extends Controller
      * @Route("/{id}/proposechanges", defaults={"id": 0}, name="propose_changes")
      * @Method({"GET", "POST"})
      */
-    public function proposeChangesAction($id, Request $request,Series $series)
+    public function proposeChangesAction(Request $request,Series $series)
     {
-
-         // var_dump($originalPersons);
-         // die;
-        
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException('Please login or signup.');
+        }
         $form = $this->createForm('SiteBundle\Form\SeriesType', $series);
         $form->handleRequest($request);
 
@@ -103,18 +101,13 @@ class SeriesController extends Controller
                 $series->addPerson($person);
                 $seriesC->removePerson($person);
                 $em->detach($person);
-                // unset($person);
                 $em->persist($personC);
-                // // var_dump($person);
-                // var_dump($personC);
-                //     die;
-            }
- 
+            } 
             $em->detach($series);
             $em->persist($seriesC);
             $em->flush();
 
-            return $this->redirectToRoute('series_show', array('id' => $id));
+            return $this->redirectToRoute('series_show', array('id' => $series->getId()));
         }
 
         return $this->render('series/new.html.twig', array(
@@ -180,7 +173,7 @@ class SeriesController extends Controller
 
             return $this->redirectToRoute('site_main_admin');
         }
-        $oldSeries->setValidated(true);
+        $series->setValidated(true);
         $em->persist($series);
         $em->flush();
 
@@ -217,7 +210,7 @@ class SeriesController extends Controller
      * @Route("/{id}/follow", name="series_follow")
      * @Method("GET")
      */
-    public function followAction(Series $series)
+    public function followAction(Series $series, Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException('Please login or signup to follow the series.');
@@ -228,51 +221,48 @@ class SeriesController extends Controller
         } else {
             $user->addSeriesFollowed($series);  
         }
-
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
-
-        return $this->redirectToRoute('series_show', array('id' => $series->getId()));
+        return $this->isfollowedAction($series, $request);
     }
 
     /**
      * Check whetehr a series is followed.
      *
-     * @Route("/{id}/isfollow", name="series_isfollow")
+     * @Route("/{id}/isfollowed", name="series_isfollowed")
      * @Method("GET")
      */
-    public function isfollowAction(Series $series)
+    public function isFollowedAction(Series $series, Request $request)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException('Please login or signup to follow the series.');
         }
         $user = $this->getUser();
+        $locale = $request->getLocale(); 
 
+        $response = new JsonResponse();
         if ($user->getSeriesFollowed()->contains($series)) {
-            return new JsonResponse('Unfollow');
+            $status = ($locale==='en')? 'Unfollow' : 'Ne pas suivre';
+            $response->setData(array('status' => $status));
         } else {
-            return new JsonResponse('Follow');
+            $status = ($locale==='en')? 'Follow' : 'Suivre';
+            $response->setData(array('status' => $status));
         }
-
+        return $response;
     }
 
     /**
      * Deletes a Series entity.
      *
-     * @Route("/{id}", name="series_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="series_delete")
+     * @Method("GET")
      */
-    public function deleteAction(Request $request, Series $series)
+    public function deleteAction(Series $series)
     {
-        $form = $this->createDeleteForm($series);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($series);
             $em->flush();
-        }
 
         return $this->redirectToRoute('series_index');
     }

@@ -51,7 +51,7 @@ class Comment
 
     /**
      * @var string
-     * @ORM\Column(name="title", type="text")
+     * @ORM\Column(name="title", type="string")
      *
      * 
      */

@@ -129,7 +129,7 @@ class Series
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Vich\UploadableField(mapping="series_image", fileNameProperty="imageName")
-     * @ORM\Column(name="image_file", type="string", length=255, nullable=true)
+     * @ORM\Column(name="image_file", type="string", length=255)
      *    @Assert\Image(
      *     minWidth = 200,
      *     minHeight = 200,

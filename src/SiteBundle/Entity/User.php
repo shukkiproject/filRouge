@@ -74,10 +74,10 @@ class User extends BaseUser implements ParticipantInterface
 
     /**
      * @var string
-     * @ORM\ManyToMany(targetEntity="Episode", inversedBy="viewedBy", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Episode", inversedBy="watchedBy", cascade={"persist"})
      * 
      */
-    private $episodesViewed;
+    private $episodesWatched;
 
     /**
      * @var string
@@ -658,5 +658,39 @@ class User extends BaseUser implements ParticipantInterface
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Add episodesWatched
+     *
+     * @param \SiteBundle\Entity\Episode $episodesWatched
+     *
+     * @return User
+     */
+    public function addEpisodesWatched(\SiteBundle\Entity\Episode $episodesWatched)
+    {
+        $this->episodesWatched[] = $episodesWatched;
+
+        return $this;
+    }
+
+    /**
+     * Remove episodesWatched
+     *
+     * @param \SiteBundle\Entity\Episode $episodesWatched
+     */
+    public function removeEpisodesWatched(\SiteBundle\Entity\Episode $episodesWatched)
+    {
+        $this->episodesWatched->removeElement($episodesWatched);
+    }
+
+    /**
+     * Get episodesWatched
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEpisodesWatched()
+    {
+        return $this->episodesWatched;
     }
 }

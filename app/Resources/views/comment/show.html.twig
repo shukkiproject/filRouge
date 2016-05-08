@@ -1,91 +1,89 @@
  <h3>Comments</h3>
     {% for comment in series.comments %}
             <div class="media">
-                <div class="media-left">
+                  <div class="media-left">
                     <a href="{{ path('fos_user_profile_show', { 'id': comment.user.id }) }}">
                       <img class="media-object img-reponsive img-rounded pull-left" src="{{ asset('images/users/' ~ comment.user.getImageName()) }}" alt="{{ comment.user }}" width="100">
                     </a>
+                  </div>
+              <div class="media-body">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                <h4 class="media-heading">{{ comment.user }} <small><i>Posted on {% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>
                 </div>
-                <div class="media-body">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
-                        <h4 class="media-heading">{{ comment.user }} <small><i>Posted on {% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
-                        <div class="btn-group" role="group">
-                           {% if app.user %}
-                           <a><button type="button" class="btn btn-secondary" id="like{{ comment.id }}">Like</button></a>
-                           <a><button id="dislike{{ comment.id }}">Dislike</button></a>
-                            {% else %} 
-                            <a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}" ><button>Like</button></a>
-                             <td><a href="{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}" ><button>Dislike</button></a>
-                            {% endif %} 
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                
 
-                            {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
+                <div class="btn-group pull-right" role="group">
+                   {% if app.user %}
+                   <a><button  class="btn btn-success" id="like{{ comment.id }}">
+                   <span id='likeCount{{ comment.id }}'></span>
+                   <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
 
-                            <a href="{{ path('comment_edit', { 'id': comment.id }) }}">Edit</a>
-                            <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button>Delete this comment</button></a>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        {% if comment.episode %}               
-                        <p>Episode {{ comment.episode }}</p>
-                        {% endif %}
-                        <p>{{ comment.comment }}</p>
-                    </div>
+                   <a><button  class="btn btn-danger" id="dislike{{ comment.id }}">
+                   <span id='dislikeCount{{ comment.id }}'></span>
+                   <i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
+                {% else %} 
+                    <a href="{{ path('commentpreference_setpref', { 'id': comment.id, 'pref':1 }) }}" ><button class="btn btn-success" >
+                    <span id='likeCount{{ comment.id }}'></span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button></a>
+
+                    <a href="{{ path('commentpreference_setpref', { 'id': comment.id, 'pref':0 }) }}" ><button class="btn btn-danger" >
+                    <span id='dislikeCount{{ comment.id }}'></span>
+                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button></a>
+                {% endif %} 
+
+                {% if is_granted('ROLE_ADMIN') or app.user==comment.user %}    
+
+                   <a href="{{ path('comment_edit', { 'id': comment.id }) }}"><button class="btn btn-info" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                   <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button  class="btn btn-warning" ><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                {% endif %}
                 </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                {% if comment.episode %}               
+                <p>Episode {{ comment.episode }}</p>
+                {% endif %}
+                <p>{{ comment.comment }}</p>
+                </div>
+              </div>
             </div>
-        <hr/>
-         {% if app.user %}
+            <hr/>
                 <script>
+                    $.ajax({
+                        url: "{{ path('commentpreference_isliked', { 'id': comment.id}) }}",
+                        success: function(data){  
+                            $("#likeCount{{ comment.id }}").text(data.like+" ");     
+                            $("#dislikeCount{{ comment.id }}").text(data.dislike+" ");   
+                        },
+                        error: function() { 
+                        },
+                    }); 
+         {% if app.user %}
                     $("#like{{ comment.id }}").on('click', function(){
                         $.ajax({
-                            url: "{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':1 }) }}",
-                            success: function(){  
-                                if ($("#like{{ comment.id }}").text()=='Like') {
-                                     $("#like{{ comment.id }}").text('Liked');
-                                } else {
-                                    $("#like{{ comment.id }}").text('Like');
-                                }
+                            url: "{{ path('commentpreference_setpref', { 'id': comment.id, 'pref':1 }) }}",
+                            success: function(data){  
+                                $("#likeCount{{ comment.id }}").text(data.like+' ');     
+                                $("#dislikeCount{{ comment.id }}").text(data.dislike+' ');
                             },
                             error: function() { 
                             },
                         });
                     });
 
-                    $.ajax({
-                            url: "{{ path('commentpreference_isliked', { 'commentId': comment.id, 'seriesId': series.id}) }}",
-                            // data: ,
-                            success: function(data){  
-                                    console.log(data);
-                                    if(data){
-                                        if (data == 'Liked') {
-                                            $("#like{{ comment.id }}").text('Liked');
-                                        } else {
-                                            $("#dislike{{ comment.id }}").text('Disliked');
-                                        }                                        
-                                    }
-                            },
-                            error: function() { 
-                            },
-                        });
 
                     $("#dislike{{ comment.id }}").on('click', function(){
                         $.ajax({
-                            url: "{{ path('commentpreference_pref', { 'commentId': comment.id, 'seriesId': series.id, 'pref':0 }) }}",
-                            success: function(){  
-                                if ($("#dislike{{ comment.id }}").text()=='Dislike') {
-                                     $("#dislike{{ comment.id }}").text('Disliked');
-                                } else {
-                                    $("#dislike{{ comment.id }}").text('Dislike');
-                                }
+                            url: "{{ path('commentpreference_setpref', { 'id': comment.id, 'pref':0 }) }}",
+                            success: function(data){  
+                                $("#likeCount{{ comment.id }}").text(data.like+' ');     
+                                $("#dislikeCount{{ comment.id }}").text(data.dislike+' ');
                             },
                             error: function() { 
                             },
                         });
                     });
 
-                </script>
             {% endif %}
+                </script>
 {% endfor %}    
 

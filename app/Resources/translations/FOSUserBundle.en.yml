@@ -130,6 +130,7 @@ series:
     choose: 'Rate the serie'
     change: 'Propose Changes'
     follow: 'Follow'
+    unfollow: 'Unfollow'
     edit: 'Edit'
     validate: 'Validate'
     delete: 'Delete Serie'

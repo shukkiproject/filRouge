@@ -110,6 +110,7 @@ series:
     choose: 'Noter la série'
     change: 'Proposer des changements'
     follow: 'Suivre'
+    unfollow: 'Ne Pas Suivre'
     edit: 'Modifier'
     validate: 'Valider'
     delete: 'Effacer la série'

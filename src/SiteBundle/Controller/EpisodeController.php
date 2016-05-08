@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use SiteBundle\Entity\Episode;
 use SiteBundle\Form\EpisodeType;
 use SiteBundle\Entity\User;
@@ -124,27 +125,50 @@ class EpisodeController extends Controller
     /**
      * update if user has watched an episode
      *
-     * @Route("/{id}/view", name="episode_view")
+     * @Route("/{id}/watch", name="episode_watch")
      * @Method("GET")
      */
-    public function viewAction(Episode $episode)
+    public function watchAction(Episode $episode)
     {
             if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
                 throw $this->createAccessDeniedException('Please login or signup.');
             }
             $user = $this->getUser();
-            if (!$user->getEpisodesViewed()->contains($episode)) {
-                $user->addEpisodesViewed($episode);
+            if (!$user->getEpisodesWatched()->contains($episode)) {
+                $user->addEpisodesWatched($episode);
+            } else {
+                $user->removeEpisodesWatched($episode);
+            }
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
-            }
-            
+
             $series=$episode->getSeason()->getSeries();
 
         return $this->redirectToRoute('series_show', array('id' => $series->getId()));
     }
 
+    /**
+     * Check whetehr an episode is watched.
+     *
+     * @Route("/{id}/iswatched", name="episode_iswatched")
+     * @Method("GET")
+     */
+    public function isWatchedAction(Episode $episode)
+    {
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException('Please login or signup.');
+        }
+        $user = $this->getUser();
+        $response = new JsonResponse();
+
+        if ($user->getEpisodesWatched()->contains($episode)) {
+            $response->setData(array('watched' => true));
+        } else {
+            $response->setData(array('watched' => false));
+        }
+            return $response;
+    }
 
     /**
      * Creates a form to delete a Episode entity.
