@@ -18,7 +18,7 @@ body {
     /*margin-top: 70px;*/
 }
 /*image same size for user.messages list*/
-.center-cropped-user {
+.center-cropped-message {
     width: 50px;
     height: 50px;
     background-position: center center;
@@ -33,7 +33,14 @@ body {
     background-repeat: no-repeat;
     background-size: 250px;
 }
-
+/*image same size for photo profil*/
+.center-cropped-user {
+    width: 200px;
+    height: 200px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 200px;
+}
   /* Icon when the collapsible content is hidden */
 .btn.collapsed:after {
     content: "\e080";

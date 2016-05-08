@@ -79,9 +79,12 @@
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ path('user_profil')}}" >
-{#                     {% if fos_message_nb_unread() != 0 %}
-                    {{ fos_message_nb_unread() }} <i class="fa fa-envelope"></i>
-                    {% endif %} #}
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        {% if fos_message_nb_unread() != 0 %}
+                            {{ fos_message_nb_unread() }} <i class="fa fa-envelope"></i>
+                        {% endif %}
+                    {% endif %}
+
                     {{ 'navbar.profil.index'|trans }}</a></li>
                     <li><a href="{{ path('user_index')}}" >{{ 'navbar.profil.all'|trans }}</a></li>
                     <li role="separator" class="divider"></li>

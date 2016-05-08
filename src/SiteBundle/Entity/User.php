@@ -3,7 +3,7 @@
 namespace SiteBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
-use FOS\MessageBundle\Model\ParticipantInterface;
+use FOS\MessageBundle\Model\ParticipantInterface as ParticipantInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;

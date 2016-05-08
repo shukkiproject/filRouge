@@ -1,20 +1,91 @@
 {% extends "base.html.twig" %}
 
+{% block body %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('site_main_index') }}">Home</a></li>
+        <li>Profil of {{ user.username}}</li>
+    </ol>
 
-  {#   {% block fos_user_content %}
-		{% include "FOSUserBundle/Profile/show_content.html.twig" %}
-        {{ include('users/index_content.html.twig', { 'user': user }) }}
- #}
-    {% block body %}
-        <div class="fos_user_user_show">
-            {% if user.imageFile %}
-                <img src="{{ asset("images/users/" ~ user.getImageName()) }}" alt="" height=300 />
+    {% block user_content %}
+
+        <div class="fos_user_user_show " class="row">
+            {% if user.imageName %}
+                <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
+                     <div class="thumbnail center-cropped-user" style="background-image: url('{{ asset('images/users/' ~ user.getImageName()) }}');">
+                      </div>
+                </div>
+               
             {% endif %}
-            <p>{{ user.username }}</p>
-        </div>
-        <div>
-         <a href="{{ path('fos_message_thread_new')}}" >new message</a>
+            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
+                <h1 >{{ user.username }}</h1>
+                <a><button type="button" class="btn btn-secondary" id="friend">Became Friends</button></a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
+                <button id="newMess" >Write a message</button>
+                <div class="form-group hiden" id="formNewMess" style="display:none;">
+                    <form method="POST"  class="ui-widget" action="{{ path('message_new',{'id':user.id}) }}">
+                        Subject :
+                        <input type="text" name='subject' class="form-control" placeholder="">
+                        Body :
+                        <textarea name='body' class="form-control"></textarea> 
+                        <button type="submit">Envoyer</button>
+                    </form>
+                </div>
+            </div>
         </div>
 
+        </div>
 
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+            <li><a data-toggle="tab" href="#series">Series Followed</a></li>
+            <li><a data-toggle="tab" href="#friends">Friends</a></li>
+            <li><a data-toggle="tab" href="#criticise">Criticises</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+
+            </div>
+
+
+            <div id="series" class="tab-pane fade">
+                {{ include('users/seriesUser.html.twig') }}
+            </div>
+
+
+            <div id="friends" class="tab-pane fade">
+                {{ dump(user)}}
+            </div>
+
+            <div id="criticise" class="tab-pane fade">
+                {% for comment in  user.comments %}
+                    {{ comment.comment}}
+                {% endfor   %}
+            </div>
+
+        </div>
     {% endblock %}
+
+<script>
+    $("#newMess").click(function(){
+        $("#formNewMess").toggle(500);
+    });
+
+    $("#friend").on('click', function(){
+        $.ajax({
+            url: "{{ path('user_friend', { 'id': user.id }) }}",
+            success: function(){  
+                if ($("#friend").text()=='Became Friends') {
+                     $("#friend").text('You are friends');
+                } 
+                //else {
+                //     $("#friend").text('Became Friends');
+                // }
+            },
+            error: function() { 
+            },
+        });
+    });
+</script>
+{% endblock %}

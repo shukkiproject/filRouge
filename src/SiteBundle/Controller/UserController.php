@@ -16,10 +16,10 @@ use FOS\MessageBundle\Controller\MessageController;
  *
  * @Route("/user")
  */
-class UserController extends Controller
+class UserController extends Controller 
 {
     /**
-     * Lists all Series entities.
+     * Lists all Users entities.
      *
      * @Route("/", name="user_index")
      * @Method("GET")
@@ -41,15 +41,20 @@ class UserController extends Controller
      * @Route("/profil", name="user_profil")
      * @Method("GET")
      */
-    public function profilAction()
+    public function showProfilAction()
     {
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        // if (!is_object($user) || !$user instanceof UserInterface) {
-        //     throw new AccessDeniedException('This user does not have access to this section.');
-        // }
+
         $provider = $this->container->get('fos_message.provider');
-        $threads = $provider->getInboxThreads();
+        //get inboxthreads of user
+        $inboxThreads = $provider->getInboxThreads();
+        //get sentboxthreads of user
+        $sentThreads = $provider->getSentThreads();
+        // make only one tab
+        $threads = array_merge($inboxThreads, $sentThreads);
+        // Removes duplicate values
+        $threads = array_unique($threads,SORT_REGULAR);
 
         return $this->render('users/showProfil.html.twig', array(
             'user' => $user,
@@ -63,19 +68,30 @@ class UserController extends Controller
      * @Route("/{id}", name="user_show")
      * @Method("GET")
      */
-    public function showAction($id)
+    public function showUserAction($id)
     {   
         $em = $this->getDoctrine()->getManager();
-
         $user = $em->getRepository('SiteBundle:User')->findOneById($id);
-
-        // $comments = $em->getRepository('SiteBundle:Comment')->findByUserid($id);
-        // $series = $em->getRepository('SiteBundle:Series')->findByUserid($id);
+        
         return $this->render('users/showUser.html.twig', array(
             'user' => $user,
-            // 'comments' => $comments,
-            // 'series' => $series,
         ));
     }
 
+     /**
+     * Became Friends
+     *
+     * @Route("/friend/{id}", name="user_friend")
+     * @Method("GET")
+     */
+    public function friendAction($id)
+    {   
+        $em = $this->getDoctrine()->getManager();
+        $friend = $em->getRepository('SiteBundle:User')->findOneById($id);
+        $user = $this->getUser();
+
+        $user->addMyFriend($friend);
+        $friends = $user->getMyFriends();
+        var_dump($friends);die;
+    }
 }

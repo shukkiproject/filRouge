@@ -1,0 +1,83 @@
+
+
+{% block message_content %}
+  <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        	<button id="newMess" >Write a new message</button>
+            <div class="form-group hiden" id="formNewMess" style="display:none;">
+                <form method="POST"  class="ui-widget" action="{{ path('message_newThread') }}">
+                    Recipient :
+                    <input type="text" name='recipient' class="form-control" placeholder="">
+                    Subject :
+                    <input type="text" name='subject' class="form-control" placeholder="">
+                    Body :
+                    <textarea name='body' class="form-control"></textarea>
+                    <button type="submit">Envoyer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <h3>My Messages</h3>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <ul id="nav-tabs-wrapper" class="nav nav-tabs nav-pills nav-stacked well">
+            {% for thread in threads %}
+                {% for participant in thread.participants %}
+                    {% if participant.username != user.username%}
+                        <li>
+                            <a href="#cont" data-toggle="tab" id="{{ thread.id }}" class="row">
+                                <div class="media"  >
+                                    <div class="media-left">
+                                        <div class="center-cropped-message img-reponsive img-rounded" style="background-image: url('{{ asset("images/users/" ~ participant.getImageName()) }}');">
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                                            <h4 class="media-heading">{{ participant.username }}</h4>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <small>Dernier message : {% trans with {'%date%': thread.lastMessage.createdAt|date} from 'FOSMessageBundle' %}on{% endtrans %}</small>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </a>
+                        </li>
+                    {% endif %}
+                <script>
+
+                $('#{{ thread.id }}').on('click', function(){
+                    var message = "<h2>Objet: {{ thread.subject }}</h2>{% for message in thread.messages %}<br/><div class=\"messenger_thread_message\"><div class=\"messenger_thread_message_info\">{% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle'%}message_info{% endtrans %}</div><div class=\"messenger_thread_message_body\" id=\"message_{{ message.id }}\">{{ message.body }}</div> </div>{% endfor %}<h3>Reply</h3><form action=\"{{ url('message_reply', {'threadId': thread.id}) }}\" method=\"post\"><input name='reply' type=\"text\"><input type=\"submit\"/></form>";
+                    $('#cont').html(message);
+
+                    $.ajax({
+                        url: "{{ path('message_read', { 'threadId': thread.id }) }}",
+
+                        success: function(){ 
+                        },
+                        error: function() { 
+                        },
+                    });
+                });
+                </script>
+                {% endfor %}
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="cont"> 
+                </div>
+            </div>
+        </div>
+    </div> 
+
+<script>
+    $("#newMess").click(function(){
+        $("#formNewMess").toggle(500);
+    });
+</script>
+
+{% endblock %}
+

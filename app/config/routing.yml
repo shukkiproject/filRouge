@@ -39,7 +39,7 @@ site_user:
         _locale: en|fr
 
 site_message:
-    resource: "@SiteBundle/Controller/MessController.php"
+    resource: "@SiteBundle/Controller/MessagingController.php"
     type:     annotation
     prefix:   /{_locale}/
     requirements:
