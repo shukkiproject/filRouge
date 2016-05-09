@@ -37,26 +37,6 @@ class MainController extends Controller
         return $this->render('default/index.html.twig');
     } 
 
-     /**
-     * @Route("/{_locale}/admin")
-     */
-    public function adminAction()
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
-
-        $userManager = $this->get('fos_user.user_manager');
-
-        $users=$userManager->findUsers();
-
-        $em = $this->getDoctrine()->getManager();
-
-        $series = $em->getRepository('SiteBundle:Series')->findByValidated(false);
-        // var_dump($series);
-        // die;
-        return $this->render('default/admin.html.twig', array('users' => $users, 'series' => $series ));
-        
-    }
-
     /**
      * Search
      *

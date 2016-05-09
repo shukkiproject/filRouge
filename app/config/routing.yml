@@ -1,14 +1,16 @@
 site_person:
     resource: "@SiteBundle/Controller/PersonController.php"
     type:     annotation
-
-site_person:
-    resource: "@SiteBundle/Controller/PersonController.php"
-    type:     annotation
-
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+        
 site_season:
     resource: "@SiteBundle/Controller/SeasonController.php"
     type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
 
 site_series_rating:
     resource: "@SiteBundle/Controller/SeriesRatingController.php"
