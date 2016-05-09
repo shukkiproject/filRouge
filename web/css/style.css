@@ -80,20 +80,20 @@ body {
     margin-bottom: 40px;
 }
 
+​
+
 /* MARKETING CONTENT
 -------------------------------------------------- */
-​
+
 /* Center align the text within the three columns below the carousel */
 .marketing .col-lg-6 {
-  margin-bottom: 1.5rem;
+  margin-bottom: 20px;
   text-align: center;
 }
 .marketing h2 {
   font-weight: normal;
 }
 .marketing .col-lg-6 p {
-  margin-right: .75rem;
-  margin-left: .75rem;
+  margin-right: 10px;
+  margin-left: 10px;
 }
-​
-

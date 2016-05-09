@@ -10,30 +10,30 @@
 {{ form_start(form, {'method': 'post', 'action': path('series_new')}) }}
         <div class="form-group">
 
-            {{ form_label(form.name) }}
-            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}<br>
+            {{ form_label(form.name, 'series.new.name'|trans) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'series.new.name_placeholder'|trans }}) }}<br>
 
-            {{ form_label(form.creator) }}
-            {{ form_widget(form.creator, {'attr': {'class': 'form-control'}}) }}<br>
+            {{ form_label(form.creator, 'series.new.creator'|trans) }}
+            {{ form_widget(form.creator, {'attr': {'class': 'form-control', 'placeholder': 'series.new.creator_placeholder'|trans }}) }}<br>
 
-            {{ form_label(form.year) }}
+            {{ form_label(form.year, 'series.new.year'|trans) }}
             {{ form_widget(form.year, {'attr': {'class': 'form-control'}}) }}<br>
 
             {{ form_label(form.synopsis) }}
-            {{ form_widget(form.synopsis, {'attr': {'class': 'form-control'}}) }}<br>
+            {{ form_widget(form.synopsis, {'attr': {'class': 'form-control', 'placeholder': 'series.new.synopsis_placeholder'|trans }}) }}<br>
 
-            {{ form_label(form.imageFile) }}
+            {{ form_label(form.imageFile, 'series.new.image_file'|trans) }}
             {{ form_widget(form.imageFile, {'attr': {'class': 'btn btn-default'}}) }}<br>
 
-            {{ form_label(form.language) }}
+            {{ form_label(form.language, 'series.new.language'|trans) }}
             {{ form_widget(form.language, {'attr': {'class': 'form-control'}}) }}<br>
 
         </div>
-            <h3>Casts</h3>
+            <h3>{{ 'series.casts.title'|trans }}</h3>
             <ul class="persons" data-prototype="{{ form_widget(form.persons.vars.prototype)|e}}">
                 {# iterate over each existing tag #}
                 {% for person in form.persons %}
-                    {{ form_label(person.firstname) }}
+                    {{ form_label(person.firstname, 'series.casts.firstname'|trans) }}
                     {{ form_widget(person.firstname, {'attr': {'class': 'form-control'}}) }}
                     {{ form_label(person.lastname) }}
                     {{ form_widget(person.lastname, {'attr': {'class': 'form-control'}}) }}
@@ -63,7 +63,7 @@
 var $collectionHolder;
 
 // setup an "add a person" button
-var $addPersonLink = $('<a href="#" class="add_person_link">Add a Person</a>');
+var $addPersonLink = $('<a href="#" class="add_person_link">{{ 'series.casts.button_add'|trans }}</a>');
 var $newLinkLi = $('<button></button>').append($addPersonLink);
 
 jQuery(document).ready(function() {
@@ -116,7 +116,7 @@ function addPersonForm($collectionHolder, $newLinkLi) {
 }
 
 function addPersonFormDeleteLink($personFormLi) {
-    var $removeFormA = $('<button><a href="#">delete this Person</a></button>');
+    var $removeFormA = $('<button><a href="#">{{ 'series.casts.button_delete'|trans }}</a></button>');
     $personFormLi.append($removeFormA);
 
     $removeFormA.on('click', function(e) {

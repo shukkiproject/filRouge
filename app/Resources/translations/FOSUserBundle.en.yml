@@ -138,4 +138,17 @@ series:
     season: 'Season'
     comments: 'Comments'
     followedby: 'Followed by ...'
-
+    new:
+        name: 'Title'
+        name_placeholder: 'Write the title of the series'
+        creator: 'Creator'
+        creator_placeholder: 'Write the name of director'
+        year: 'Year'
+        synopsis_placeholder: 'A few lines about the series ...'
+        image_file: 'Poster'
+        language: 'Language of record'
+    casts:
+        title: 'Casts'
+        button_add: 'Add a person'
+        firsname_actor: 'Firstname'
+        button_delete: 'Delete this Person'

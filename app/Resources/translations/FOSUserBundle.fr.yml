@@ -118,3 +118,17 @@ series:
     season: 'Saison'
     comments: 'Critiques'
     followedby: "Suivie par ..."
+    new:
+        name: 'Titre'
+        name_placeholder: 'Ecrivez le titre de la série'
+        creator: 'Créateur'
+        creator_placeholder: 'Ecrivez le nom du réalisateur'
+        year: 'Année'
+        synopsis_placeholder: 'Quelques lignes à propos de la série...'
+        image_file: 'Affiche'
+        language: 'Langage de la fiche'
+    casts:
+        title: 'Acteurs et actrices'
+        button_add: 'Ajouter une personne'
+        button_delete: 'Supprimer la personne'
+        firsname_actor: 'Prénom'
