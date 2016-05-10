@@ -21,17 +21,17 @@
             {% endif %}
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
                 <h1 >{{ user.username }}</h1>
-                <a><button type="button" class="btn btn-secondary" id="friend">{{ 'profile.user.friend'|trans }}</button></a>
+                <a><button type="button" class="btn btn-warning" id="friend">{{ 'profile.user.friend'|trans }}</button></a>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
-                <button id="newMess" >{{ 'profile.message.user'|trans }}</button>
+                <button id="newMess" class='btn btn-success'>{{ 'profile.message.user'|trans }}</button>
                 <div class="form-group hiden" id="formNewMess" style="display:none;">
                     <form method="POST"  class="ui-widget" action="{{ path('message_new',{'id':user.id}) }}">
                         {{ 'profile.message.subject'|trans }}
                         <input type="text" name='subject' class="form-control" placeholder="">
                         {{ 'profile.message.body'|trans }}
                         <textarea name='body' class="form-control"></textarea> 
-                        <button type="submit">{{ 'profile.message.send'|trans }}</button>
+                        <button class='btn btn-success' type="submit">{{ 'profile.message.send'|trans }}</button>
                     </form>
                 </div>
             </div>
@@ -58,13 +58,11 @@
 
 
             <div id="friends" class="tab-pane fade">
-                {{ dump(user)}}
+
             </div>
 
             <div id="criticise" class="tab-pane fade">
-                {% for comment in  user.comments %}
-                    {{ comment.comment}}
-                {% endfor   %}
+                {{ include('users/criticiseUser.html.twig') }}
             </div>
 
         </div>

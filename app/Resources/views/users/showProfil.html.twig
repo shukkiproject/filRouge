@@ -20,7 +20,7 @@
             {% endif %}
             <h1 class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">{{ user.username }}</h1>
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
-                <a href="{{ path('fos_user_profile_edit')}}" ><button >{{ 'profile.show.edit'|trans }}</button></a>
+                <a href="{{ path('fos_user_profile_edit')}}"  ><button class="btn btn-danger">{{ 'profile.show.edit'|trans }}</button></a>
             </div>
         </div>
 
@@ -50,9 +50,7 @@
             </div>
 
             <div id="criticise" class="tab-pane fade">
-              {% for comment in  user.comments %}
-                {{ comment.comment}}
-            {% endfor   %}
+                {{ include('users/criticiseUser.html.twig') }}
             </div>
 
             <div id="messages" class="tab-pane fade">

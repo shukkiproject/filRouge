@@ -25,7 +25,8 @@ class MessagingController extends Controller
      * })
      * @Method({"GET","POST"})
      */
-    public function newThreadAction(Request $request){
+    public function newThreadAction(Request $request)
+    {
         $subject =  $request->request->get('subject');
         $body =  $request->request->get('body');
         $username =  $request->request->get('recipient');
@@ -56,7 +57,8 @@ class MessagingController extends Controller
      * })
      * @Method({"GET","POST"})
      */
-    public function newMessageAction(Request $request, $id){
+    public function newMessageAction(Request $request, $id)
+    {
         $em = $this->getDoctrine()->getManager();
 
         $subject =  $request->request->get('subject');
@@ -86,7 +88,8 @@ class MessagingController extends Controller
      * })
      * @Method({"GET", "POST"})
      */
-    public function replyAction(Request $request, $threadId){
+    public function replyAction(Request $request, $threadId)
+    {
         $provider = $this->container->get('fos_message.provider');
         $thread = $provider->getThread($threadId);
         $user = $this->getUser();
@@ -112,7 +115,8 @@ class MessagingController extends Controller
      * })
      * @Method({"GET"})
      */
-    public function readAction($threadId){
+    public function readAction($threadId)
+    {
         $provider = $this->container->get('fos_message.provider');
         // get thread
         $thread = $provider->getThread($threadId);
@@ -126,8 +130,24 @@ class MessagingController extends Controller
         }
 
         $response = new Response();
-
         return $response;
+    }
 
+    /**
+     * delete a message
+     *
+     * @Route("/delete/{threadId}", name="message_delete")
+     * })
+     * @Method({"GET"})
+     */
+    public function deleteAction($threadId)
+    {
+        $provider = $this->container->get('fos_message.provider');
+        $thread = $provider->getThread($threadId);
+        $this->container->get('fos_message.deleter')->markAsDeleted($thread);
+        $this->container->get('fos_message.thread_manager')->saveThread($thread);
+
+        return $this->redirectToRoute('user_profil');
+  
     }
 }

@@ -1,0 +1,27 @@
+{% for comment in user.comments  %}
+        <div class="media">
+             <div class="media-left">
+                <a href="{{ path('series_show', { 'id': comment.series.id }) }}">
+                    <div class="center-cropped" style="background-image: url('{{ asset("images/series/" ~ comment.series.getImageName()) }}');">
+                    </div>
+                </a>
+             </div>
+        	<div class="media-body">
+        		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+            		<h4 class="media-heading">{{ comment.series.name }} <small><i>Posted on {% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>
+        		</div>
+            	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+             		<a href="{{ path('comment_edit', { 'id': comment.id }) }}"><button class="btn btn-info" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                   <a href="{{ path('comment_delete', { 'id': comment.id }) }}"><button  class="btn btn-warning" ><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+           		 </div>
+            	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		            {% if comment.episode %}               
+		            <p>Episode {{ comment.episode }}</p>
+		            {% endif %}
+		            <p>{{ comment.comment }}</p>
+            	</div>
+          	</div>
+        </div>
+        <hr/>
+{% endfor %}    
+

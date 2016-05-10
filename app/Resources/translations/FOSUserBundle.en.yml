@@ -45,6 +45,8 @@ profile:
         box: 'My Messages'
         last: 'Last Message :'
         reply: 'Reply :'
+        unread: 'NEW !!!'
+        none: 'You have no messages'
     series: 'My rate :'
 
 
@@ -71,6 +73,7 @@ registration:
     confirmed: 'Congrats %username%, your account is now activated.'
     back: 'Back to the originating page.'
     submit: Register
+    edit: "Change my profil"
     flash:
         user_created: 'The user has been created successfully'
     email:
@@ -175,3 +178,7 @@ series:
         button_add: 'Add a person'
         firsname_actor: 'Firstname'
         button_delete: 'Delete this Person'
+search:
+    result: 'Search results : '
+    none: 'No Results'
+    users: 'Users'

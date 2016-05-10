@@ -51,6 +51,8 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
 		}
 		return $arrayAss;
 	}
+
+	
 	public function findByUserid($id){
 		//order by the most recent comment
 		return $this->createQueryBuilder('series')

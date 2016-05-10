@@ -81,18 +81,41 @@ class MainController extends Controller
     {
 
         $request = $this -> get('request');
-        if($request->isXmlHttpRequest())
-        {
-            $term = $request->query->get('motcle');
-            $em = $this->getDoctrine()->getManager();
-            $array= $em
-                ->getRepository('SiteBundle:Series')
-                ->listeSeries($term);
-            $response = new Response(json_encode($array));
-            $response -> headers -> set('Content-Type', 'application/json');
-            return $response;
-       }
+
+        $term = $request->query->get('motcle');
+        $em = $this->getDoctrine()->getManager();
+        $array= $em
+            ->getRepository('SiteBundle:Series')
+            ->listeSeries($term);
+
+        $response = new Response(json_encode($array));
+        $response -> headers -> set('Content-Type', 'application/json');
+        return $response;
+       
     }
 
+    /**
+     * search User ajax
+     *
+     * @Route("/{_locale}/userAutocomplete", defaults={"_locale": "fr"}, name="site_main_userAutocomplete", requirements={
+     *     "_locale": "en|fr"
+     * })
+     * @Method("GET")
+     */
+    public function userAutocompleteAction(Request $request)
+    {
 
+        $request = $this -> get('request');
+
+        $term = $request->query->get('motcle');
+        $em = $this->getDoctrine()->getManager();
+        $array= $em
+            ->getRepository('SiteBundle:User')
+            ->listeUser($term);
+
+        $response = new Response(json_encode($array));
+        $response -> headers -> set('Content-Type', 'application/json');
+        return $response;
+       
+    }
 }

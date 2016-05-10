@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository
 {
     public function searchMethod($term){
-        //var_dump($term); die;
         $query = $this->createQueryBuilder('user')
             ->select('user')
             ->orderBy('user.username','ASC')
@@ -19,5 +18,23 @@ class UserRepository extends EntityRepository
             //->setMaxResults($limit)
             ->getQuery();
         return $query->getResult();
+    }
+
+    //autocomplete for message recipient
+    public function listeUser($term)
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb ->select('u.username')
+            ->where('u.username LIKE :term')
+            ->setParameter('term', '%'.$term.'%');
+        $arrayAss= $qb->getQuery()
+                   ->getArrayResult();
+        //Transformer le tableau associatif en un tableau standard
+        $array = array();
+        foreach($arrayAss as $data)
+        {
+            $array[] = $data['username'];
+        }
+        return $arrayAss;
     }
 }
