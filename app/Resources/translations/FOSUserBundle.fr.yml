@@ -19,10 +19,32 @@ profile:
     show:
         username: 'Nom d''utilisateur'
         email: 'Adresse e-mail'
+        edit: 'Modifier Mon profil'
+        series: 'Mes Séries'
+        friends: 'Mes Amis'
+        criticises: 'Mes Critiques'
+    user:
+        of: 'Profil de '
+        series: 'Ses Séries'
+        friends: 'ses Amis'
+        criticises: 'ses Critiques'
+        friend: 'Devenir amis'
     edit:
         submit: 'Mettre à jour'
     flash:
         updated: 'Le profil a été mis à jour'
+    message: 
+        user: 'Envoyer un message'
+        new: 'Ecrire un nouveau message'
+        recipient: 'Déstinataire :'
+        subject: 'Objet :'
+        body: 'Message :'
+        send: 'Envoyer'
+        box: 'Mes Messages'
+        last: 'Dernier message :'
+        reply: 'Réponse :'
+    series: 'Ma note :'
+
 change_password:
     submit: 'Modifier le mot de passe'
     flash:
@@ -101,6 +123,7 @@ navbar:
         signup: 'S''inscrire'
         logout: 'Se déconnecter'
         login: 'Se connecter'
+    search: 'Rechercher'
 
 series:
     propose: 'Proposer une nouvelle série'

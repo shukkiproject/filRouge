@@ -21,10 +21,32 @@ profile:
     show:
         username: Username
         email: Email
+        edit: 'Edit my Profil'
+        series: 'My Series'
+        friends: 'My Friends'
+        criticises: 'My Criticises'
+    user:
+        of: 'Profil of'
+        series: 'Séries Followed'
+        friends: 'Friends'
+        criticises: 'Criticises'
+        friend: 'Became friends'
     edit:
         submit: Update
     flash:
         updated: 'The profile has been updated'
+    message: 
+        user: 'Write a message'
+        new: 'Write a new message'
+        recipient: 'Recipient :'
+        subject: 'Subject :'
+        body: 'Body :'
+        send: 'Send'
+        box: 'My Messages'
+        last: 'Last Message :'
+        reply: 'Reply :'
+    series: 'My rate :'
+
 
 change_password:
     submit: 'Change password'
@@ -121,6 +143,7 @@ navbar:
         signup: 'Sign Up'
         logout: 'Logout'
         login: 'Login'
+    search: 'search'
 
 series:
     propose: 'Propose a new serie'

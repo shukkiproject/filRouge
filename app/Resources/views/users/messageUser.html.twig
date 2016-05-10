@@ -1,23 +1,23 @@
-
-
 {% block message_content %}
+{% trans_default_domain 'FOSUserBundle' %}
+
   <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        	<button id="newMess" >Write a new message</button>
+        	<button id="newMess" >{{ 'profile.message.new'|trans }}</button>
             <div class="form-group hiden" id="formNewMess" style="display:none;">
                 <form method="POST"  class="ui-widget" action="{{ path('message_newThread') }}">
-                    Recipient :
+                    {{ 'profile.message.recipient'|trans }}
                     <input type="text" name='recipient' class="form-control" placeholder="">
-                    Subject :
+                    {{ 'profile.message.subject'|trans }}
                     <input type="text" name='subject' class="form-control" placeholder="">
-                    Body :
+                    {{ 'profile.message.body'|trans }}
                     <textarea name='body' class="form-control"></textarea>
-                    <button type="submit">Envoyer</button>
+                    <button type="submit">{{ 'profile.message.send'|trans }}</button>
                 </form>
             </div>
         </div>
     </div>
-    <h3>My Messages</h3>
+    <h3>{{ 'profile.message.box'|trans }}</h3>
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <ul id="nav-tabs-wrapper" class="nav nav-tabs nav-pills nav-stacked well">
@@ -38,7 +38,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
                                         </div>
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <small>Dernier message : {% trans with {'%date%': thread.lastMessage.createdAt|date} from 'FOSMessageBundle' %}on{% endtrans %}</small>
+                                            <small>{{ 'profile.message.last'|trans }}{% trans with {'%date%': thread.lastMessage.createdAt|date} from 'FOSMessageBundle' %}on{% endtrans %}</small>
                                         </div>
                                     </div>
                                 </div> 
@@ -48,7 +48,7 @@
                 <script>
 
                 $('#{{ thread.id }}').on('click', function(){
-                    var message = "<h2>Objet: {{ thread.subject }}</h2>{% for message in thread.messages %}<br/><div class=\"messenger_thread_message\"><div class=\"messenger_thread_message_info\">{% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle'%}message_info{% endtrans %}</div><div class=\"messenger_thread_message_body\" id=\"message_{{ message.id }}\">{{ message.body }}</div> </div>{% endfor %}<h3>Reply</h3><form action=\"{{ url('message_reply', {'threadId': thread.id}) }}\" method=\"post\"><input name='reply' type=\"text\"><input type=\"submit\"/></form>";
+                    var message = "<h2>{{ 'profile.message.subject'|trans }}{{ thread.subject }}</h2>{% for message in thread.messages %}<br/><div class=\"messenger_thread_message\"><div class=\"messenger_thread_message_info\">{% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle'%}message_info{% endtrans %}</div><div class=\"messenger_thread_message_body\" id=\"message_{{ message.id }}\">{{ message.body }}</div> </div>{% endfor %}<h3>{{ 'profile.message.reply'|trans }}</h3><form action=\"{{ url('message_reply', {'threadId': thread.id}) }}\" method=\"post\"><input name='reply' type=\"text\"><input type=\"submit\" value=\"{{ 'profile.message.send'|trans }}\"/></form>";
                     $('#cont').html(message);
 
                     $.ajax({
