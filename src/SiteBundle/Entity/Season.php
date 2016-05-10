@@ -4,11 +4,13 @@ namespace SiteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Season
  *
  * @ORM\Table(name="season")
  * @ORM\Entity(repositoryClass="SiteBundle\Repository\SeasonRepository") @ORM\HasLifecycleCallbacks
+ * 
  */
 class Season
 {
