@@ -35,7 +35,7 @@ class SeriesController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $series = $em->getRepository('SiteBundle:Series')->findByValidated(true);
-        
+
         return $this->render('series/index.html.twig', array(
             'series' => $series,
         ));
@@ -127,6 +127,7 @@ class SeriesController extends Controller
     public function showAction(Series $series, Request $request)
     {
         // var_dump($series);
+        // die;
         $deleteForm = $this->createDeleteForm($series);
 
         $comment = new Comment($series);
@@ -149,7 +150,7 @@ class SeriesController extends Controller
     }
 
      /**
-     * Validate an existing Series entity by admin.
+     * Validate an existing Series entity by moderator.
      *
      * @Route("/{id}/validate", requirements={
     *     "id": "\d+"}, name="series_validate")
@@ -157,7 +158,7 @@ class SeriesController extends Controller
      */
     public function validateAction(Series $series)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
 
         $em = $this->getDoctrine()->getManager();
 
@@ -174,13 +175,13 @@ class SeriesController extends Controller
             $em->remove($series);
             $em->flush();
 
-            return $this->redirectToRoute('site_main_admin');
+            return $this->redirectToRoute('moderator_index');
         }
         $series->setValidated(true);
         $em->persist($series);
         $em->flush();
 
-        return $this->redirectToRoute('site_main_admin');
+        return $this->redirectToRoute('moderator_index');
     
     }
 
@@ -193,7 +194,7 @@ class SeriesController extends Controller
      */
     public function editAction(Request $request, Series $series)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
 
         $editForm = $this->createForm('SiteBundle\Form\SeriesType', $series);
         $editForm->handleRequest($request);

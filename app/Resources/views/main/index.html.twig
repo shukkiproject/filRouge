@@ -82,7 +82,11 @@
       </div><!-- /.row -->
     </div>
 
-
+<div>
+   {% for comment in recentComments %}
+      <p>{{ comment.user }} has commented on  {{ comment.series }}</p>
+   {% endfor %}
+</div>
 
    
 {% endblock %}

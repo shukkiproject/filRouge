@@ -83,7 +83,7 @@ class PersonController extends Controller
          */
         public function validateAction(Person $person)
         {
-            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
+            $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
 
             $em = $this->getDoctrine()->getManager();
 
@@ -98,13 +98,13 @@ class PersonController extends Controller
                 $em->remove($person);
                 $em->flush();
                 // TODO: RETURN TO CURRENT SERIES
-                return $this->redirectToRoute('site_main_admin');
+                return $this->redirectToRoute('moderator_index');
             }
                 $person->setValidated(true);
                 $em->persist($person);
                 $em->flush();
 
-            return $this->redirectToRoute('site_main_admin');
+            return $this->redirectToRoute('moderator_index');
         
         }
     /**
