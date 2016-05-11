@@ -1,16 +1,19 @@
 {% extends "base.html.twig" %}
 
-{% block body %}
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% block body %}
+
+<!-- breadcrumb -->
     <ol class="breadcrumb">
         <li><a href="{{ path('site_main_index') }}">{{ 'navbar.home'|trans }}</a></li>
         <li>{{ 'navbar.profil.index'|trans }}</li>
     </ol>
-
+<!-- breadcrumb -->
     {% block user_content %}
-    {% trans_default_domain 'FOSUserBundle' %}
-        <div class="fos_user_user_show " class="row">
+<!-- user info --> 
+    <div class="row">
+        <div class="fos_user_user_show">
             {% if user.imageName %}
                 <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
                      <div class="thumbnail center-cropped-user" style="background-image: url('{{ asset('images/users/' ~ user.getImageName()) }}');">
@@ -20,12 +23,14 @@
             {% endif %}
             <h1 class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">{{ user.username }}</h1>
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
-                <a href="{{ path('fos_user_profile_edit')}}"  ><button class="btn btn-danger">{{ 'profile.show.edit'|trans }}</button></a>
+                <a href="{{ path('fos_user_profile_edit')}}">
+                    <button class="btn btn-danger">{{ 'profile.show.edit'|trans }}</button>
+                </a>
             </div>
         </div>
-
-        </div>
-
+    </div>
+<!-- user info --> 
+<!-- tab menu -->
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home">{{ 'navbar.home'|trans }}</a></li>
             <li><a data-toggle="tab" href="#series">{{ 'profile.show.series'|trans }}</a></li>
@@ -33,29 +38,31 @@
             <li><a data-toggle="tab" href="#criticise">{{ 'profile.show.criticises'|trans }}</a></li>
             <li><a data-toggle="tab" href="#messages">{{ 'profile.message.box'|trans }}</a></li>
         </ul>
-
+<!-- tab menu -->
         <div class="tab-content">
-            <div id="home" class="tab-pane fade in active">
+            <div id="home" class="tab-pane fade in active"></br>
 
             </div>
-
-
-            <div id="series" class="tab-pane fade">
+<!-- tab content series details -->
+            <div id="series" class="tab-pane fade"></br>
                 {{ include('users/seriesUser.html.twig') }}
             </div>
-
-
-            <div id="friends" class="tab-pane fade">
-                
+<!-- tab content series details -->
+<!-- tab content friends details -->
+            <div id="friends" class="tab-pane fade"></br>
+                {{ include('users/friendsUser.html.twig') }}
             </div>
-
-            <div id="criticise" class="tab-pane fade">
+<!-- tab content friends details -->
+<!-- tab content comments details -->
+            <div id="criticise" class="tab-pane fade"></br>
                 {{ include('users/criticiseUser.html.twig') }}
             </div>
-
-            <div id="messages" class="tab-pane fade">
+<!-- tab content comments details -->
+<!-- tab content messages details -->
+            <div id="messages" class="tab-pane fade"></br>
                 {{ include('users/messageUser.html.twig') }}      
             </div>
+ <!-- tab content messages details -->
         </div>
     {% endblock %}
 {% endblock %}

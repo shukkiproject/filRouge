@@ -48,6 +48,8 @@ profile:
         unread: 'NEW !!!'
         none: 'You have no messages'
     series: 'My rate :'
+    friend:
+        quit: 'Remove from list of friends'
 
 
 change_password:
