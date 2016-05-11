@@ -9,7 +9,7 @@
 		<div>{{ role }}</div>
 		{% endfor %}
 	</span>
-	<span><a href="{{ path('superadmin_promote', { 'username': user.username })}}" >Promote to Admin</a></span>
+	<span><a href="{{ path('superadmin_promote', { 'username': user.username })}}" >Promote to Moderator</a></span>
 	<span><a href="{{ path('superadmin_demote', { 'username': user.username })}}" >Demote to user</a></span>
 </li>
 {% endfor %}

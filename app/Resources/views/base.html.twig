@@ -10,6 +10,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="{{ asset('js/bootstrap.min.js')}}"></script>
+        <script src="{{ asset('jquery-ui-1.11.4/jquery-ui.js')}}"></script>
+        <link rel="stylesheet" href="{{ asset('jquery-ui-1.11.4/jquery-ui.css')}}">
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}" />
         {% endblock %}
@@ -34,7 +36,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a href="{{ path('site_main_index')}}"><img height="60" src="/images/Logo.png"></a>
+              <a href="/"><img height="60" src="/images/Logo.png"></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
@@ -69,7 +71,6 @@
                         </form>
                     </div>
                 </li>
-
               </ul>
               <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -82,7 +83,6 @@
                                 {{ fos_message_nb_unread() }} <i class="fa fa-envelope"></i>
                             {% endif %}
                         {% endif %}
-
                         {{ 'navbar.profil.index'|trans }}</a></li>
                         <li><a href="{{ path('user_index')}}" >{{ 'navbar.profil.all'|trans }}</a></li>
                         <li role="separator" class="divider"></li>
@@ -90,8 +90,8 @@
                         {% if is_granted('ROLE_SUPER_ADMIN') %}    
                         <li><a href="{{ path('superadmin_index')}}">{{ 'navbar.profil.superadmin'|trans }}</a></li> 
                         {% endif %}
-                        {% if is_granted('ROLE_ADMIN') %}    
-                        <li><a href="{{ path('site_main_admin')}}">{{ 'navbar.profil.moderator'|trans }}</a></li> 
+                        {% if is_granted('ROLE_MODERATOR') %}    
+                        <li><a href="{{ path('moderator_index')}}">{{ 'navbar.profil.moderator'|trans }}</a></li> 
                         {% endif %}         
                     </ul>
                 </li>
@@ -103,12 +103,14 @@
                         <a href="{{ path('fos_user_security_login')}}"><span class="glyphicon glyphicon-log-in"></span>{{ 'navbar.log.login'|trans }}</a>
                     {% endif %}
                 </li>
+
                 <li><a href="{{ path('site_main_index', { '_locale': 'en' }) }}">En</a></li>
                 <li><a href="{{ path('site_main_index', { '_locale': 'fr' }) }}">Fr</a></li>      
               </ul>
             </div><!--/.navbar-collapse collapse -->
         </nav><!--/.navbar navbar-default-->
     </div><!--/.container-->
+
 
 
         {% endblock %}

@@ -1,14 +1,15 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+{% trans_default_domain 'FOSUserBundle' %}
 
     <ol class="breadcrumb">
-        <li><a href="{{ path('site_main_index') }}">Home</a></li>
-        <li>My Profil</li>
+        <li><a href="{{ path('site_main_index') }}">{{ 'navbar.home'|trans }}</a></li>
+        <li>{{ 'navbar.profil.index'|trans }}</li>
     </ol>
 
     {% block user_content %}
-
+    {% trans_default_domain 'FOSUserBundle' %}
         <div class="fos_user_user_show " class="row">
             {% if user.imageName %}
                 <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
@@ -19,18 +20,18 @@
             {% endif %}
             <h1 class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">{{ user.username }}</h1>
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
-                <a href="{{ path('fos_user_profile_edit')}}" ><button >Edit my Profil</button></a>
+                <a href="{{ path('fos_user_profile_edit')}}"  ><button class="btn btn-danger">{{ 'profile.show.edit'|trans }}</button></a>
             </div>
         </div>
 
         </div>
 
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-            <li><a data-toggle="tab" href="#series">My Series</a></li>
-            <li><a data-toggle="tab" href="#friends">My Friends</a></li>
-            <li><a data-toggle="tab" href="#criticise">My Criticises</a></li>
-            <li><a data-toggle="tab" href="#messages">My Messages</a></li>
+            <li class="active"><a data-toggle="tab" href="#home">{{ 'navbar.home'|trans }}</a></li>
+            <li><a data-toggle="tab" href="#series">{{ 'profile.show.series'|trans }}</a></li>
+            <li><a data-toggle="tab" href="#friends">{{ 'profile.show.friends'|trans }}</a></li>
+            <li><a data-toggle="tab" href="#criticise">{{ 'profile.show.criticises'|trans }}</a></li>
+            <li><a data-toggle="tab" href="#messages">{{ 'profile.message.box'|trans }}</a></li>
         </ul>
 
         <div class="tab-content">
@@ -49,9 +50,7 @@
             </div>
 
             <div id="criticise" class="tab-pane fade">
-              {% for comment in  user.comments %}
-                {{ comment.comment}}
-            {% endfor   %}
+                {{ include('users/criticiseUser.html.twig') }}
             </div>
 
             <div id="messages" class="tab-pane fade">

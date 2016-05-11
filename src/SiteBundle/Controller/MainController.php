@@ -20,13 +20,21 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 class MainController extends Controller
 {
   /**
-     * @Route("/{_locale}", defaults={"_locale": "fr"}, requirements={
-     *     "_locale": "en|fr"
-     * })
+     * @Route("/{_locale}", defaults={"_locale": "fr"}, requirements={"_locale": "en|fr"}, name="site_main_index")
      */
     public function indexAction(Request $request){
         $newLocale = $request->getLocale();   
+        return $this->render('main/index.html.twig');
+    } 
+
+    /**
+     * @Route("/{_locale}", defaults={"_locale": "fr"}, requirements={"_locale": "en|fr"}, name="site_main_language")
+     */
+    public function languageAction(Request $request){
+        $newLocale = $request->getLocale();   
         $url = $this->getRequest()->headers->get("referer");
+        var_dump($request);
+        die;
         if (isset($url)) {
         $oldLocale = ($newLocale==='en')? 'fr' : 'en';   
         //replace the old by te new, even if it's the same language, it w'ont be affected.     
@@ -34,28 +42,9 @@ class MainController extends Controller
 
         return new RedirectResponse($newUrl); 
         }
-        return $this->render('default/index.html.twig');
+        return $this->render('main/index.html.twig');
     } 
 
-     /**
-     * @Route("/{_locale}/admin")
-     */
-    public function adminAction()
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
-
-        $userManager = $this->get('fos_user.user_manager');
-
-        $users=$userManager->findUsers();
-
-        $em = $this->getDoctrine()->getManager();
-
-        $series = $em->getRepository('SiteBundle:Series')->findByValidated(false);
-        // var_dump($series);
-        // die;
-        return $this->render('default/admin.html.twig', array('users' => $users, 'series' => $series ));
-        
-    }
 
     /**
      * Search
@@ -92,18 +81,41 @@ class MainController extends Controller
     {
 
         $request = $this -> get('request');
-        if($request->isXmlHttpRequest())
-        {
-            $term = $request->query->get('motcle');
-            $em = $this->getDoctrine()->getManager();
-            $array= $em
-                ->getRepository('SiteBundle:Series')
-                ->listeSeries($term);
-            $response = new Response(json_encode($array));
-            $response -> headers -> set('Content-Type', 'application/json');
-            return $response;
-       }
+
+        $term = $request->query->get('motcle');
+        $em = $this->getDoctrine()->getManager();
+        $array= $em
+            ->getRepository('SiteBundle:Series')
+            ->listeSeries($term);
+
+        $response = new Response(json_encode($array));
+        $response -> headers -> set('Content-Type', 'application/json');
+        return $response;
+       
     }
 
+    /**
+     * search User ajax
+     *
+     * @Route("/{_locale}/userAutocomplete", defaults={"_locale": "fr"}, name="site_main_userAutocomplete", requirements={
+     *     "_locale": "en|fr"
+     * })
+     * @Method("GET")
+     */
+    public function userAutocompleteAction(Request $request)
+    {
 
+        $request = $this -> get('request');
+
+        $term = $request->query->get('motcle');
+        $em = $this->getDoctrine()->getManager();
+        $array= $em
+            ->getRepository('SiteBundle:User')
+            ->listeUser($term);
+
+        $response = new Response(json_encode($array));
+        $response -> headers -> set('Content-Type', 'application/json');
+        return $response;
+       
+    }
 }

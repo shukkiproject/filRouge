@@ -99,7 +99,7 @@ class CommentController extends Controller
      * Displays a form to edit an existing Comment entity.
      *
      * @Route("/{id}/edit", name="comment_edit")
-     * @Method({"GET", "PO ST"})
+     * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Comment $comment)
     {

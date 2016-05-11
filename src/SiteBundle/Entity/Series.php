@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Series
@@ -13,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="series")
  * @ORM\Entity(repositoryClass="SiteBundle\Repository\SeriesRepository") @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
+ * @UniqueEntity(fields="name", message="This series already exists. ")
  */
 class Series
 {
@@ -28,7 +30,7 @@ class Series
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 

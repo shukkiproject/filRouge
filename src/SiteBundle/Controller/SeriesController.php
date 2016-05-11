@@ -75,7 +75,8 @@ class SeriesController extends Controller
      /**
      * Propose changes to a Series entity.
      *
-     * @Route("/{id}/proposechanges", defaults={"id": 0}, name="propose_changes")
+     * @Route("/{id}/proposechanges", defaults={"id": 0}, requirements={
+    *     "id": "\d+"}, name="propose_changes")
      * @Method({"GET", "POST"})
      */
     public function proposeChangesAction(Request $request,Series $series)
@@ -119,7 +120,8 @@ class SeriesController extends Controller
     /**
      * Finds and displays a Series entity.
      *
-     * @Route("/{id}", name="series_show")
+     * @Route("/{id}", name="series_show", requirements={
+    *     "id": "\d+"} )
      * @Method({"GET", "POST"})
      */
     public function showAction(Series $series, Request $request)
@@ -149,7 +151,8 @@ class SeriesController extends Controller
      /**
      * Validate an existing Series entity by admin.
      *
-     * @Route("/{id}/validate", name="series_validate")
+     * @Route("/{id}/validate", requirements={
+    *     "id": "\d+"}, name="series_validate")
      * @Method("GET")
      */
     public function validateAction(Series $series)
@@ -184,7 +187,8 @@ class SeriesController extends Controller
     /**
      * Displays a form to edit an existing Series entity.
      *
-     * @Route("/{id}/edit", name="series_edit")
+     * @Route("/{id}/edit", requirements={
+    *     "id": "\d+"}, name="series_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Series $series)
@@ -207,7 +211,8 @@ class SeriesController extends Controller
     /**
      * Follow a series.
      *
-     * @Route("/{id}/follow", name="series_follow")
+     * @Route("/{id}/follow", requirements={
+    *     "id": "\d+"}, name="series_follow")
      * @Method("GET")
      */
     public function followAction(Series $series, Request $request)
@@ -230,7 +235,8 @@ class SeriesController extends Controller
     /**
      * Check whetehr a series is followed.
      *
-     * @Route("/{id}/isfollowed", name="series_isfollowed")
+     * @Route("/{id}/isfollowed", requirements={
+    *     "id": "\d+"}, name="series_isfollowed")
      * @Method("GET")
      */
     public function isFollowedAction(Series $series, Request $request)
@@ -255,7 +261,8 @@ class SeriesController extends Controller
     /**
      * Deletes a Series entity.
      *
-     * @Route("/{id}/delete", name="series_delete")
+     * @Route("/{id}/delete", requirements={
+    *     "id": "\d+"}, name="series_delete")
      * @Method("GET")
      */
     public function deleteAction(Series $series)

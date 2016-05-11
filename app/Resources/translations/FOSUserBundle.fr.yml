@@ -19,10 +19,34 @@ profile:
     show:
         username: 'Nom d''utilisateur'
         email: 'Adresse e-mail'
+        edit: 'Modifier Mon profil'
+        series: 'Mes Séries'
+        friends: 'Mes Amis'
+        criticises: 'Mes Critiques'
+    user:
+        of: 'Profil de '
+        series: 'Ses Séries'
+        friends: 'ses Amis'
+        criticises: 'ses Critiques'
+        friend: 'Devenir amis'
     edit:
         submit: 'Mettre à jour'
     flash:
         updated: 'Le profil a été mis à jour'
+    message: 
+        user: 'Envoyer un message'
+        new: 'Ecrire un nouveau message'
+        recipient: 'Déstinataire :'
+        subject: 'Objet :'
+        body: 'Message :'
+        send: 'Envoyer'
+        box: 'Mes Messages'
+        last: 'Dernier message :'
+        reply: 'Réponse :'
+        unread: 'NOUVEAU !!!'
+        none: 'Vous n''avez pas de messages'
+    series: 'Ma note :'
+
 change_password:
     submit: 'Modifier le mot de passe'
     flash:
@@ -45,6 +69,7 @@ registration:
     confirmed: 'Félicitations %username%, votre compte est maintenant activé.'
     back: 'Retour à la page d''origine.'
     submit: Enregistrer
+    edit: "Changer mon profil"
     flash:
         user_created: 'L''utilisateur a été créé avec succès'
     email:
@@ -99,8 +124,9 @@ navbar:
         add: 'Ajouter un épisode'
     log:
         signup: 'S''inscrire'
-        logout: 'Se déconnecter'
-        login: 'Se connecter'
+        logout: ' Se déconnecter'
+        login: ' Se connecter'
+    search: 'Rechercher'
 
 series:
     propose: 'Proposer une nouvelle série'
@@ -142,3 +168,9 @@ index:
         title: 'Echangez !'
         text: 'Connectez-vous pour donner votre avis et échanger'
         button: 'Créer votre compte'
+
+search:
+    result: 'Résultats de la recherche : '
+    none: 'Aucun resultats'
+    users: 'Utilisateurs'
+

@@ -148,7 +148,7 @@ class User extends BaseUser implements ParticipantInterface
     private $imageName;
 
     /**
-     * @ORM\Column(name="update_at", type="datetime")
+     * @ORM\Column(name="update_at", type="datetime", nullable=true)
      *
      * @var \DateTime
      */

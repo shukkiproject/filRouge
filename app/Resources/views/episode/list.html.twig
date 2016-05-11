@@ -21,7 +21,7 @@
                             <a href="{{ path('episode_watch', { 'id': episode.id }) }}"><button class="btn btn-info" ><i class="fa fa-eye" aria-hidden="true"></i></button></a>
                         {% endif %} 
 
-                        {% if is_granted('ROLE_ADMIN') %}    
+                        {% if is_granted('ROLE_MODERATOR') %}    
                             <a href="{{ path('episode_edit', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
                             <a href="{{ path('episode_delete', { 'id': episode.id }) }}"><button type="button" class="btn btn-secondary"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
                         {% endif %}                                                

@@ -40,7 +40,7 @@ class SuperAdminController extends Controller
 
         $userManipulator = new UserManipulator($userManager);
         
-        $user=$userManipulator->addRole($username, 'ROLE_ADMIN');
+        $user=$userManipulator->addRole($username, 'ROLE_MODERATOR');
 
         $users=$userManager->findUsers();
         return $this->render('admin/superadmin.html.twig', array('users' => $users,));
@@ -60,7 +60,7 @@ class SuperAdminController extends Controller
 
         $userManipulator = new UserManipulator($userManager);
         
-        $user=$userManipulator->removeRole($username, 'ROLE_ADMIN');
+        $user=$userManipulator->removeRole($username, 'ROLE_MODERATOR');
 
         $users=$userManager->findUsers();
         return $this->render('admin/superadmin.html.twig', array('users' => $users,));
@@ -69,7 +69,7 @@ class SuperAdminController extends Controller
     }
 
     // /**
-    //  * @Route("/admin/users/promoSuper/{username}", name="imie_blog_blog_promosuper")
+    //  * @Route("/admin/users/promoSuper/{username}", name="site_promosuper")
     //  * @Method("GET")
     //  */
     // public function promoSuperAction($username)
@@ -86,6 +86,27 @@ class SuperAdminController extends Controller
     //     return $this->render('default/superAdmin.html.twig', array('users' => $users,));
         
     // }
+
+    /**
+     * @Route("/moderator", name="moderator_index")
+     */
+    public function moderatorAction()
+    {
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unable to access this moderator page!');
+
+        $userManager = $this->get('fos_user.user_manager');
+
+        $users=$userManager->findUsers();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $series = $em->getRepository('SiteBundle:Series')->findByValidated(false);
+        $persons = $em->getRepository('SiteBundle:Person')->findByValidated(false);
+        // var_dump($series);
+        // die;
+        return $this->render('admin/moderator.html.twig', array('users' => $users, 'series' => $series, 'persons' => $persons ));
+        
+    }
 
 
 }

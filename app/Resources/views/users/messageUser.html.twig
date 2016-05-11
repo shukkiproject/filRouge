@@ -1,68 +1,78 @@
-
-
 {% block message_content %}
+{% trans_default_domain 'FOSUserBundle' %}
+
   <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-        	<button id="newMess" >Write a new message</button>
+        	<button id="newMess" class='btn btn-success'>{{ 'profile.message.new'|trans }}</button>
             <div class="form-group hiden" id="formNewMess" style="display:none;">
                 <form method="POST"  class="ui-widget" action="{{ path('message_newThread') }}">
-                    Recipient :
+                    {{ 'profile.message.recipient'|trans }}
                     <input type="text" name='recipient' class="form-control" placeholder="">
-                    Subject :
+                    {{ 'profile.message.subject'|trans }}
                     <input type="text" name='subject' class="form-control" placeholder="">
-                    Body :
+                    {{ 'profile.message.body'|trans }}
                     <textarea name='body' class="form-control"></textarea>
-                    <button type="submit">Envoyer</button>
+                    <button class='btn btn-success' type="submit">{{ 'profile.message.send'|trans }}</button>
                 </form>
             </div>
         </div>
     </div>
-    <h3>My Messages</h3>
+    <h3>{{ 'profile.message.box'|trans }}</h3>
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <ul id="nav-tabs-wrapper" class="nav nav-tabs nav-pills nav-stacked well">
-            {% for thread in threads %}
-                {% for participant in thread.participants %}
-                    {% if participant.username != user.username%}
-                        <li>
-                            <a href="#cont" data-toggle="tab" id="{{ thread.id }}" class="row">
-                                <div class="media"  >
-                                    <div class="media-left">
-                                        <div class="center-cropped-message img-reponsive img-rounded" style="background-image: url('{{ asset("images/users/" ~ participant.getImageName()) }}');">
+            {% if not threads %}
+                <p>{{ 'profile.message.none'|trans }}</p>
+            {% else %}
+                {% for thread in threads %}
+                    {% for participant in thread.participants %}
+                        {% if participant.username != user.username%}
+                            <li>
+                                <a href="#cont" data-toggle="tab" id="{{ thread.id }}" class="row">
+                                    <div class="media"  >
+                                        <div class="media-left">
+                                            <div class="center-cropped-message img-reponsive img-rounded" style="background-image: url('{{ asset("images/users/" ~ participant.getImageName()) }}');">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
-                                            <h4 class="media-heading">{{ participant.username }}</h4>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
-                                        </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <small>Dernier message : {% trans with {'%date%': thread.lastMessage.createdAt|date} from 'FOSMessageBundle' %}on{% endtrans %}</small>
-                                        </div>
-                                    </div>
-                                </div> 
-                            </a>
-                        </li>
-                    {% endif %}
-                <script>
+                                        <div class="media-body">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                                                <h4 class="media-heading">{{ participant.username }}</h4>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-md-offset-2" >
+                                            {% if not fos_message_is_read(thread.lastMessage) %}{{ 'profile.message.unread'|trans }}
 
-                $('#{{ thread.id }}').on('click', function(){
-                    var message = "<h2>Objet: {{ thread.subject }}</h2>{% for message in thread.messages %}<br/><div class=\"messenger_thread_message\"><div class=\"messenger_thread_message_info\">{% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle'%}message_info{% endtrans %}</div><div class=\"messenger_thread_message_body\" id=\"message_{{ message.id }}\">{{ message.body }}</div> </div>{% endfor %}<h3>Reply</h3><form action=\"{{ url('message_reply', {'threadId': thread.id}) }}\" method=\"post\"><input name='reply' type=\"text\"><input type=\"submit\"/></form>";
-                    $('#cont').html(message);
+                                            {% endif %}
 
-                    $.ajax({
-                        url: "{{ path('message_read', { 'threadId': thread.id }) }}",
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <small>{{ 'profile.message.last'|trans }}{% trans with {'%date%': thread.lastMessage.createdAt|date} from 'FOSMessageBundle' %}on{% endtrans %}</small>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </a>
+                            </li>
+                        {% endif %}
+                    <script>
 
-                        success: function(){ 
-                        },
-                        error: function() { 
-                        },
+                    $('#{{ thread.id }}').on('click', function(){
+                        var message = "<h2>Objet: {{ thread.subject }}</h2>{% for message in thread.messages %}<br/><div class='messenger_thread_message'<div class='messenger_thread_message_info'>{% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle'%}message_info{% endtrans %}</div><div class='messenger_thread_message_body' id='message_{{ message.id }}'>{{ message.body }}</div> </div>{% endfor %}<h3>Reply</h3><form action='{{ url('message_reply', {'threadId': thread.id}) }}'' method='post'><textarea name='reply' type='text'></textarea></br><input class='btn btn-success' type='submit' value='{{ 'profile.message.send'|trans }}'/><span><a href='{{ path('message_delete', { 'threadId': thread.id }) }}'><button type='button' class='btn btn-warning'><i class='fa fa-trash-o' aria-hidden='true'></i></button></a></span></form>";
+                        $('#cont').html(message);
+
+                        $.ajax({
+                            url: "{{ path('message_read', { 'threadId': thread.id }) }}",
+
+                            success: function(){ 
+                            },
+                            error: function() { 
+                            },
+                        });
                     });
-                });
-                </script>
+
+
+                    </script>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
+            {% endif %}   
             </ul>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -76,6 +86,33 @@
 <script>
     $("#newMess").click(function(){
         $("#formNewMess").toggle(500);
+    });
+
+    $('#recipient').on('keyup', function(e){
+        console.log('ee');
+            var input = $('#recipient');
+            var motcle = $('#recipient').val();
+            var DATA = 'motcle=' + motcle;
+        if(motcle.length >= 2){
+            $.ajax({
+                url: "{{ path('site_main_userAutocomplete') }}",
+                type: 'GET',
+                datatype: 'json',
+                data : DATA,
+                success : function(donnees){
+                    console.log(donnees);
+                    var tab =[];
+                    for(var i= 0; i < donnees.length; i++)
+                    {
+                        tab.push(donnees[i].username);
+                    }
+                    console.log(tab);
+                    input.autocomplete({
+                    source: tab
+                    });
+                }
+            });
+        }
     });
 </script>
 
