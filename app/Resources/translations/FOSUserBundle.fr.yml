@@ -132,3 +132,13 @@ series:
         button_add: 'Ajouter une personne'
         button_delete: 'Supprimer la personne'
         firsname_actor: 'Prénom'
+
+index:
+    discover:
+        title: 'Découvrez !'
+        text: 'So What Séries recense et vous informe sur les séries TV'
+        button: 'Consulter les séries'
+    discuss:
+        title: 'Echangez !'
+        text: 'Connectez-vous pour donner votre avis et échanger'
+        button: 'Créer votre compte'
