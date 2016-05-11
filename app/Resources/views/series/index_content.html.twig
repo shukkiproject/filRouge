@@ -1,16 +1,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
-    <ul>
-        <li>
-            <a href="{{ path('series_new') }}">{{ 'series.propose'|trans }}</a>
-        </li>
-    </ul>
-
-
-    {% for s in series %}
-        <figure>
-            <a href="{{ path('series_show', { 'id': s.id }) }}"><img src="{{ asset('images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}" height=300 /></a>
-            <figcaption>{{ s.name }}</figcaption>
-            
-        </figure>
-
-    {% endfor %}
+	    {% for s in series %}
+	        <figure class="col-xs-6 col-md-3">
+	            <a class="thumbnail" href="{{ path('series_show', { 'id': s.id }) }}"><img src="{{ asset('images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}" height=250 /></a>
+<!-- 	            <figcaption><b>{{ s.name }}</b></figcaption> -->
+	        </figure>
+	    {% endfor %}

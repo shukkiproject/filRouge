@@ -34,23 +34,21 @@
             {{ form_errors(form.language) }}
             {{ form_widget(form.language, {'attr': {'class': 'form-control'}}) }}<br>
 
-        </div>
+        </div
             <h3>{{ 'series.casts.title'|trans }}</h3>
-            <ul class="persons" data-prototype="{{ form_widget(form.persons.vars.prototype)|e}}">
+            <div class="persons form-group" data-prototype="{{ form_widget(form.persons.vars.prototype)|e}}">
                 {# iterate over each existing tag #}
                 {% for person in form.persons %}
                     {{ form_label(person.firstname, 'series.casts.firstname'|trans) }}
-                    {{ form_errors(person.firstname) }}
-                    {{ form_widget(person.firstname, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_widget(person.firstname) }}
                     {{ form_label(person.lastname) }}
-                    {{ form_errors(person.lastname) }}
-                    {{ form_widget(person.lastname, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_widget(person.lastname) }}
                     {{ form_label(person.character) }}
-                    {{ form_errors(person.character) }}
-                    {{ form_widget(person.character, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_widget(person.character) }}
+
                 {% endfor %}
                 {% do form.persons.setRendered %} 
-            </ul>
+            </div>
                 
 
             <input type="submit" class="btn btn-default" value="Create" />
@@ -77,9 +75,9 @@ var $newLinkLi = $('<button></button>').append($addPersonLink);
 
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of persons
-    $collectionHolder = $('ul.persons');
+    $collectionHolder = $('div.persons');
 
-    // add the "add a person" anchor and li to the persons ul
+    // add the "add a person" anchor and li to the persons div
     $collectionHolder.append($newLinkLi);
 
     // count the current form ipersonnputs we have (e.g. 2), use that as the new

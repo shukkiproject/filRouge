@@ -2,7 +2,10 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block body %}
-<h1>{{ 'series.list'|trans }}</h1>
+<div class="titrePage">
+	<h1>{{ 'series.list'|trans }}</h1>
+	<a class="btn btn-primary" href="{{ path('series_new') }}">{{ 'series.propose'|trans }}</a>
+</div>
 {{ include('series/index_content.html.twig', { 'series': series }) }}
 
 {% endblock %}

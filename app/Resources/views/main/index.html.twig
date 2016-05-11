@@ -1,9 +1,8 @@
 {% extends 'layout.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
 
 {% block body %}
 
-<div class="container" id="carousel-SoWath">
-  <br>
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
@@ -45,7 +44,6 @@
         <img class="hidden-xs" src="http://thetvdb.com/banners/graphical/80096-g2.jpg" alt="Tengen Toppa Gurren Lagann" width="460" height="345">
         <img class = "visible-xs" src="http://thetvdb.com/banners/posters/80096-8.jpg" alt="Tengen Toppa Gurren Lagann" width="460" height="345">
       </div>
-    </div>
 
     <!-- Left and right controls -->
     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -63,21 +61,21 @@
     ================================================== -->
     <!-- Wrap the rest of the page in another container to center all the content. -->
 
-    <div class="container marketing">
+    <div class="marketing">
 
-      <!-- Three columns of text below the carousel -->
+      <!-- Two columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-6">
           <i class="fa fa-archive fa-3x" color='grey' aria-hidden="true"></i>
-          <h2>Découvrez !</h2>
-          <p>SoWhat Séries recense et vous informe sur les séries TV</p>
-          <p><a class="btn btn-primary" href="{{ path('series_index')}}" role="button">Consulter les séries &raquo;</a></p>
+          <h2>{{ 'index.discover.title'|trans }}</h2>
+          <p>{{ 'index.discover.text'|trans }}</p>
+          <p><a class="btn btn-primary" href="{{ path('series_index')}}" role="button">{{ 'index.discover.button'|trans }} &raquo;</a></p>
         </div><!-- /.col-lg-6 -->
         <div class="col-lg-6">
           <i class="fa fa-comments fa-3x" aria-hidden="true"></i>
-          <h2>Echangez !</h2>
-          <p>Connectez-vous pour donnner votre avis et échanger</p>
-          <p><a class="btn btn-info" type="button"href="{{ path('fos_user_registration_register')}}" role="button">Créer votre compte &raquo;</a></p>
+          <h2>{{ 'index.discuss.title'|trans }}</h2>
+          <p>{{ 'index.discuss.text'|trans }}</p>
+          <p><a class="btn btn-info" type="button"href="{{ path('fos_user_registration_register')}}" role="button">{{ 'index.discuss.button'|trans }} &raquo;</a></p>
         </div><!-- /.col-lg-6 -->
       </div><!-- /.row -->
     </div>
@@ -88,5 +86,7 @@
    {% endfor %}
 </div>
 
+
    
 {% endblock %}
+
