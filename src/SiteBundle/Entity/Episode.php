@@ -38,16 +38,9 @@ class Episode
     /**
      * @var text
      *
-     * @ORM\Column(name="title_en", type="text")
+     * @ORM\Column(name="title", type="text")
      */
-    private $titleEn;
-
-    /**
-     * @var text
-     *
-     * @ORM\Column(name="title_fr", type="text")
-     */
-    private $titleFr;
+    private $title;
 
     /**
      * @var text
