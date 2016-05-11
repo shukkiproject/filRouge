@@ -19,16 +19,19 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  */
 class MainController extends Controller
 {
-  /**
+    /**
      * @Route("/{_locale}", defaults={"_locale": "fr"}, requirements={"_locale": "en|fr"}, name="site_main_index")
      */
     public function indexAction(){
         $em = $this->getDoctrine()->getManager();
         $recentComments = $em->getRepository('SiteBundle:Comment')->recentComments();
+        $recentSeries = $em->getRepository('SiteBundle:Series')->recentSeries();
 
         return $this->render('main/index.html.twig', array(
-            'recentComments' => $recentComments));
-    } 
+            'recentComments' => $recentComments, 'recentSeries' => $recentSeries ));
+
+    }
+
 
     /**
      * @Route("/language/{_locale}", defaults={"_locale": "fr"}, requirements={"_locale": "en|fr"}, name="site_main_language")

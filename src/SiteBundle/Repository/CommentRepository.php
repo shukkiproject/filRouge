@@ -31,4 +31,5 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
 		->getQuery()
 		->getResult();
 	}
+
 }

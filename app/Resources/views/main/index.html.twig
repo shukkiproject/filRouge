@@ -65,13 +65,13 @@
 
       <!-- Two columns of text below the carousel -->
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6 div-tuto-home">
           <i class="fa fa-archive fa-3x" color='grey' aria-hidden="true"></i>
           <h2>{{ 'index.discover.title'|trans }}</h2>
           <p>{{ 'index.discover.text'|trans }}</p>
           <p><a class="btn btn-primary" href="{{ path('series_index')}}" role="button">{{ 'index.discover.button'|trans }} &raquo;</a></p>
         </div><!-- /.col-lg-6 -->
-        <div class="col-lg-6">
+        <div class="col-lg-6 div-tuto-home">
           <i class="fa fa-comments fa-3x" aria-hidden="true"></i>
           <h2>{{ 'index.discuss.title'|trans }}</h2>
           <p>{{ 'index.discuss.text'|trans }}</p>
@@ -82,11 +82,14 @@
 
 <div>
    {% for comment in recentComments %}
-      <p>{{ comment.user }} has commented on  {{ comment.series }}</p>
+      <a href="{{ path('series_show', { 'id': comment.series.id }) }}" ><b>{{ comment.user }}</b> has commented on <b>{{ comment.series }}</b> </a><br>
    {% endfor %}
 </div>
-
-
-   
+<div>
+   {% for series in recentSeries %}
+      <a href="{{ path('series_show', { 'id': series.id }) }}" ><b>{{ series.name }}</b> was added</a><br>
+   {% endfor %}
+</div>
+  
 {% endblock %}
 

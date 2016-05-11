@@ -62,4 +62,25 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
 		->getQuery()
 		->getResult();
 	}
+
+	public function recentSeries(){
+
+		//order by the most recent comments
+		return $this->createQueryBuilder('series')
+		->orderBy('series.date', 'DESC')
+	       ->setFirstResult(0)
+	       ->setMaxResults(5)		
+		->getQuery()
+		->getResult();
+	}
+
+	// public function mostCommentedSeries(){
+
+	// 	//order by the most commented series
+	// 	return $this->createQueryBuilder('series')
+	// 	->addSelect('COUNT(comments)')
+	// 	->leftJoin('series.comments', 'comments')
+	// 	->getQuery()
+	// 	->getResult();
+	// }
 }
