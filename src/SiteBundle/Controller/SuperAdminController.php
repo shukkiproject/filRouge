@@ -20,7 +20,7 @@ class SuperAdminController extends Controller
      */
     public function indexAction()
     {
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unauthorized to access this page!');
         $userManager = $this->get('fos_user.user_manager');
         $users=$userManager->findUsers();
 
@@ -34,7 +34,7 @@ class SuperAdminController extends Controller
      */
     public function promoAdminAction($username)
     {
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unauthorized to access this page!');
 
         $userManager = $this->get('fos_user.user_manager');
 
@@ -54,7 +54,7 @@ class SuperAdminController extends Controller
      */
     public function demoteAdminAction($username)
     {
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unauthorized to access this page!');
 
         $userManager = $this->get('fos_user.user_manager');
 
@@ -74,7 +74,7 @@ class SuperAdminController extends Controller
     //  */
     // public function promoSuperAction($username)
     // {
-    //     $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this super admin page!');
+    //     $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unauthorized to access this page!');
         
     //     $userManager = $this->get('fos_user.user_manager');
 
@@ -92,7 +92,7 @@ class SuperAdminController extends Controller
      */
     public function moderatorAction()
     {
-        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unable to access this moderator page!');
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
 
         $userManager = $this->get('fos_user.user_manager');
 

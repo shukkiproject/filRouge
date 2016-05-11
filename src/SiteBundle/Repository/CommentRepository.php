@@ -20,4 +20,15 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
 		->getQuery()
 		->getResult();
 	}
+
+	public function recentComments(){
+
+		//order by the most recent comments
+		return $this->createQueryBuilder('comment')
+		->orderBy('comment.date', 'DESC')
+	       ->setFirstResult(0)
+	       ->setMaxResults(5)		
+		->getQuery()
+		->getResult();
+	}
 }

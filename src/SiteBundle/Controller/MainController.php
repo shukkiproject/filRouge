@@ -22,22 +22,24 @@ class MainController extends Controller
   /**
      * @Route("/{_locale}", defaults={"_locale": "fr"}, requirements={"_locale": "en|fr"}, name="site_main_index")
      */
-    public function indexAction(Request $request){
-        $newLocale = $request->getLocale();   
-        return $this->render('main/index.html.twig');
+    public function indexAction(){
+        $em = $this->getDoctrine()->getManager();
+        $recentComments = $em->getRepository('SiteBundle:Comment')->recentComments();
+
+        return $this->render('main/index.html.twig', array(
+            'recentComments' => $recentComments));
     } 
 
     /**
-     * @Route("/{_locale}", defaults={"_locale": "fr"}, requirements={"_locale": "en|fr"}, name="site_main_language")
+     * @Route("/language/{_locale}", defaults={"_locale": "fr"}, requirements={"_locale": "en|fr"}, name="site_main_language")
      */
-    public function languageAction(Request $request){
-        $newLocale = $request->getLocale();   
+    public function languageAction($_locale){
+
+        $newLocale = $_locale;   
         $url = $this->getRequest()->headers->get("referer");
-        var_dump($request);
-        die;
         if (isset($url)) {
         $oldLocale = ($newLocale==='en')? 'fr' : 'en';   
-        //replace the old by te new, even if it's the same language, it w'ont be affected.     
+        //replace the old locale by the new, even if it's the same language, it w'ont be affected.     
         $newUrl= str_replace($oldLocale, $newLocale, $url);
 
         return new RedirectResponse($newUrl); 

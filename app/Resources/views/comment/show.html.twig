@@ -1,11 +1,13 @@
  <h3>Comments</h3>
     {% for comment in series.comments %}
             <div class="media">
-                  <div class="media-left">
-                    <a href="{{ path('fos_user_profile_show', { 'id': comment.user.id }) }}">
-                      <img class="media-object img-reponsive img-rounded pull-left" src="{{ asset('images/users/' ~ comment.user.getImageName()) }}" alt="{{ comment.user }}" width="100">
-                    </a>
-                  </div>
+              <div class="media-left">
+                  <a href="{{ path('user_show', { 'id': comment.series.id }) }}">
+                      <div class="center-cropped" style="background-image: url('{{ asset("images/users/" ~ comment.user.getImageName()) }}');">
+                  </a>
+              </div>
+            </div>
+            
               <div class="media-body">
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
                 <h4 class="media-heading">{{ comment.user }} <small><i>Posted on {% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>

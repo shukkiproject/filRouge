@@ -35,7 +35,7 @@ class SeriesType extends AbstractType
                 ))
             ->add('synopsis', 'textarea')
             ->add('persons', CollectionType::class, array('entry_type' => PersonType::class, 'allow_add' => true, 'allow_delete' => true, 'by_reference' => false,))
-            ->add('language','choice', array('choices'  => array('English' => 'English', 'Français' => 'Français')))
+            ->add('language','choice', array('choices'  => array('en' => 'English', 'fr' => 'Français')))
         ;
     }
     

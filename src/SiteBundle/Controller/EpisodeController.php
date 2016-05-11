@@ -85,7 +85,7 @@ class EpisodeController extends Controller
      */
     public function editAction(Request $request, Episode $episode)
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
         $deleteForm = $this->createDeleteForm($episode);
         $editForm = $this->createForm('SiteBundle\Form\EpisodeType', $episode);
         $editForm->handleRequest($request);
@@ -113,7 +113,7 @@ class EpisodeController extends Controller
      */
     public function deleteAction(Request $request, Episode $episode)
     {
-            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this admin page!');
+            $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
             $em = $this->getDoctrine()->getManager();
             $series=$episode->getSeason()->getSeries();
             $em->remove($episode);
