@@ -1,7 +1,9 @@
 {% trans_default_domain 'FOSUserBundle' %}
 	    {% for s in series %}
 	        <figure class="col-xs-6 col-md-3">
-	            <a class="thumbnail" href="{{ path('series_show', { 'id': s.id }) }}"><img src="{{ asset('images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}" height=250 /></a>
-<!-- 	            <figcaption><b>{{ s.name }}</b></figcaption> -->
+	            <a class="thumbnail" href="{{ path('series_show', { 'id': s.id }) }}">
+	            	<img class="essai5" src="{{ asset('images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}"/>
+	            </a>
+<!-- 	        <figcaption><b>{{ s.name }}</b></figcaption> -->
 	        </figure>
 	    {% endfor %}
