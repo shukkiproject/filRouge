@@ -46,6 +46,8 @@ profile:
         unread: 'NOUVEAU !!!'
         none: 'Vous n''avez pas de messages'
     series: 'Ma note :'
+    friend:
+        quit: 'Enlever de la liste d''amis'
 
 change_password:
     submit: 'Modifier le mot de passe'

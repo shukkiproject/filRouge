@@ -101,18 +101,8 @@ class User extends BaseUser implements ParticipantInterface
     private $date;
 
     /**
-     * @var string
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="myFriends")
-     */
-    private $friendsWithMe;
-
-    /**
-     * @var string
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="friendsWithMe")
-     * @ORM\JoinTable(name="friends",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
-     *      )
+     * @var array
+     * @ORM\Column(name="friends", type="array",  nullable=true)
      */
     private $myFriends;
 
@@ -159,8 +149,7 @@ class User extends BaseUser implements ParticipantInterface
     public function __construct()
     {
         parent::__construct();
-        $this->friendsWithMe = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->myFriends = new \Doctrine\Common\Collections\ArrayCollection();
+
     }
 
     /**
@@ -559,49 +548,12 @@ class User extends BaseUser implements ParticipantInterface
     }
 
     /**
-     * Add friendsWithMe
-     *
-     * @param \SiteBundle\Entity\User $friendsWithMe
-     *
-     * @return User
-     */
-    public function addFriendsWithMe(\SiteBundle\Entity\User $friendsWithMe)
-    {
-        $this->friendsWithMe[] = $friendsWithMe;
-
-        return $this;
-    }
-
-    /**
-     * Remove friendsWithMe
-     *
-     * @param \SiteBundle\Entity\User $friendsWithMe
-     */
-    public function removeFriendsWithMe(\SiteBundle\Entity\User $friendsWithMe)
-    {
-        $this->friendsWithMe->removeElement($friendsWithMe);
-    }
-
-    /**
-     * Get friendsWithMe
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getFriendsWithMe()
-    {
-        return $this->friendsWithMe;
-    }
-
-    /**
      * Add myFriend
      *
-     * @param \SiteBundle\Entity\User $myFriend
-     *
-     * @return User
      */
-    public function addMyFriend(\SiteBundle\Entity\User $myFriend)
+    public function addMyFriend($id)
     {
-        $this->myFriends[] = $myFriend;
+        $this->myFriends[] = $id;
 
         return $this;
     }
@@ -609,17 +561,16 @@ class User extends BaseUser implements ParticipantInterface
     /**
      * Remove myFriend
      *
-     * @param \SiteBundle\Entity\User $myFriend
      */
-    public function removeMyFriend(\SiteBundle\Entity\User $myFriend)
+    public function removeMyFriend($id)
     {
-        $this->myFriends->removeElement($myFriend);
+        $index = array_search($id, $this->myFriends);
+        array_splice($this->myFriends, $index, 1);   
     }
 
     /**
      * Get myFriends
      *
-     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMyFriends()
     {

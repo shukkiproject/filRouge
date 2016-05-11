@@ -56,9 +56,14 @@ class UserController extends Controller
         // Removes duplicate values
         $threads = array_unique($threads,SORT_REGULAR);
 
+        $friendsId = $user->getMyFriends();
+        $friends= $em->getRepository('SiteBundle:User')->findById($friendsId);
+
+
         return $this->render('users/showProfil.html.twig', array(
             'user' => $user,
             'threads' => $threads,
+            'friends' => $friends,
         ));
     }
 
@@ -72,9 +77,13 @@ class UserController extends Controller
     {   
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('SiteBundle:User')->findOneById($id);
+
+        $friendsId = $user->getMyFriends();
+        $friends= $em->getRepository('SiteBundle:User')->findById($friendsId);
         
         return $this->render('users/showUser.html.twig', array(
             'user' => $user,
+            'friends' => $friends,
         ));
     }
 
@@ -86,12 +95,44 @@ class UserController extends Controller
      */
     public function friendAction($id)
     {   
-        $em = $this->getDoctrine()->getManager();
-        $friend = $em->getRepository('SiteBundle:User')->findOneById($id);
-        $user = $this->getUser();
 
-        $user->addMyFriend($friend);
-        $friends = $user->getMyFriends();
-        var_dump($friends);die;
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $user->addMyFriend($id);
+
+        $friend = $em->getRepository('SiteBundle:User')->findOneById($id);
+        $userId = $user->getId();
+
+        $friend->addMyFriend($userId);
+
+        $em->persist($user);
+        $em->persist($friend);
+        $em->flush();
+
+        return $this->redirectToRoute('user_profil');
+    }
+
+    /**
+     * Remove Friends
+     *
+     * @Route("/removefriend/{id}", name="user_removefriend")
+     * @Method("GET")
+     */
+    public function removeFriendAction($id)
+    {   
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+        $user->removeMyFriend($id);
+
+        $friend = $em->getRepository('SiteBundle:User')->findOneById($id);
+        $userId = $user->getId();
+        $friend->removeMyFriend($userId);
+
+        $em->persist($user);
+        $em->persist($friend);
+        $em->flush();
+
+        return $this->redirectToRoute('user_profil');
     }
 }
