@@ -98,10 +98,16 @@
 <!-- comments --> 
 <!-- users who followed this series --> 
             <div id="follow" class="tab-pane fade">
-                <h3>Users</h3>
+
                 {% for user in series.followedBy %}
-                        <p id='{{user.username}}'>{{user.username}}</p>
-                    {% endfor %}
+                        <a id='{{user.username}}' href="{{ path('user_show', { 'id': user.id }) }}">{{user.username}}</a>
+                        <div class="col-lg-2 col-md-3 col-xs-4 thumb">
+                        <a class="thumbnail" href="{{ path('user_show', { 'id': user.id }) }}">
+                    <div class="center-cropped" style="background-image: url('{{ asset("images/users/" ~ user.getImageName()) }}');"></div>
+                    <div class="text-center">{{ user.username }}</div>
+                </a>
+                </div>
+                {% endfor %}
             </div>
 <!-- users who followed this series -->
         </div>
@@ -116,7 +122,7 @@
                             if (data.status==='Follow' || data.status==='Suivre') {
                                 $("#{{ app.user.username }}").remove(); 
                             } else {
-                                $("#follow").append( '<p id="{{app.user.username}}">{{ app.user.username }}</p>' );
+                                $("#follow").append( '<a id="{{app.user.username}}" href="{{ path("user_show", { "id": app.user.id }) }}">{{ app.user.username }}</a>' );
                             }
                         },
                         error: function() { 

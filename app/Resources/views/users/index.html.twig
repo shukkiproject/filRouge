@@ -1,20 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1>Users List</h1>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <h1 class="page-header">Users</h1>
+    </div>
 
     {% for user in users %}
-     
-            {# <a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.username }}
 
-             <img src="{{ series.poster }}" alt="{{ series.name }}" height=300 />
-            </a>
-            #}
- 			<div class="media-left">
-                    <a href="{{ path('user_show', { 'id': user.id }) }}">
-                    <img class="media-object img-reponsive img-rounded pull-left" src="{{ asset('bundles/framework/images/users/' ~ user.getImageName()) }}" alt="{{ user.username }}" width="100">
-                    {{ user.username }}</a>
-                  </div>
+    <div class="col-lg-2 col-md-3 col-xs-4 thumb">
+        <div class="media">
+            <div class="media-left">       
+                <a class="thumbnail" href="{{ path('user_show', { 'id': user.id }) }}">
+                    <div class="center-cropped" style="background-image: url('{{ asset("images/users/" ~ user.getImageName()) }}');"></div>
+                    <div class="text-center">{{ user.username }}</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
     {% endfor %}
 
 {% endblock %}
