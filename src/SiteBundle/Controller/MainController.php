@@ -26,9 +26,11 @@ class MainController extends Controller
         $em = $this->getDoctrine()->getManager();
         $recentComments = $em->getRepository('SiteBundle:Comment')->recentComments();
         $recentSeries = $em->getRepository('SiteBundle:Series')->recentSeries();
+        $popularSeries = $em->getRepository('SiteBundle:Series')->popularSeries();
+        $mostCommentedSeries = $em->getRepository('SiteBundle:Series')->mostCommentedSeries();
 
         return $this->render('main/index.html.twig', array(
-            'recentComments' => $recentComments, 'recentSeries' => $recentSeries ));
+            'recentComments' => $recentComments, 'recentSeries' => $recentSeries, 'popularSeries' => $popularSeries, 'mostCommentedSeries' => $mostCommentedSeries));
 
     }
 
