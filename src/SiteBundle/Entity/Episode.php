@@ -45,9 +45,17 @@ class Episode
     /**
      * @var text
      *
-     * @ORM\Column(name="synopsis", type="text", length=255)
+     * @ORM\Column(name="synopsisEn", type="text", length=65535)
      */
-    private $synopsis;
+    private $synopsisEn;
+
+    /**
+     * @var text
+     *
+     * @ORM\Column(name="synopsisFr", type="text", length=65535)
+     */
+    private $synopsisFr;
+
 
     /**
      * @var string
