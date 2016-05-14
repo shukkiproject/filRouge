@@ -61,6 +61,12 @@ class SeriesController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $series->setValidated(false);
+            foreach ($series->getPersons() as $person) {
+            
+                $person->setValidated(false);
+                $em->persist($person);
+            } 
+
             $em->persist($series);
             $em->flush();
         

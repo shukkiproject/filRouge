@@ -102,8 +102,10 @@ class SuperAdminController extends Controller
 
         $series = $em->getRepository('SiteBundle:Series')->findByValidated(false);
         $persons = $em->getRepository('SiteBundle:Person')->findByValidated(false);
-        // var_dump($series);
+
+        // var_dump($persons);
         // die;
+        
         return $this->render('admin/moderator.html.twig', array('users' => $users, 'series' => $series, 'persons' => $persons ));
         
     }

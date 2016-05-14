@@ -10,8 +10,12 @@
 
 {{ include('series/index_content.html.twig', { 'series': series }) }}
 
+
+
 <h1>Casts not validated</h1>
 	{% if persons %}
-		{{ include('person/index.html.twig', { 'persons': persons }) }}
+		{{ include('person/admin.html.twig', { 'persons': persons }) }}
 	{% endif %}
+
+	
 {% endblock %}
