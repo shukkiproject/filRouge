@@ -30,10 +30,10 @@
                             {% if person.validated==0 %} 
                                <a href="{{ path('person_validate', { 'id': person.id }) }}"><button type="button" class="btn btn-success">{{ 'person.validate'|trans }}</button></a>
                             {% endif %}
-                        
+                    
                             <a href="{{ path('person_edit', { 'id': person.id }) }}"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
                             <a href="{{ path('person_delete', { 'id': person.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
-                            
+                        
                         </div>
 <!-- buttons for person-->
                     </td> 

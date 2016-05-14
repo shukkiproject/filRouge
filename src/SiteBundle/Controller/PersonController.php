@@ -12,14 +12,14 @@ use SiteBundle\Form\PersonType;
 /**
  * Person controller.
  *
- * @Route("/person")
+ * @Route("/")
  */
 class PersonController extends Controller
 {
     /**
      * Lists all Person entities.
      *
-     * @Route("/", name="person_index")
+     * @Route("/person", name="person_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -36,7 +36,7 @@ class PersonController extends Controller
     /**
      * Creates a new Person entity.
      *
-     * @Route("/new", name="person_new")
+     * @Route("/person/new", name="person_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -62,7 +62,7 @@ class PersonController extends Controller
     /**
      * Finds and displays a Person entity.
      *
-     * @Route("/{id}", name="person_show")
+     * @Route("/person/{id}", name="person_show")
      * @Method("GET")
      */
     public function showAction(Person $person)
@@ -78,7 +78,7 @@ class PersonController extends Controller
      /**
          * Validate an existing Person entity by admin.
          *
-         * @Route("/{id}/validate", name="person_validate")
+         * @Route("/person/{id}/validate", name="person_validate")
          * @Method("GET")
          */
         public function validateAction(Person $person)
@@ -89,16 +89,19 @@ class PersonController extends Controller
 
             if (($person->getOldId())!==null) {
                 $oldPerson = $em->getRepository('SiteBundle:Person')->find($person->getOldId());
-                $oldPerson->setLastName($person->getLastName());
-                $oldPerson->setFirstName($person->getFirstName());
-                $oldPerson->setCharacter($person->getCharacter());
-                $oldPerson->setValidated(true);
+                if (isset($oldPerson)) {
 
-                $em->persist($oldPerson);
-                $em->remove($person);
-                $em->flush();
-                // TODO: RETURN TO CURRENT SERIES
-                return $this->redirectToRoute('moderator_index');
+                    $oldPerson->setLastname($person->getLastname());
+                    $oldPerson->setFirstname($person->getFirstname());
+                    $oldPerson->setCharacter($person->getCharacter());
+                    $oldPerson->setValidated(true);
+
+                    $em->persist($oldPerson);
+                    $em->remove($person);
+                    $em->flush();
+                    return $this->redirectToRoute('moderator_index');
+                }
+       
             }
                 $person->setValidated(true);
                 $em->persist($person);
@@ -110,17 +113,11 @@ class PersonController extends Controller
     /**
      * Displays a form to edit an existing Person entity.
      *
-     * @Route("/{id}/edit", name="person_edit")
+     * @Route("/person/{id}/edit", name="person_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Person $person)
     {
-        
-        $url = $this->getRequest()->headers->get("referer");
-        $seriesId = strrpos($url, '/');
-        var_dump($seriesId);
-        die;
-
         $editForm = $this->createForm('SiteBundle\Form\PersonType', $person);
         $editForm->handleRequest($request);
 
@@ -129,12 +126,11 @@ class PersonController extends Controller
             $em->persist($person);
             $em->flush();
 
-            return $this->redirectToRoute('series_show', array('id' => $seriesId));
+            return $this->redirectToRoute('moderator_index');
         }
 
         return $this->render('person/edit.html.twig', array(
             'person' => $person,
-            'seriesId' => $seriesId,
             'edit_form' => $editForm->createView(),
         ));
     }
@@ -144,16 +140,16 @@ class PersonController extends Controller
     /**
      * Deletes a Person entity.
      *
-     * @Route("/{id}/delete", name="person_delete")
+     * @Route("/person/{id}/delete", name="person_delete")
      * @Method("GET")
      */
-    public function deleteAction(Person $person, $seriesId)
+    public function deleteAction(Person $person)
     {
             $em = $this->getDoctrine()->getManager();
             $em->remove($person);
             $em->flush();
 
-        return $this->redirectToRoute('series_show', array('id' => $seriesId));
+        return $this->redirectToRoute('moderator_index');
     }
 
     /**
