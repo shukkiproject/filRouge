@@ -74,13 +74,32 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
 		->getResult();
 	}
 
-	// public function mostCommentedSeries(){
+	public function popularSeries(){
 
-	// 	//order by the most commented series
-	// 	return $this->createQueryBuilder('series')
-	// 	->addSelect('COUNT(comments)')
-	// 	->leftJoin('series.comments', 'comments')
-	// 	->getQuery()
-	// 	->getResult();
-	// }
+		//order by the popular series
+		return $this->createQueryBuilder('s')
+		->addSelect('COUNT(f) AS HIDDEN nbfollower' , 's')
+		->leftJoin('s.followedBy', 'f')
+		->orderBy('nbfollower', 'DESC')
+		->groupBy('s')
+	       ->setFirstResult(0)
+	       ->setMaxResults(5)		
+		->getQuery()
+		->getResult();
+	}
+
+	public function mostCommentedSeries(){
+
+		//order by the popular series
+		return $this->createQueryBuilder('s')
+		->addSelect('COUNT(f) AS HIDDEN nbComment' , 's')
+		->leftJoin('s.comments', 'f')
+		->orderBy('nbComment', 'DESC')
+		->groupBy('s')
+	       ->setFirstResult(0)
+	       ->setMaxResults(5)		
+		->getQuery()
+		->getResult();
+	}
+
 }
