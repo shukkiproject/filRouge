@@ -12,14 +12,14 @@ use SiteBundle\Form\PersonType;
 /**
  * Person controller.
  *
- * @Route("/")
+ * @Route("/person")
  */
 class PersonController extends Controller
 {
     /**
      * Lists all Person entities.
      *
-     * @Route("/person", name="person_index")
+     * @Route("/", name="person_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -36,7 +36,7 @@ class PersonController extends Controller
     /**
      * Creates a new Person entity.
      *
-     * @Route("/person/new", name="person_new")
+     * @Route("/new", name="person_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -62,7 +62,7 @@ class PersonController extends Controller
     /**
      * Finds and displays a Person entity.
      *
-     * @Route("/person/{id}", name="person_show")
+     * @Route("/{id}", name="person_show")
      * @Method("GET")
      */
     public function showAction(Person $person)
@@ -78,7 +78,7 @@ class PersonController extends Controller
      /**
          * Validate an existing Person entity by admin.
          *
-         * @Route("/person/{id}/validate", name="person_validate")
+         * @Route("/{id}/validate", name="person_validate")
          * @Method("GET")
          */
         public function validateAction(Person $person)
@@ -110,11 +110,17 @@ class PersonController extends Controller
     /**
      * Displays a form to edit an existing Person entity.
      *
-     * @Route("/series/{seriesId}/person/{id}/edit", name="person_edit")
+     * @Route("/{id}/edit", name="person_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Person $person, $seriesId)
+    public function editAction(Request $request, Person $person)
     {
+        
+        $url = $this->getRequest()->headers->get("referer");
+        $seriesId = strrpos($url, '/');
+        var_dump($seriesId);
+        die;
+
         $editForm = $this->createForm('SiteBundle\Form\PersonType', $person);
         $editForm->handleRequest($request);
 
@@ -138,7 +144,7 @@ class PersonController extends Controller
     /**
      * Deletes a Person entity.
      *
-     * @Route("/series/{seriesId}/person/{id}/delete", name="person_delete")
+     * @Route("/{id}/delete", name="person_delete")
      * @Method("GET")
      */
     public function deleteAction(Person $person, $seriesId)

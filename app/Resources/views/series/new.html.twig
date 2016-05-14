@@ -22,17 +22,17 @@
             {{ form_errors(form.year) }}
             {{ form_widget(form.year, {'attr': {'class': 'form-control'}}) }}<br>
 
-            {{ form_label(form.synopsis) }}
-            {{ form_errors(form.synopsis) }}
-            {{ form_widget(form.synopsis, {'attr': {'class': 'form-control', 'placeholder': 'series.new.synopsis_placeholder'|trans }}) }}<br>
+            {{ form_label(form.synopsisEn) }}
+            {{ form_errors(form.synopsisEn) }}
+            {{ form_widget(form.synopsisEn, {'attr': {'class': 'form-control', 'placeholder': 'series.new.synopsis_placeholder'|trans }}) }}<br>
+
+            {{ form_label(form.synopsisFr) }}
+            {{ form_errors(form.synopsisFr) }}
+            {{ form_widget(form.synopsisFr, {'attr': {'class': 'form-control', 'placeholder': 'series.new.synopsis_placeholder'|trans }}) }}<br>
 
             {{ form_label(form.imageFile, 'series.new.image_file'|trans) }}
             {{ form_errors(form.imageFile) }}
             {{ form_widget(form.imageFile, {'attr': {'class': 'btn btn-default'}}) }}<br>
-
-            {{ form_label(form.language, 'series.new.language'|trans) }}
-            {{ form_errors(form.language) }}
-            {{ form_widget(form.language, {'attr': {'class': 'form-control'}}) }}<br>
 
         </div
             <h3>{{ 'series.casts.title'|trans }}</h3>
