@@ -59,7 +59,6 @@ class UserController extends Controller
         $friendsId = $user->getMyFriends();
         $friends= $em->getRepository('SiteBundle:User')->findById($friendsId);
 
-
         return $this->render('users/showProfil.html.twig', array(
             'user' => $user,
             'threads' => $threads,
@@ -78,9 +77,13 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('SiteBundle:User')->findOneById($id);
 
+        if ($user === $this->getUser()){
+            return $this->redirectToRoute('user_profil');
+        }
+
         $friendsId = $user->getMyFriends();
         $friends= $em->getRepository('SiteBundle:User')->findById($friendsId);
-        
+
         return $this->render('users/showUser.html.twig', array(
             'user' => $user,
             'friends' => $friends,

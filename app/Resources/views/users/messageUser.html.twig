@@ -24,7 +24,7 @@
             {% if not threads %}
                 <p>{{ 'profile.message.none'|trans }}</p>
             {% else %}
-                {% for thread in threads %}
+                {% for thread in threads|sort %}
                     {% for participant in thread.participants %}
                         {% if participant.username != user.username%}
                             <li>

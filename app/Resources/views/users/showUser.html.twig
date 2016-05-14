@@ -54,11 +54,16 @@
             </div>
 <!-- tab content series details -->
             <div id="series" class="tab-pane fade"></br>
+
                 {{ include('users/seriesUser.html.twig') }}
             </div>
 <!-- tab content series details -->
 <!-- tab content friends details -->
             <div id="friends" class="tab-pane fade"></br>
+            {{ dump(friends)}}
+            {% if  friends is empty %}
+            Pas encore d'amis
+            {% endfor %}
             {% for friend in friends  %}
                 <div class="media">
                     <div class="media-left">
