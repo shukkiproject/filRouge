@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="{{ _charset }}" />
+        <title>An Error Occurred: {{ status_text }}</title>
+    </head>
+    <body>
+        <img height="120" src="/images/Logo.png">
+        <h1>Oops! An Error Occurred</h1>
+        <h2>The server returned a "{{ status_code }} {{ status_text }}".</h2>
+
+        <p>
+            The requested page couldn't be located. Checkout for any URL
+            misspelling or <a href="/">return to the homepage</a>.
+        </p>
+    </body>
+</html>

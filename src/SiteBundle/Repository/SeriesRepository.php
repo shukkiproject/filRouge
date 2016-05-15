@@ -75,7 +75,7 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
 		->getResult();
 	}
 
-	public function popularSeries(){
+	public function mostFollowedSeries(){
 
 		//order by the popular series
 		return $this->createQueryBuilder('s')

@@ -20,7 +20,8 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "friendsofsymfony/message-bundle": "^1.2",
         "vich/uploader-bundle": "^1.0",
-        "phpunit/phpunit": "^5.3"
+        "phpunit/phpunit": "^5.3",
+        "knplabs/knp-paginator-bundle": "^2.5"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
