@@ -81,26 +81,26 @@
     </div>
 <div class="row DivHome">
   <div class="col-xs-12 col-sm-3 listHome">
-    <h4 class="titlelistHome">Les derniers commentaires</h4>
+    <h4 class="titlelistHome">{{ 'index.list.recent_comments'|trans }}</h4>
      {% for comment in recentComments %}
-        <a href="{{ path('series_show', { 'id': comment.series.id }) }}" ><b>{{ comment.user }}</b> has commented on <b>{{ comment.series }}</b> </a><br>
+        <a href="{{ path('series_show', { 'id': comment.series.id }) }}" ><b>{{ comment.user }}</b>{{ 'index.list.recent_comments_sentence'|trans }}<b>{{ comment.series }}</b> </a><br>
      {% endfor %}
   </div>
   <div class="col-xs-12 col-sm-3 listHome">
-  <h4 class="titlelistHome">Les séries ajoutées récemments</h4>
+  <h4 class="titlelistHome">{{ 'index.list.recent_series'|trans }}</h4>
      {% for series in recentSeries %}
-        <a href="{{ path('series_show', { 'id': series.id }) }}" ><b>{{ series.name }}</b> was added</a><br>
+        <a href="{{ path('series_show', { 'id': series.id }) }}" ><b>{{ series.name }}</b>{{ 'index.list.recent_series_sentence'|trans }}</a><br>
      {% endfor %}
   </div>
   <div class="col-xs-12 col-sm-3 listHome">
-    <h4 class="titlelistHome">Les séries les plus populaires</h4>
-     {% for series in popularSeries %}
+    <h4 class="titlelistHome">{{ 'index.list.followed_series'|trans }}</h4>
+     {% for series in mostFollowedSeries %}
         <span>{{ loop.index }}. </span>
         <a href="{{ path('series_show', { 'id': series.id }) }}" ><b>{{ series.name }}</b></a><br>
      {% endfor %}
   </div>
   <div class="col-xs-12 col-sm-3 listHome">
-    <h4 class="titlelistHome">Les séries les plus commentées</h4>
+    <h4 class="titlelistHome">{{ 'index.list.commented_series'|trans }}</h4>
      {% for series in mostCommentedSeries %}
         <span>{{ loop.index }}. </span>
         <a href="{{ path('series_show', { 'id': series.id }) }}" ><b>{{ series.name }}</b></a><br>

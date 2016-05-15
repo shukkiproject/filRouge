@@ -134,7 +134,7 @@ navbar:
         moderator: 'Moderator''s Page'
     home: 'Home'
     series:
-        index: 'Séries'
+        index: 'Series'
         all: 'All Series'
         add: 'Add a serie'
     season:
@@ -153,7 +153,7 @@ navbar:
 series:
     propose: 'Propose a new serie'
     back: 'Back to the list'
-    list: 'All Séries'
+    list: 'All Series'
     rating: 'Ratings'
     choose: 'Rate the serie'
     change: 'Propose Changes'
@@ -190,6 +190,15 @@ index:
         title: 'Discuss !'
         text: 'Login to review and exchange'
         button: 'Create your account'
+    list:
+        recent_comments:  'Recent comments'
+        recent_comments_sentence:  ' has commented on '
+        recent_series:  'The latest series'
+        recent_series_sentence:  ' was added'
+        followed_series:  'The most followed series'
+        commented_series:  'The most commented series'
+
+
 
 search:
     result: 'Search results : '

@@ -33,7 +33,7 @@ class Season
     /**
      * @var int
      *
-     * @ORM\Column(name="season", type="integer", unique=true)
+     * @ORM\Column(name="season", type="integer", unique=false)
      */
     private $season;
 

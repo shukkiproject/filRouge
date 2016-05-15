@@ -30,16 +30,23 @@ class SeriesController extends Controller
      * @Route("/", name="series_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $dql   = "SELECT s FROM SiteBundle:Series s";
+        $query = $em->createQuery($dql);
 
-        $series = $em->getRepository('SiteBundle:Series')->findByValidated(true);
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            8/*limit per page*/
+        );
 
-        return $this->render('series/index.html.twig', array(
-            'series' => $series,
-        ));
+        // parameters to template
+        return $this->render('series/index.html.twig', array('pagination' => $pagination));
     }
+
 
     /**
      * Creates a new Series entity.

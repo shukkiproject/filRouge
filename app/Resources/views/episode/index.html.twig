@@ -17,7 +17,11 @@
             <tr>
                 <td><a href="{{ path('episode_show', { 'id': episode.id }) }}">{{ episode.id }}</a></td>
                 <td>{{ episode.season }}</td>
-                <td>{{ episode.synopsis }}</td>
+                {# if app.request.getLocale()=='en' #}
+                <td>{{episode.synopsisEn}}</td>
+                {# else #}
+                <td>{{episode.synopsisFr}}</td>
+                {# endif #}
                 <td>
                     <ul>
                         <li>

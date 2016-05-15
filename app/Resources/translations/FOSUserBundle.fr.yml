@@ -170,7 +170,13 @@ index:
         title: 'Echangez !'
         text: 'Connectez-vous pour donner votre avis et échanger'
         button: 'Créer votre compte'
-
+    list:
+        recent_comments:  'Les derniers commentaires'
+        recent_comments_sentence:  ' a commenté '
+        recent_series:  'Les dernières séries'
+        recent_series_sentence:  ' a été ajoutée'
+        followed_series:  'Les séries les plus suivies'
+        commented_series:  'Les séries les plus commentés'
 search:
     result: 'Résultats de la recherche : '
     none: 'Aucun resultats'
