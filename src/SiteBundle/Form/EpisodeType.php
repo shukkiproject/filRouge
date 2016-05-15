@@ -19,7 +19,8 @@ class EpisodeType extends AbstractType
             ->add('season')
             ->add('episode')
             ->add('title')
-            ->add('synopsis')
+            ->add('synopsisEn')
+            ->add('synopsisFr')
 
         ;
     }

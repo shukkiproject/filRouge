@@ -27,7 +27,12 @@
                         {% endif %}                                                
                         </div>
 <!-- episode buttons : viewed/edit/delete --> 
-                        <p>{{episode.synopsis}}</p>
+                      
+                          {# if app.request.getLocale()=='en' #}
+                            <p>{{serie.synopsisEn}}</p>
+                          {# else #}
+                            <p>{{serie.synopsisFr}}</p>
+                          {# endif #}
                     </div>
                 </div>
             </div>

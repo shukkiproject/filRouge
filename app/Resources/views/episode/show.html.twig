@@ -13,10 +13,11 @@
                 <th>Season</th>
                 <td>{{ episode.season }}</td>
             </tr>
-            <tr>
-                <th>Synopsis</th>
-                <td>{{ episode.synopsis }}</td>
-            </tr>
+            {# if app.request.getLocale()=='en' #}
+                <p>{{serie.synopsisEn}}</p>
+              {# else #}
+                <p>{{serie.synopsisFr}}</p>
+              {# endif #}
         </tbody>
     </table>
 
