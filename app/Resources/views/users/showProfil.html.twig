@@ -22,6 +22,9 @@
                
             {% endif %}
             <h1 class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">{{ user.username }}</h1>
+            {% if user.askForFriends is not empty %}
+                     vous avez une nouvelle demande d'amis
+            {% endif %}
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
                 <a href="{{ path('fos_user_profile_edit')}}">
                     <button class="btn btn-danger">{{ 'profile.show.edit'|trans }}</button>

@@ -23,7 +23,14 @@
             {% endif %}
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
                 <h1 >{{ user.username }}</h1>
-                <a><button type="button" class="btn btn-warning" id="friend">{{ 'profile.user.friend'|trans }}</button></a>
+                {% if user.id in app.user.myAskForFriends %}
+                    demande envoyé
+                {% elseif user.id in app.user.myFriends%}
+                    Vous etes amis
+                {% else%}
+                    <a href="{{ path('user_askforfriend', { 'id': user.id }) }}"><button type="button" class="btn btn-warning">{{ 'profile.user.friend'|trans }}</button></a>
+                {% endif%}
+
             </div>
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
                 <button id="newMess" class='btn btn-success'>{{ 'profile.message.user'|trans }}</button>
@@ -100,20 +107,5 @@
         $("#formNewMess").toggle(500);
     });
 
-    $("#friend").on('click', function(){
-        $.ajax({
-            url: "{{ path('user_friend', { 'id': user.id }) }}",
-            success: function(){  
-                if ($("#friend").text()=='Became Friends') {
-                     $("#friend").text('You are friends');
-                } 
-                else {
-                    $("#friend").text('Became Friends');
-                }
-            },
-            error: function() { 
-            },
-        });
-    });
 </script>
 {% endblock %}
