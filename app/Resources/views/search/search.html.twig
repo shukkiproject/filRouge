@@ -10,7 +10,7 @@
     </ol>
 
     <h2>{{ 'search.result'|trans }}<strong><em>{{ search }}</em></strong></h2>
-    {% if  (series or episodes or users) is empty %}
+    {% if  (series or persons or users) is empty %}
         <h3>{{ 'search.none'|trans }}</h3>
     {% endif %}
     {% if series %}
@@ -36,31 +36,22 @@
             </div>
         </div>
     {% endif %}
-    {% if episodes %}
+    {% if persons %}
         <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-offset-2 col-md-8">
             <div class="">
                 <div class="">
-                    <h3 class=" text-center big">Episodes</h3>
+                    <h3 class=" text-center big">{{ 'search.users'|trans }}</h3>
                 </div>
                 <div class=" text-center">
-                    {% for episode in episodes %}
-                        <a href="{{ path('episode_show',{'id':episode.id}) }}">
-                            <div class="col-xs-12 col-sm-6">
-                                <div class="hidden-xs col-sm-3">
-                                        <img src="{{ asset('images/series/' ~ episode.season.serie.getImageName()) }}" class="img-responsive"/>
-                                </div>
-                                <div class="col-xs-12 col-sm-9">
-                                    <p class="big">{{ episode.season.serie.name }}</p>
-                                    <p class="text-left">
-                                        <strong>Saison :</strong> {{ episode.season }}
-                                        <span class="text-right"> <strong>Episode :</strong> {{ episode.episode }} </span>
-                                         </br>
-                                        <strong>Episode :</strong> {{ episode.title }} </br>
-                                    </p>
-                                </div>
+                    <div class="row">
+                        {% for person in persons %}
+                            <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+                                <a href="{{ path('person_show',{'id':person.id}) }}">
+                                    {{ person.lastname }} {{ person.firstname }}
+                                </a></br>Role : {{ person.character }}
                             </div>
-                        </a>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

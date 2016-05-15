@@ -67,12 +67,13 @@ class MainController extends Controller
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('SiteBundle:User')->searchMethod($search);
         $series = $em->getRepository('SiteBundle:Series')->searchMethod($search);
-        $episodes = $em->getRepository('SiteBundle:Episode')->searchMethod($search);
+        $persons = $em->getRepository('SiteBundle:Person')->searchMethod($search);
+
         return $this->render(':search:search.html.twig',[
             'search' => $search,
             'series'=>$series,
-            'episodes'=>$episodes,
-            'users'=>$users
+            'users'=>$users,
+            'persons' => $persons,
         ]);
     }
 
@@ -91,9 +92,13 @@ class MainController extends Controller
 
         $term = $request->query->get('motcle');
         $em = $this->getDoctrine()->getManager();
-        $array= $em
+        $series= $em
             ->getRepository('SiteBundle:Series')
             ->listeSeries($term);
+        $users= $em
+            ->getRepository('SiteBundle:User')
+            ->listeUser($term);
+        $array = array_merge($series, $users);
 
         $response = new Response(json_encode($array));
         $response -> headers -> set('Content-Type', 'application/json');

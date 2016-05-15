@@ -35,6 +35,6 @@ class UserRepository extends EntityRepository
         {
             $array[] = $data['username'];
         }
-        return $arrayAss;
+        return $array;
     }
 }

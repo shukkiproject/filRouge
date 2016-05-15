@@ -10,18 +10,5 @@ namespace SiteBundle\Repository;
  */
 class EpisodeRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function searchMethod($term){
 
-    $query = $this->createQueryBuilder('episode')
-        ->select('episode')
-        ->join('episode.season','season')
-        ->addSelect('season')
-        ->join('season.series','series')
-        ->addSelect('series')
-        ->orderBy('episode.title','ASC')
-        ->andWhere('episode.title LIKE :term')
-        ->setParameter(':term','%'.$term.'%')
-        ->getQuery();
-    return $query->getResult();
-    }
 }
