@@ -1,0 +1,235 @@
+group:
+    edit:
+        submit: 'Update group'
+    show:
+        name: 'Group name'
+    new:
+        submit: 'Create group'
+    flash:
+        updated: 'The group has been updated'
+        created: 'The group has been created'
+        deleted: 'The group has been deleted'
+
+security:
+    login:
+        username: Username
+        password: Password
+        remember_me: 'Remember me'
+        submit: 'Log in'
+
+profile:
+    show:
+        username: Username
+        email: Email
+        edit: 'Edit my Profil'
+        series: 'My Series'
+        friends: 'My Friends'
+        criticises: 'My Comments'
+        noseries: 'Not yet series followed :-('
+        nofriends: 'Not yet friends:-('
+        nocriticises: 'Not yet comments :-('
+    user:
+        of: 'Profil of'
+        series: 'Series Followed'
+        friends: 'Friends'
+        criticises: 'Comments'
+        friend: 'Became friends'
+    edit:
+        submit: Update
+    flash:
+        updated: 'The profile has been updated'
+    message: 
+        user: 'Write a message'
+        new: 'Write a new message'
+        recipient: 'Recipient :'
+        subject: 'Subject :'
+        body: 'Body :'
+        send: 'Send'
+        box: 'My Messages'
+        last: 'Last Message :'
+        reply: 'Reply :'
+        unread: 'NEW !!!'
+        none: 'You have no messages'
+    series: 'My ratings :'
+    friend:
+        quit: 'Remove from my list of friends'
+    criticise:
+        on: ' on '
+
+change_password:
+    submit: 'Change password'
+    flash:
+        success: 'The password has been changed'
+
+registration:
+    form_title: 'Create your account!'
+    form_firstname: 'Firstname:'
+    firstname_placeholder: 'Your firstname'
+    form_lastname: 'Lastname:'
+    lastname_placeholder: 'Your lastname'
+    form_username: 'Username:'
+    username_placeholder: 'Your username'
+    form_email: 'Email:'
+    email_placeholder: 'Your email'
+    form_birthday: 'Birthday:'
+    form_imageFile: 'Upload your photo:'
+    form_password: 'Password:'
+    form_password_check: 'Confirm your password :'
+    check_email: 'An email has been sent to %email%. It contains an activation link you must click to activate your account.'
+    confirmed: 'Congrats %username%, your account is now activated.'
+    back: 'Back to the previous page.'
+    submit: Register
+    edit: "Change my profil"
+    flash:
+        user_created: 'The user has been created successfully'
+    email:
+        subject: 'Welcome %username%!'
+        message: |
+            Hello %username%!
+
+            To finish activating your account - please visit %confirmationUrl%
+
+            Regards,
+            the Team.
+
+resetting:
+    password_already_requested: 'The password for this user has already been requested within the last 24 hours.'
+    check_email: 'An email has been sent to %email%. It contains a link you must click to reset your password.'
+    request:
+        invalid_username: 'The username or email address "%username%" does not exist.'
+        username: 'Username or email address'
+        submit: 'Reset password'
+    reset:
+        submit: 'Change password'
+    flash:
+        success: 'The password has been reset successfully'
+    email:
+        subject: 'Reset Password'
+        message: |
+            Hello %username%!
+
+            To reset your password - please visit %confirmationUrl%
+
+            Regards,
+            the Team.
+
+# Global strings
+layout:
+    logout: 'Log out'
+    login: 'Log in'
+    register: Register
+    logged_in_as: 'Logged in as %username%'
+
+form:
+    group_name: 'Group name'
+    username: Username
+    email: Email
+    current_password: 'Current password'
+    password: Password
+    password_confirmation: 'Repeat password'
+    new_password: 'New password'
+    new_password_confirmation: 'Repeat new password'
+
+navbar:
+    profil:
+        index: 'My Profile'
+        all: 'All Profiles'
+        superadmin: 'Super Administrater''s Page'
+        moderator: 'Moderator''s Page'
+    home: 'Home'
+    series:
+        index: 'Series'
+        all: 'All Series'
+        add: 'Add a series'
+    season:
+        index: 'Season / Episode'
+        add: 'Add a season / an episode'
+    log:
+        signup: 'Sign Up'
+        logout: 'Logout'
+        login: 'Login'
+    search: 'Search'
+
+series:
+    propose: 'Propose a new serie'
+    back: 'Back to the list'
+    list: 'All Series'
+    rating: 'Ratings'
+    choose: 'Rate this series'
+    change: 'Suggest Changes'
+    follow: 'Follow'
+    unfollow: 'Unfollow'
+    edit: 'Edit'
+    validate: 'Validate'
+    delete: 'Delete Series'
+    detail: 'Details of the series'
+    season: 'Season'
+    comments: 'Comments'
+    followedby: 'Followed by ...'
+    users: 'Users'
+    new:
+        name: 'Title'
+        name_placeholder: 'The title of the series'
+        creator: 'Creator'
+        creator_placeholder: 'The name of the creator'
+        year: 'Year'
+        synopsisEn: 'Synopsis in English'
+        synopsisFr: 'Synopsis in French'
+        synopsisEn_placeholder: 'A few lines about the series in English...'
+        synopsisFr_placeholder: 'A few lines about the series in French...'
+        image_file: 'Poster'
+        confirm: 'Confirm'
+    casts:
+        title: 'Casts'
+        button_add: 'Add an actor'
+        firsname_actor: 'Firstname'
+        button_delete: 'Delete this actor'
+    posted: ' Posté le '
+
+index:
+    discover:
+        title: 'Discover !'
+        text: 'So What Series identifies and provides information on TV series'
+        button: 'Check out series'
+    discuss:
+        title: 'Discuss !'
+        text: 'Login to review and exchange'
+        button: 'Create your account'
+    list:
+        recent_comments:  'Recent comments'
+        recent_comments_sentence:  ' has commented on '
+        recent_series:  'The latest series'
+        recent_series_sentence:  ' was added'
+        followed_series:  'The most followed series'
+        commented_series:  'The most commented series'
+
+
+
+search:
+    result: 'Search results : '
+    none: 'No Results'
+    users: 'Users'
+
+person:
+    new:
+        title: 'Propose a new actor'
+        firstname: 'Firstname'
+        lastname: 'Lastname'
+        character: 'Character'
+        add: 'Add an actor'
+        confirm: 'Confirm'
+    validate: 'validate'
+    back: 'back to the series list'
+
+episode:
+    list: 'Episode List'
+
+season_episode:
+    add: 'Propose an episode'
+
+comment:
+    new:
+        heading: 'Leave a New Comment'
+        title: 'Title'
+        comment: 'Your comment'
+        confirm: 'Confirm'
