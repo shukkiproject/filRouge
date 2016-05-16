@@ -1,0 +1,16 @@
+/*.fa-star {
+  display: none;
+}
+
+.fa-star-o:hover {
+  display: none;
+}
+
+
+.fa-star:hover {
+  display: inline;
+}*/
+
+body {
+    margin-top: 70px;
+}

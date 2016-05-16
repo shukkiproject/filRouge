@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+
+<div class="col-md-6 col-md-offset-3">
+    <h2>{{ 'season.propose'|trans }}</h2>
+
+    {{ form_start(form) }}
+    <div class="form-group">
+    
+    {{ form_label(form.series, 'season.new.series'|trans) }}
+    {{ form_errors(form.series) }}
+    {{ form_widget(form.series, {'attr': {'class': 'form-control' }}) }}<br>
+
+    {{ form_label(form.season, 'season.new.season'|trans) }}
+    {{ form_errors(form.season) }}
+    {{ form_widget(form.season, {'attr': {'class': 'form-control' }}) }}<br>
+
+
+</div>
+    <h3>{{ 'season.episode.title'|trans }}</h3>
+    
+    <div class="episodes form-group" data-prototype="{{ form_widget(form.episodes.vars.prototype)|e}}">
+        {# iterate over each existing episode #}
+        {% for episode in form.episodes %}
+            {{ form_label(episode.season, 'episode.new.season'|trans) }}
+            {{ form_widget(episode.season, {'attr': {'class': 'form-control'}}) }}<br>
+
+            {{ form_label(episode.episode)}}
+            {{ form_widget(episode.episode, {'attr': {'class': 'form-control'}}) }}<br>
+
+            {{ form_label(episode.title, 'episode.new.title'|trans) }}
+            {{ form_widget(episode.title, {'attr': {'class': 'form-control'}}) }}<br>
+
+             {{ form_label(episode.synopsisEn, 'episode.new.synopsisEn'|trans) }}
+            {{ form_errors(episode.synopsisEn) }}
+            {{ form_widget(episode.synopsisEn, {'attr': {'class': 'form-control', 'placeholder': 'episode.new.synopsisEn_placeholder'|trans }}) }}<br>
+
+            {{ form_label(episode.synopsisFr, 'episode.new.synopsisFr'|trans) }}
+            {{ form_errors(episode.synopsisFr) }}
+            {{ form_widget(episode.synopsisFr, {'attr': {'class': 'form-control', 'placeholder': 'episode.new.synopsisFr_placeholder'|trans }}) }}<br>
+
+        {% endfor %}
+        {% do form.episodes.setRendered %}
+    </div>
+
+        <input type="submit" class="btn btn-default" value="{{ 'episode.new.confirm'|trans }}"/>
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('season_index') }}">{{ 'season.back'|trans }}</a>
+        </li>
+    </ul>
+ </div>
+
+ <script>
+    
+var $collectionHolder;
+
+// setup an "add a episode" button
+var $addLink = $('<a href="#" class="add_link">{{ 'season.episodes.button_add'|trans }}</a>');
+var $newLinkLi = $('<button></button>').append($addLink);
+
+jQuery(document).ready(function() {
+    // Get the ul that holds the collection of episodes
+    $collectionHolder = $('div.episodes');
+
+    // add the "add a episodes" anchor and li to the episodes div
+    $collectionHolder.append($newLinkLi);
+
+    // count the current form episode inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+    $addLink.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // add a new episode form (see next code block)
+        addForm($collectionHolder, $newLinkLi);
+    });
+
+    // add a delete link to all of the existing episode form li elements
+    $collectionHolder.find('ul.episodes').each(function() {
+        addFormDeleteLink($(this));
+    });
+
+
+});
+
+function addForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = prototype.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a episode" link li
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLinkLi.before($newFormLi);
+
+    // add a delete link to the new form
+    addFormDeleteLink($newFormLi);
+}
+
+function addFormDeleteLink($formLi) {
+    var $removeFormA = $('<button><a href="#">{{ 'season.episodes.button_delete'|trans }}</a></button>');
+    $formLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // remove the li for the episode form
+        $formLi.remove();
+    });
+}
+</script>
+
+{% endblock %}

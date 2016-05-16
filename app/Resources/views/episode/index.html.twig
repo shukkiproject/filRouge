@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Episode list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Season</th>
+                <th>Synopsis</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for episode in episodes %}
+            <tr>
+                <td><a href="{{ path('episode_show', { 'id': episode.id }) }}">{{ episode.id }}</a></td>
+                <td>{{ episode.season }}</td>
+                {# if app.request.getLocale()=='en' #}
+                <td>{{episode.synopsisEn}}</td>
+                {# else #}
+                <td>{{episode.synopsisFr}}</td>
+                {# endif #}
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('episode_show', { 'id': episode.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('episode_edit', { 'id': episode.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('episode_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

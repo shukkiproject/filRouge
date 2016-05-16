@@ -1,0 +1,86 @@
+site_person:
+    resource: "@SiteBundle/Controller/PersonController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+        
+site_season:
+    resource: "@SiteBundle/Controller/SeasonController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_series_rating:
+    resource: "@SiteBundle/Controller/SeriesRatingController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_series:
+    resource: "@SiteBundle/Controller/SeriesController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_episode:
+    resource: "@SiteBundle/Controller/EpisodeController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_user:
+    resource: "@SiteBundle/Controller/UserController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_message:
+    resource: "@SiteBundle/Controller/MessagingController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_comment_preference:
+    resource: "@SiteBundle/Controller/CommentPreferenceController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_comment:
+    resource: "@SiteBundle/Controller/CommentController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_super_admin:
+    resource: "@SiteBundle/Controller/SuperAdminController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site:
+    resource: "@SiteBundle/Controller/MainController.php"
+    type:     annotation
+    prefix:   /
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+fos_message:
+    resource: "@FOSMessageBundle/Resources/config/routing.xml"
+    prefix:   /{_locale}/message/
+    requirements:
+        _locale: en|fr

@@ -1,0 +1,47 @@
+<h3>Casts</h3>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Characters</th>
+                <th>Actors</th>
+                {% if is_granted('ROLE_MODERATOR') %} 
+                <th>Actions</th>
+                {% endif %} 
+            </tr>
+        </thead>
+        <tbody>
+       
+            {% for person in persons %}
+            <tr>
+                {% if person.validated==1 %}                
+                    <td>{{ person.character }}</td>
+                    <td>{{ person }}</td>
+                {% else %}
+                    {% if is_granted('ROLE_MODERATOR') %} 
+                        <td>{{ person.character }}</td>
+                        <td>{{ person }}</td> 
+                    {% endif %}
+                {% endif %} 
+                {% if is_granted('ROLE_MODERATOR') %}  
+                    <td>
+<!-- buttons for person-->
+                        <div class="btn-group pull-right" role="group">
+                            {% if person.validated==0 %} 
+                               <a href="{{ path('person_validate', { 'id': person.id, 'seriesId': person.series.id }) }}"><button type="button" class="btn btn-success">{{ 'person.validate'|trans }}</button></a>
+                            {% endif %}
+                    
+                            <a href="{{ path('person_edit', { 'id': person.id }) }}"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                            <a href="{{ path('person_delete', { 'id': person.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                        
+                        </div>
+<!-- buttons for person-->
+                    </td> 
+                {% endif %}  
+            </tr>
+            {% endfor %}
+ 
+        </tbody>
+
+    </table>
+</div>              

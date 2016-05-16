@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+
+    <ol class="breadcrumb">
+        <li><a href="{{ path('site_main_index') }}">Home</a></li>
+        <li>My Profil</li>
+    </ol>
+
+    {% block fos_user_content %}
+
+    
+
+    {% endblock %}
+
+
+{% endblock %}

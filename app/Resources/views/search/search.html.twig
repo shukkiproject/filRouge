@@ -1,0 +1,82 @@
+{% extends "base.html.twig" %}
+
+
+{% block body %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+     <ol class="breadcrumb">
+            <li><a href="{{ path('site_main_index') }}">{{ 'navbar.home'|trans }}</a></li>
+            <li class="active">{{ 'navbar.search'|trans }}</li>
+    </ol>
+
+    <h2>{{ 'search.result'|trans }}<strong><em>{{ search }}</em></strong></h2>
+    {% if  (series or persons or users) is empty %}
+        <h3>{{ 'search.none'|trans }}</h3>
+    {% endif %}
+    {% if series %}
+        <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-offset-2 col-md-8">
+            <div class="">
+                <div class="">
+                    <h3 class=" text-center big">{{ 'navbar.series.index'|trans }}</h3>
+                </div>
+                <div class=" text-center">
+                    <div class="row">
+                        {% for serie in series %}
+                            <a href="{{ path('series_show',{'id': serie.id}) }}">
+                                <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+                                    <figure class="thumbnail">
+                                        <img src="{{ asset('images/series/' ~ serie.getImageName()) }}" class="img-responsive"/>
+                                        <figcaption>{{ serie.name }}</figcaption>
+                                    </figure>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if persons %}
+        <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-offset-2 col-md-8">
+            <div class="">
+                <div class="">
+                    <h3 class=" text-center big">{{ 'search.users'|trans }}</h3>
+                </div>
+                <div class=" text-center">
+                    <div class="row">
+                        {% for person in persons %}
+                            <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+                                <a href="{{ path('person_show',{'id':person.id}) }}">
+                                    {{ person.lastname }} {{ person.firstname }}
+                                </a></br>Role : {{ person.character }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if users %}
+        <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-offset-2 col-md-8">
+            <div class="">
+                <div class="">
+                    <h3 class=" text-center big">{{ 'search.users'|trans }}</h3>
+                </div>
+                <div class=" text-center">
+                    <div class="row">
+                        {% for user in users %}
+                            <a href="{{ path('user_show',{'id':user.id}) }}">
+                                <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+                                    <figure class="thumbnail">
+                                        <img src="{{ asset("images/users/" ~ user.getImageName()) }}" class="img-responsive"/>
+                                        <figcaption>{{ user.username }}</figcaption>
+                                    </figure>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

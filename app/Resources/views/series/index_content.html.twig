@@ -1,0 +1,16 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<!--     <div class="count">
+        {{ pagination.getTotalItemCount }}
+    </div> -->
+    {% for s in pagination %}
+          <figure class="col-xs-6 col-md-3">
+              <a class="thumbnail" href="{{ path('series_show', { 'id': s.id }) }}">
+                <img class="essai5" src="{{ asset('images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}"/>
+              </a>
+          </figure>
+    {% endfor %}
+    <div class="row">
+		<div class="navigation">
+		{{ knp_pagination_render(pagination) }}
+		</div>
+	</div>

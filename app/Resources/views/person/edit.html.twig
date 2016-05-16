@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Person edit</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="Edit" />
+    {{ form_end(edit_form) }}
+{#
+    <ul>
+        <li>
+            <a href="{{ path('series_show',{'id' : seriesId }) }}">Back to the series</a>
+        </li>
+
+    </ul>
+#}
+{% endblock %}

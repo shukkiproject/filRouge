@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+
+<div class="col-md-6 col-md-offset-3">
+    <h2>{{ 'series.propose'|trans }}</h2>
+
+{{ form_start(form, {'method': 'post', 'action': path('series_new')}) }}
+        <div class="form-group">
+
+            {{ form_label(form.name, 'series.new.name'|trans) }}
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'series.new.name_placeholder'|trans }}) }}<br>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.creator, 'series.new.creator'|trans) }}
+            {{ form_errors(form.creator) }}
+            {{ form_widget(form.creator, {'attr': {'class': 'form-control', 'placeholder': 'series.new.creator_placeholder'|trans }}) }}<br>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.year, 'series.new.year'|trans) }}
+            {{ form_errors(form.year) }}
+            {{ form_widget(form.year, {'attr': {'class': 'form-control'}}) }}<br>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.synopsisEn, 'series.new.synopsisEn'|trans) }}
+            {{ form_errors(form.synopsisEn) }}
+            {{ form_widget(form.synopsisEn, {'attr': {'class': 'form-control', 'placeholder': 'series.new.synopsisEn_placeholder'|trans }}) }}<br>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.synopsisFr, 'series.new.synopsisFr'|trans) }}
+            {{ form_errors(form.synopsisFr) }}
+            {{ form_widget(form.synopsisFr, {'attr': {'class': 'form-control', 'placeholder': 'series.new.synopsisFr_placeholder'|trans }}) }}<br>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.imageFile, 'series.new.image_file'|trans) }}
+            {{ form_errors(form.imageFile) }}
+            {{ form_widget(form.imageFile, {'attr': {'class': 'form-control-file btn btn-default'}}) }}<br>
+        </div>
+        
+            <h3>{{ 'series.casts.title'|trans }}</h3>
+            <div class="persons" data-prototype="{{ form_widget(form.persons.vars.prototype)|e}}">
+                {# iterate over each existing person #}
+                {% for person in form.persons %}
+                <div class="form-group">
+                    {{ form_label(person.firstname, 'person.new.firstname'|trans) }}
+                    {{ form_widget(person.firstname, {'attr': {'class': 'form-control'}}) }}<br>
+                </div>
+                <div class="form-group">
+                    {{ form_label(person.lastname, 'person.new.lastname'|trans) }}
+                    {{ form_widget(person.lastname, {'attr': {'class': 'form-control'}}) }}<br>
+                </div>
+                <div class="form-group">
+                    {{ form_label(person.character, 'person.new.character'|trans) }}
+                    {{ form_widget(person.character, {'attr': {'class': 'form-control'}}) }}<br>
+                </div>
+                {% endfor %}
+            </div>
+                {% do form.persons.setRendered %} 
+            
+            <input type="submit" class="btn btn-default" value="{{ 'series.new.confirm'|trans }}" />
+        
+            {{ form_end(form) }}
+
+</div>
+
+<script>
+    
+var $collectionHolder;
+
+// setup an "add a person" button
+var $addPersonLink = $('<a href="#" class="add_person_link">{{ 'series.casts.button_add'|trans }}</a>');
+var $newLinkLi = $('<button></button>').append($addPersonLink);
+
+jQuery(document).ready(function() {
+    // Get the ul that holds the collection of persons
+    $collectionHolder = $('div.persons');
+
+    // add the "add a person" anchor and li to the persons div
+    $collectionHolder.append($newLinkLi);
+
+    // count the current form ipersonnputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+    $addPersonLink.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // add a new person form (see next code block)
+        addPersonForm($collectionHolder, $newLinkLi);
+    });
+
+    // add a delete link to all of the existing person form li elements
+    $collectionHolder.find('ul.persons').each(function() {
+        addPersonFormDeleteLink($(this));
+    });
+
+
+});
+
+function addPersonForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = prototype.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a person" link li
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLinkLi.before($newFormLi);
+
+    // add a delete link to the new form
+    addPersonFormDeleteLink($newFormLi);
+}
+
+function addPersonFormDeleteLink($personFormLi) {
+    var $removeFormA = $('<button><a href="#">{{ 'series.casts.button_delete'|trans }}</a></button>');
+    $personFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // remove the li for the person form
+        $personFormLi.remove();
+    });
+}
+</script>
+
+{% endblock %}

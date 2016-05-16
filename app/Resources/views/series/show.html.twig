@@ -1,0 +1,153 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+
+    {% if series %}
+
+<!-- breadcrumb -->
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="{{ path('site_main_index') }}">{{ 'navbar.home'|trans }}</a></li>
+            <li><a href="{{ path('series_index') }}">{{ 'navbar.series.index'|trans }}</a></li>
+            <li class="active">{{ series.name }}</li>
+        </ol>
+<!-- breadcrumb -->
+
+        <!-- series info -->
+        {% if series.imageName %}
+        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 thumb">  
+                <img class="thumbnail img-responsive seriesImage" src="{{ asset('images/series/' ~ series.getImageName()) }}" alt="{{ series.name }}" >             
+        </div>
+        {% endif %}
+        <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 thumb">
+            <h1 class="page-header">{{ series.name }} <small>( {{ series.year }} )</small></h1>
+            <h4>Creator : {{ series.creator }}</h4>
+            <h3>{{ 'series.rating'|trans }} <big>{{ average }}</big></h3>
+                    
+                <!-- include ratings  -->                
+                {{ include('seriesrating/new.html.twig') }}
+                <!-- include ratings  -->  
+                <!-- buttons for series-->
+                <div class="btn-group" role="group">
+                    {% if is_granted('ROLE_MODERATOR')==false %}
+                        <a href="{{ path('propose_changes', { 'id': series.id }) }}"><button class="btn btn-info">{{ 'series.change'|trans }}</button></a>
+                    {% endif %}
+
+                    {% if app.user %}
+                        <a><button class="btn btn-success" id="followSeries">{{ 'series.follow'|trans }}</button></a> 
+                    {% else %} 
+                        <a href="{{ path('series_follow', { 'id': series.id }) }}"><button class="btn btn-success">{{ 'series.follow'|trans }}</button></a> 
+                    {% endif %} 
+
+                    {% if is_granted('ROLE_MODERATOR') %}    
+                        {% if series.validated==0 %} 
+                           <a href="{{ path('series_validate', { 'id': series.id }) }}"><button class="btn btn-success">{{ 'series.validate'|trans }}</button></a>
+                        {% endif %}
+                        <a href="{{ path('series_edit', { 'id': series.id }) }}"><button class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                        <a href="{{ path('series_delete', { 'id': series.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>                      
+                    {% endif %}
+                </div>
+                <!-- buttons for series-->
+            <!-- series info -->                           
+        </div>
+    </div>
+<!-- tab menu -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#details">{{ 'series.detail'|trans }}</a></li>
+            {% if series.seasons %}
+                {% for season in series.seasons %}
+                    <li><a data-toggle="tab" href="#season{{ season.season }}">{{ 'series.season'|trans }} {{ season.season }}</a></li>
+                {% endfor %}
+            {% endif %}
+            <li><a data-toggle="tab" href="#comments">{{ 'series.comments'|trans }}</a></li>
+            <li><a data-toggle="tab" href="#follow">{{ 'series.followedby'|trans }}</a></li>
+        </ul>
+<!-- tab menu -->
+        <div class="tab-content">
+<!-- tab content series details -->
+            <div id="details" class="tab-pane fade in active">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h3>Synopsis</h3>
+                    <hr/>
+                      {% if app.request.getLocale()=='en' %}
+                        <p>{{series.synopsisEn}}</p>
+                      {% else %}
+                        <p>{{series.synopsisFr}}</p>
+                      {% endif %}
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {{ include('person/index.html.twig', { 'series': series }) }}
+                </div> 
+            </div>
+<!-- tab content series details -->
+<!-- tab content of each season with episodes -->
+                {% if series.seasons %}
+                    {% for season in series.seasons %}
+                    <div id="season{{ season.season }}" class="tab-pane fade">
+                        <h3>{{ 'episode.list'|trans }}
+                        <a href="{{ path('season_episode_new', {'id' : series.id }) }}"><button class="btn btn-info pull-right">{{ 'season_episode.add'|trans }}</button></a>
+                        </h3>
+                        <br>
+                        <div class="panel-group" id="accordion">
+                            {{ include('episode/list.html.twig', { 'season': season }) }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}  
+<!-- comments --> 
+            <div id="comments" class="tab-pane fade">
+                {{ include('comment/show.html.twig', { 'series.comments': series.comments }) }}
+                {{ include('comment/new.html.twig', { 'form': form }) }}
+            </div>
+<!-- comments --> 
+<!-- users who followed this series --> 
+            <div id="follow" class="tab-pane fade">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    <h3 >{{ 'series.users'|trans }}</h3>
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="userFollowList">
+                            {% for user in series.followedBy %}
+                                <tr id='{{user.username}}'><td>
+                                    <a href="{{ path('user_show', { 'id': user.id }) }}">{{user.username}}</a>
+                                </td></tr>                                   
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+<!-- users who followed this series -->
+        </div>
+        {% if app.user %}
+            <script>
+            $("#followSeries").on('click', function(){
+
+                    $.ajax({
+                        url: "{{ path('series_follow', { 'id': series.id }) }}",
+                        success: function(data){  
+                            $("#followSeries").text(data.status);
+                            if (data.status==='Follow' || data.status==='Suivre') {
+                                $("#{{ app.user.username }}").remove(); 
+                            } else {
+                                $("#userFollowList").append( '<tr  id="{{app.user.username}}"><td><a href="{{ path("user_show", { "id": app.user.id }) }}">{{ app.user.username }}</a></td></tr>' );
+                            }
+                        },
+                        error: function() { 
+                        },
+                    });
+            });
+            $.ajax({
+                    url: "{{ path('series_isfollowed', { 'id': series.id }) }}",
+                    success: function(data){  
+                            $("#followSeries").text(data.status);
+                    },
+                    error: function() { 
+                    },
+                });
+            </script>
+        {% endif %}       
+
+    {% endif %}
+{% endblock %}

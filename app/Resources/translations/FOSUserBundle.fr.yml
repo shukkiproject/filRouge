@@ -1,0 +1,214 @@
+group:
+    edit:
+        submit: 'Mettre à jour le groupe'
+    show:
+        name: 'Nom du groupe'
+    new:
+        submit: 'Créer le groupe'
+    flash:
+        updated: 'Le groupe a été mis à jour'
+        created: 'Le groupe a été créé'
+        deleted: 'Le groupe a été supprimé'
+security:
+    login:
+        username: 'Nom d''utilisateur'
+        password: 'Mot de passe'
+        remember_me: 'Se souvenir de moi'
+        submit: Connexion
+profile:
+    show:
+        username: 'Nom d''utilisateur'
+        email: 'Adresse e-mail'
+        edit: 'Modifier Mon profil'
+        series: 'Mes Séries'
+        friends: 'Mes Amis'
+        criticises: 'Mes Critiques'
+        noseries: 'Pas encore de serie préférée :-('
+        nofriends: 'Pas encore d''amis :-('
+        nocriticises: 'Pas encore de critique :-('
+    user:
+        of: 'Profil de '
+        series: 'Ses Séries'
+        friends: 'ses Amis'
+        criticises: 'ses Critiques'
+        friend: 'Devenir amis'
+    edit:
+        submit: 'Mettre à jour'
+    flash:
+        updated: 'Le profil a été mis à jour'
+    message: 
+        user: 'Envoyer un message'
+        new: 'Ecrire un nouveau message'
+        recipient: 'Déstinataire :'
+        subject: 'Objet :'
+        body: 'Message :'
+        send: 'Envoyer'
+        box: 'Mes Messages'
+        last: 'Dernier message :'
+        reply: 'Réponse :'
+        unread: 'NOUVEAU !!!'
+        none: 'Vous n''avez pas de messages'
+    series: 'Ma note :'
+    friend:
+        quit: 'Enlever de la liste d''amis'
+    criticise:
+        on: ' sur '
+
+change_password:
+    submit: 'Modifier le mot de passe'
+    flash:
+        success: 'Le mot de passe a été modifié'
+registration:
+    form_title: 'Créez votre compte!'
+    form_firstname: 'Prénom:'
+    firstname_placeholder: 'Ecrivez votre prénom'
+    form_lastname: 'Nom:'
+    lastname_placeholder: 'Ecrivez votre nom de famille'
+    form_username: 'Pseudo:'
+    username_placeholder: 'Ecrivez votre pseudo'
+    form_email: 'Courriel:'
+    email_placeholder: 'Ecrivez votre courriel'
+    form_birthday: 'Date de naissance:'
+    form_imageFile: 'Insérer votre photo:'
+    form_password: 'Mot de passe:'
+    form_password_check: 'Vérification du mot de passe:'
+    check_email: 'Un e-mail a été envoyé à l''adresse %email%. Il contient un lien d''activation sur lequel il vous faudra cliquer afin d''activer votre compte.'
+    confirmed: 'Félicitations %username%, votre compte est maintenant activé.'
+    back: 'Retour à la page d''origine.'
+    submit: Enregistrer
+    edit: "Changer mon profil"
+    flash:
+        user_created: 'L''utilisateur a été créé avec succès'
+    email:
+        subject: 'Bienvenue %username% !'
+        message: "Bonjour %username% !\n\nPour valider votre compte utilisateur, merci de vous rendre sur %confirmationUrl%\n\nCordialement,\nL'équipe.\n"
+resetting:
+    password_already_requested: 'Un nouveau mot de passe a déjà été demandé pour cet utilisateur dans les dernières 24 heures.'
+    check_email: 'Un e-mail a été envoyé à l''adresse %email%. Il contient un lien sur lequel il vous faudra cliquer afin de réinitialiser votre mot de passe.'
+    request:
+        invalid_username: 'Le nom d''utilisateur ou l''adresse e-mail "%username%" n''existe pas.'
+        username: 'Nom d''utilisateur ou adresse e-mail'
+        submit: 'Réinitialiser le mot de passe'
+    reset:
+        submit: 'Modifier le mot de passe'
+    flash:
+        success: 'Le mot de passe a été réinitialisé avec succès'
+    email:
+        subject: 'Réinitialisation de votre mot de passe'
+        message: "Bonjour %username% !\n\nPour réinitialiser votre mot de passe, merci de vous rendre sur %confirmationUrl%\n\nCordialement,\nL'équipe.\n"
+layout:
+    logout: Déconnexion
+    login: Connexion
+    register: Inscription
+    logged_in_as: 'Connecté en tant que %username%'
+form:
+    group_name: 'Nom du groupe'
+    username: 'Nom d''utilisateur'
+    email: 'Adresse e-mail'
+    current_password: 'Mot de passe actuel'
+    password: 'Mot de passe'
+    password_confirmation: Vérification
+    new_password: 'Nouveau mot de passe'
+    new_password_confirmation: Vérification
+
+navbar:
+    profil:
+        index: 'Mon Profil'
+        all: 'Tout les Profils'
+        superadmin: 'Page Superadmin'
+        moderator: 'Page Modérateur'
+    home: 'Accueil'
+    series:
+        index: 'Séries'
+        all: 'Toutes les Séries'
+        add: 'Ajouter une série'
+    season:
+        index: 'Saison / Episode'
+        add: 'Ajouter une saison / un episode'
+    log:
+        signup: 'S''inscrire'
+        logout: ' Se déconnecter'
+        login: ' Se connecter'
+    search: 'Rechercher'
+
+series:
+    propose: 'Proposer une nouvelle série'
+    back: 'Retour à la liste'
+    list: 'Toutes les Séries'
+    rating: 'Notes'
+    choose: 'Noter la série'
+    change: 'Proposer des changements'
+    follow: 'Suivre'
+    unfollow: 'Ne Pas Suivre'
+    edit: 'Modifier'
+    validate: 'Valider'
+    delete: 'Effacer la série'
+    detail: 'Fiche de la Série'
+    season: 'Saison'
+    comments: 'Critiques'
+    followedby: 'Suivie par ...'
+    users: 'Utilisateurs'
+    new:
+        name: 'Titre'
+        name_placeholder: 'Ecrivez le titre de la série'
+        creator: 'Créateur'
+        creator_placeholder: 'Ecrivez le nom du réalisateur'
+        year: 'Année'
+        synopsisEn: 'Synopsis en anglais'
+        synopsisFr: 'Synopsis en français'
+        synopsisEn_placeholder: 'Quelques lignes à propos de la série en anglais...'
+        synopsisFr_placeholder: 'Quelques lignes à propos de la série en français...'
+        image_file: 'Affiche'
+        language: 'Langage de la fiche'
+        confirm: 'Confirmer'
+    casts:
+        title: 'Acteurs et actrices'
+        button_add: 'Ajouter une personne'
+        button_delete: 'Supprimer la personne'
+        firsname_actor: 'Prénom'
+    posted: ' Posté le '
+
+index:
+    discover:
+        title: 'Découvrez !'
+        text: 'So What Séries recense et vous informe sur les séries TV'
+        button: 'Consulter les séries'
+    discuss:
+        title: 'Echangez !'
+        text: 'Connectez-vous pour donner votre avis et échanger'
+        button: 'Créer votre compte'
+    list:
+        recent_comments:  'Les derniers commentaires'
+        recent_comments_sentence:  ' a commenté '
+        recent_series:  'Les dernières séries'
+        recent_series_sentence:  ' a été ajoutée'
+        followed_series:  'Les séries les plus suivies'
+        commented_series:  'Les séries les plus commentés'
+search:
+    result: 'Résultats de la recherche : '
+    none: 'Aucun resultats'
+    users: 'Utilisateurs'
+
+person:
+    new:
+        title: 'Proposer un nouvel acteur'
+        firstname: 'Prénom'
+        lastname: 'Nom'
+        character: 'Personnage'
+        add: 'Ajouter un acteur'
+        confirm: 'Confirmer'
+    validate: 'valider'
+    back: 'Retouner à la liste de séries'
+
+episode:
+    list: 'Liste d''Episode'
+
+season_episode:
+    add: 'Proposer un episode'
+
+comment:
+    new:
+        heading: 'Laisser une Nouvelle Commentaire'
+        title: 'Titre'
+        comment: 'Votre commentaire'
+        confirm: 'Confimer'

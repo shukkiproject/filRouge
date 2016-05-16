@@ -1,0 +1,182 @@
+/*star ratings */
+.rating{
+  unicode-bidi:bidi-override;
+  direction:rtl;
+  font-size:20px;
+}
+.rating a.star{
+  font-family:FontAwesome;
+  font-weight:normal;
+  font-style:normal;
+  display:inline-block;
+}
+.rating a.star:hover{
+  cursor:pointer;
+  text-decoration: none;
+}
+.rating a.star:before{
+  content:"\f006";
+  color:#777;
+}
+.rating a.star:hover:before,
+.rating a.star:hover~.star:before{
+  content:"\f005";
+  color:#e3cf7a;
+}
+.rating a.star:after{
+  
+  text-decoration: none;
+}
+/* end - star ratings */
+
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  margin-top: auto;
+  padding: 15px;
+}
+
+/*image same size for user.messages list*/
+.center-cropped-message {
+    width: 50px;
+    height: 50px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100px;
+}
+/*image same size for series list*/
+.center-cropped {
+    width: 100px;
+    height: 100px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 250px;
+}
+
+/*image same size for photo profil*/
+.center-cropped-user {
+    width: 200px;
+    height: 200px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 200px;
+}
+  /* Icon when the collapsible content is hidden */
+.btn.collapsed:after {
+    content: "\e080";
+  }
+
+
+/* Caroussel
+-------------------------------------------------- */
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  width: auto;
+  margin: auto;
+​
+}
+#myCarousel {
+    
+  margin-top: 20px;
+  margin-bottom: 60px;
+ 
+}
+
+​
+
+/* MARKETING CONTENT
+-------------------------------------------------- */
+
+/* Center align the text within the two columns below the carousel */
+
+
+.marketing h2 {
+  font-weight: normal;
+}
+.marketing .col-lg-6 p {
+  margin-right: 10px;
+  margin-left: 10px;
+  
+
+}
+
+.div-tuto-home{
+  text-align: center;
+}
+
+/* GALLERY
+-------------------------------------------------- */
+
+figcaption {
+
+  text-align : center;
+
+}
+
+figure:hover{
+  -webkit-transform:scale(1.05);
+          transform:scale(1.05);
+  box-shadow: 5px 5px 15px rgb(58, 58, 58);
+    z-index: 100;
+}
+
+figure {
+
+  padding : 10px;
+  margin-top : 5px;
+  margin-bottom : 5px;
+}
+
+/* TITLE PAGE
+-------------------------------------------------- */
+
+.titrePage {
+  padding-bottom: 30px;
+}
+
+/* Merci à Lamecarlate pour l'intervention */
+
+
+/* HOME LIST
+-------------------------------------------------- */
+
+
+.DivHome {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  background: #f3f2f0;
+
+
+}
+
+.listHome {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-left-style: solid;
+  border-color: white;
+  border-width: 2px;
+}
+
+.titlelistHome {
+  background-color: #fdbf37;
+  padding:10px;
+  color: black;
+  border-radius: 5px;
+
+}
+
+/* SERIES IMAGE
+-------------------------------------------------- */
+
+.seriesImage {
+    max-width: 400px;
+    max-height: 400px;
+}

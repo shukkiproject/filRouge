@@ -1,0 +1,25 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+
+{% for user in users %}
+<li>{{ user.username }}</li>
+{% endfor %}
+
+<h1>Series not validated</h1>
+
+ {% for s in series %}
+          <figure class="col-xs-6 col-md-3">
+              <a class="thumbnail" href="{{ path('series_show', { 'id': s.id }) }}">
+                <img class="essai5" src="{{ asset('images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}"/>
+              </a>
+          </figure>
+  {% endfor %}
+  
+<h1>Casts not validated</h1>
+	{% if persons %}
+		{{ include('person/admin.html.twig', { 'persons': persons }) }}
+	{% endif %}
+
+	
+{% endblock %}

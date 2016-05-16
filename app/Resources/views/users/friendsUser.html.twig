@@ -1,0 +1,60 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% if user.askForFriends is not empty %}
+     {% for askForFriend in askForFriends  %}
+     <div class="media">
+        <div class="media-left">
+          <a href="{{ path('user_show', { 'id': askForFriend.id }) }}">
+            <div class="center-cropped" style="background-image: url('{{ asset('images/users/' ~ askForFriend.getImageName()) }}');">
+            </div>
+          </a>
+        </div>
+        <div class="media-body">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+            <h4 class="media-heading">{{ askForFriend.username }} </h4>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <a href="{{ path('user_friend',{'id':askForFriend.id, 'reponse': 'yes'}) }}"><button class="btn btn-warning">accepter</button></a>
+            <a href="{{ path('user_friend',{'id':askForFriend.id, 'reponse': 'no'}) }}"><button class="btn btn-warning">refuser</button></a>
+          </div>
+        </div>
+      </div>
+     {% endfor %} 
+{% endif %}
+{% for friend in friends  %}
+<div class="media">
+  <div class="media-left">
+    <a href="{{ path('user_show', { 'id': friend.id }) }}">
+      <div class="center-cropped" style="background-image: url('{{ asset('images/users/' ~ friend.getImageName()) }}');">
+      </div>
+    </a>
+  </div>
+	<div class="media-body">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+    	<h4 class="media-heading">{{ friend.username }} </h4>
+		</div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <button id="{{ friend.username }}" class='btn btn-success'>{{ 'profile.message.user'|trans }}</button>
+      <div class="form-group hiden" id="{{ friend.username }}mess" style="display:none;">
+          <form method="POST"  class="ui-widget" action="{{ path('message_new',{'id':friend.id}) }}">
+              {{ 'profile.message.subject'|trans }}
+              <input type="text" name='subject' class="form-control" placeholder="">
+              {{ 'profile.message.body'|trans }}
+              <textarea name='body' class="form-control"></textarea> 
+              <button class='btn btn-success' type="submit">{{ 'profile.message.send'|trans }}</button>
+          </form>
+      </div></br></br>
+      <a href="{{ path('user_removefriend',{'id':friend.id}) }}" title=""><button class="btn btn-warning">{{ 'profile.friend.quit'|trans }}</button></a>
+   	</div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    </div>
+  </div>
+</div>
+<hr/>
+<script>
+    $("#{{ friend.username }}").click(function(){
+        $("#{{ friend.username }}mess").toggle(500);
+    });
+</script>
+{% endfor %}    
+

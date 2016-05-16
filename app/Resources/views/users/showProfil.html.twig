@@ -1,0 +1,80 @@
+{% extends "base.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+
+<!-- breadcrumb -->
+    <ol class="breadcrumb">
+        <li><a href="{{ path('site_main_index') }}">{{ 'navbar.home'|trans }}</a></li>
+        <li>{{ 'navbar.profil.index'|trans }}</li>
+    </ol>
+<!-- breadcrumb -->
+    {% block user_content %}
+<!-- user info --> 
+    <div class="row">
+        <div class="fos_user_user_show">
+            {% if user.imageName %}
+                <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
+                     <div class="thumbnail center-cropped-user" style="background-image: url('{{ asset('images/users/' ~ user.getImageName()) }}');">
+                      </div>
+                </div>
+               
+            {% endif %}
+            <h1 class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">{{ user.username }}</h1>
+            {% if user.askForFriends is not empty %}
+                     vous avez une nouvelle demande d'amis
+            {% endif %}
+            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
+                <a href="{{ path('fos_user_profile_edit')}}">
+                    <button class="btn btn-danger">{{ 'profile.show.edit'|trans }}</button>
+                </a>
+            </div>
+        </div>
+    </div>
+<!-- user info --> 
+<!-- tab menu -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">{{ 'navbar.home'|trans }}</a></li>
+            <li><a data-toggle="tab" href="#series">{{ 'profile.show.series'|trans }}</a></li>
+            <li><a data-toggle="tab" href="#friends">{{ 'profile.show.friends'|trans }}</a></li>
+            <li><a data-toggle="tab" href="#criticise">{{ 'profile.show.criticises'|trans }}</a></li>
+            <li><a data-toggle="tab" href="#messages">{{ 'profile.message.box'|trans }}</a></li>
+        </ul>
+<!-- tab menu -->
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active"></br>
+            </div>
+<!-- tab content series details -->
+            <div id="series" class="tab-pane fade"></br>
+            {% if  user.seriesFollowed  is empty %}
+                {{ 'profile.show.noseries'|trans }}
+            {% endif %}
+                {{ include('users/seriesUser.html.twig') }}
+            </div>
+<!-- tab content series details -->
+<!-- tab content friends details -->
+            <div id="friends" class="tab-pane fade"></br>
+            {% if  friends is empty %}
+                {{ 'profile.show.nofriends'|trans }}
+            {% endif %}
+                {{ include('users/friendsUser.html.twig') }}
+            </div>
+<!-- tab content friends details -->
+<!-- tab content comments details -->
+            <div id="criticise" class="tab-pane fade"></br>
+            {% if  user.comments is empty %}
+                {{ 'profile.show.nocriticises'|trans }}
+            {% endif %}
+                {{ include('users/criticiseUser.html.twig') }}
+            </div>
+<!-- tab content comments details -->
+<!-- tab content messages details -->
+            <div id="messages" class="tab-pane fade"></br>
+                {{ include('users/messageUser.html.twig') }}      
+            </div>
+ <!-- tab content messages details -->
+        </div>
+    {% endblock %}
+{% endblock %}
+

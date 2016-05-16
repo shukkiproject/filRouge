@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+<div class="titrePage">
+	<h1>{{ 'series.list'|trans }}</h1>
+	<a class="btn btn-primary" href="{{ path('series_new') }}">{{ 'series.propose'|trans }}</a>
+</div>
+{{ include('series/index_content.html.twig', { 'pagination': pagination }) }}
+
+{% endblock %}
