@@ -7,7 +7,7 @@
             <div class="form-group hiden" id="formNewMess" style="display:none;">
                 <form method="POST"  class="ui-widget" action="{{ path('message_newThread') }}">
                     {{ 'profile.message.recipient'|trans }}
-                    <input type="text" name='recipient' class="form-control" required="required">
+                    <input type="text" name='recipient' id="recipient" class="form-control" required="required">
                     {{ 'profile.message.subject'|trans }}
                     <input type="text" name='subject' class="form-control" required="required">
                     {{ 'profile.message.body'|trans }}
@@ -38,9 +38,8 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
                                                 <h4 class="media-heading">{{ participant.username }}</h4>
                                             </div>
-                                            <div id="new" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-md-offset-2" >
-                                            {% if not fos_message_is_read(thread.lastMessage) %}{{ 'profile.message.unread'|trans }}
-
+                                            <div id="new{{thread.id}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 col-md-offset-2" >
+                                            {% if not fos_message_is_read(thread.lastMessage) and thread.lastMessage.sender != app.user %}{{ 'profile.message.unread'|trans }}
                                             {% endif %}
 
                                             </div>
@@ -52,25 +51,21 @@
                                 </a>
                             </li>
                         {% endif %}
+
+                    {% endfor %}
                     <script>
 
                     $('#{{ thread.id }}').on('click', function(){
-                        var message = "<h2>Objet: {{ thread.subject }}</h2>{% for message in thread.messages %}<br/><div class='messenger_thread_message'<div class='messenger_thread_message_info'>{% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle'%}message_info{% endtrans %}</div><div class='messenger_thread_message_body' id='message_{{ message.id }}'>{{ message.body }}</div> </div>{% endfor %}<h3>Reply</h3><form action='{{ url('message_reply', {'threadId': thread.id}) }}'' method='post'><textarea name='reply' type='text'></textarea></br><input class='btn btn-success' type='submit' value='{{ 'profile.message.send'|trans }}'/><span><a href='{{ path('message_delete', { 'threadId': thread.id }) }}'><button type='button' class='btn btn-warning'><i class='fa fa-trash-o' aria-hidden='true'></i></button></a></span></form>";
+                        var message = "<h2>Objet: {{ thread.subject }}</h2>{% for message in thread.messages %}<br/><div class='messenger_thread_message'><div class='messenger_thread_message_info'><strong>{% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle'%}message_info{% endtrans %}</strong></div><div class='messenger_thread_message_body' id='message_{{ message.id }}'>{{ message.body }}</div> </div>{% endfor %}<h3>Reply</h3><form action='{{ url('message_reply', {'threadId': thread.id}) }}'' method='post'><textarea name='reply' type='text'></textarea></br><input class='btn btn-success' type='submit' value='{{ 'profile.message.send'|trans }}'/><span><a href='{{ path('message_delete', { 'threadId': thread.id }) }}'><button type='button' class='btn btn-warning'><i class='fa fa-trash-o' aria-hidden='true'></i></button></a></span></form>";
+                        message=message.replace(/\n+/g,"<br>");
                         $('#cont').html(message);
-                        $('#new').hide();
+                       
+                        $('#new{{thread.id}}').hide();
                         $.ajax({
                             url: "{{ path('message_read', { 'threadId': thread.id }) }}",
-
-                            success: function(){ 
-                            },
-                            error: function() { 
-                            },
                         });
                     });
-
-
                     </script>
-                    {% endfor %}
                 {% endfor %}
             {% endif %}   
             </ul>
@@ -89,11 +84,10 @@
     });
 
     $('#recipient').on('keyup', function(e){
-        console.log('ee');
             var input = $('#recipient');
             var motcle = $('#recipient').val();
             var DATA = 'motcle=' + motcle;
-        if(motcle.length >= 2){
+        if(motcle.length >= 1){
             $.ajax({
                 url: "{{ path('site_main_userAutocomplete') }}",
                 type: 'GET',

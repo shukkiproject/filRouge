@@ -28,12 +28,16 @@ profile:
         noseries: 'Not yet series followed :-('
         nofriends: 'Not yet friends:-('
         nocriticises: 'Not yet comments :-('
+        askforfriends: 'You have a new friend request!!!'
+        newmessage: 'You have a new message!!!'
     user:
         of: 'Profil of'
         series: 'Séries Followed'
         friends: 'Friends'
         criticises: 'Criticises'
-        friend: 'Became friends'
+        tobefriend: 'Became friends'
+        ask: 'Ask to be friend sent!!!'
+        friend: 'You are friends'
     edit:
         submit: Update
     flash:
@@ -50,9 +54,11 @@ profile:
         reply: 'Reply :'
         unread: 'NEW !!!'
         none: 'You have no messages'
+
     series: 'My rate :'
     friend:
         quit: 'Remove from list of friends'
+        new: 'New friends request : '
     criticise:
         on: ' on '
 

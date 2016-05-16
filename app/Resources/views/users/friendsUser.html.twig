@@ -1,25 +1,29 @@
 {% trans_default_domain 'FOSUserBundle' %}
 {% if user.askForFriends is not empty %}
+<div class="row">
+  <h3>{{ 'profile.friend.new'|trans }}</h3>
+      <div class="col-xs-12 col-sm-10 col-md-8">
+        <div class="row">
      {% for askForFriend in askForFriends  %}
-     <div class="media">
-        <div class="media-left">
-          <a href="{{ path('user_show', { 'id': askForFriend.id }) }}">
-            <div class="center-cropped" style="background-image: url('{{ asset('images/users/' ~ askForFriend.getImageName()) }}');">
-            </div>
-          </a>
-        </div>
-        <div class="media-body">
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
-            <h4 class="media-heading">{{ askForFriend.username }} </h4>
-          </div>
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-            <a href="{{ path('user_friend',{'id':askForFriend.id, 'reponse': 'yes'}) }}"><button class="btn btn-warning">accepter</button></a>
-            <a href="{{ path('user_friend',{'id':askForFriend.id, 'reponse': 'no'}) }}"><button class="btn btn-warning">refuser</button></a>
-          </div>
-        </div>
-      </div>
-     {% endfor %} 
+            <a href="{{ path('user_show',{'id':askForFriend.id}) }}">
+              <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+                <figure class="">
+                    <img src="{{ asset("images/users/" ~ askForFriend.getImageName()) }}" class="img-responsive"/>
+                    <figcaption>{{ askForFriend.username }}</figcaption>
+                <a href="{{ path('user_friend',{'id':askForFriend.id, 'reponse': 'yes'}) }}"><button class="btn btn-warning">V</button></a>
+                <a href="{{ path('user_friend',{'id':askForFriend.id, 'reponse': 'no'}) }}"><button class="btn btn-warning">X</button></a>
+                </figure>
+
+              </div>
+            </a>
+       {% endfor %}
+     </div>
+    </div>
+      <hr/>
+</div>
 {% endif %}
+<div class="row">
+<h3>{{ 'profile.show.friends'|trans }}</h3>
 {% for friend in friends  %}
 <div class="media">
   <div class="media-left">
@@ -57,4 +61,4 @@
     });
 </script>
 {% endfor %}    
-
+</div>

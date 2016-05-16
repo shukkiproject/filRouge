@@ -26,12 +26,16 @@ profile:
         noseries: 'Pas encore de serie préférée :-('
         nofriends: 'Pas encore d''amis :-('
         nocriticises: 'Pas encore de critique :-('
+        askforfriends: 'Vous avez une nouvelle demande d''amis!!!'
+        newmessage: 'Vous avez un nouveau message!!!'
     user:
         of: 'Profil de '
         series: 'Ses Séries'
         friends: 'ses Amis'
         criticises: 'ses Critiques'
-        friend: 'Devenir amis'
+        tobefriend: 'Devenir amis'
+        ask: 'Demande pour devenir ami envoyée!!!'
+        friend: 'Vous etes amis'
     edit:
         submit: 'Mettre à jour'
     flash:
@@ -51,6 +55,7 @@ profile:
     series: 'Ma note :'
     friend:
         quit: 'Enlever de la liste d''amis'
+        new: 'Nouvelles demandes d''amis : '
     criticise:
         on: ' sur '
 
