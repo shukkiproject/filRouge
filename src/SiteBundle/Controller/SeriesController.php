@@ -33,7 +33,7 @@ class SeriesController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $dql   = "SELECT s FROM SiteBundle:Series s";
+        $dql   = "SELECT s FROM SiteBundle:Series s WHERE s.validated = 1";
         $query = $em->createQuery($dql);
 
         $paginator  = $this->get('knp_paginator');

@@ -64,10 +64,12 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
 		->getResult();
 	}
 
+
 	public function recentSeries(){
 
 		//order by the most recent comments
 		return $this->createQueryBuilder('series')
+		->where('series.validated = 1')
 		->orderBy('series.date', 'DESC')
 	       ->setFirstResult(0)
 	       ->setMaxResults(5)		
