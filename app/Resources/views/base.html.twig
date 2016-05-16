@@ -168,14 +168,8 @@
                         datatype: 'json',
                         data : DATA,
                         success : function(donnees){
-                            var tab =[];
-                            for(var i= 0; i < donnees.length; i++)
-                            {
-                                tab.push(donnees[i].name);
-                            }
-                            console.log(tab);
                             input.autocomplete({
-                            source: tab
+                            source: donnees
                             });
                         }
                     });

@@ -25,6 +25,9 @@ profile:
         series: 'My Series'
         friends: 'My Friends'
         criticises: 'My Criticises'
+        noseries: 'Not yet series followed :-('
+        nofriends: 'Not yet friends:-('
+        nocriticises: 'Not yet comments :-('
     user:
         of: 'Profil of'
         series: 'Séries Followed'
@@ -50,7 +53,8 @@ profile:
     series: 'My rate :'
     friend:
         quit: 'Remove from list of friends'
-
+    criticise:
+        on: ' on '
 
 change_password:
     submit: 'Change password'
@@ -180,6 +184,7 @@ series:
         button_add: 'Add a person'
         firsname_actor: 'Firstname'
         button_delete: 'Delete this Person'
+    posted: ' Posté le '
 
 index:
     discover:

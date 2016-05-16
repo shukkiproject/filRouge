@@ -106,6 +106,18 @@ class User extends BaseUser implements ParticipantInterface
      */
     private $myFriends;
 
+    /**
+     * @var array
+     * @ORM\Column(name="askForFriends", type="array",  nullable=true)
+     */
+    private $askForFriends;
+
+    /**
+     * @var array
+     * @ORM\Column(name="myAskForFriends", type="array",  nullable=true)
+     */
+    private $myAskForFriends;
+
     //Begin Entities VichUploaderBundle ------------------------------------------------------------------------------------------
     
     /**
@@ -577,6 +589,65 @@ class User extends BaseUser implements ParticipantInterface
         return $this->myFriends;
     }
 
+     /**
+     * Add an ask for become Friend
+     *
+     */
+    public function addAskForFriend($id)
+    {
+        $this->askForFriends[] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Remove an ask to be Friend
+     *
+     */
+    public function removeAskForFriend($id)
+    {
+        $index = array_search($id, $this->askForFriends);
+        array_splice($this->askForFriends, $index, 1);   
+    }
+
+    /**
+     * Get ask for Friends
+     *
+     */
+    public function getAskForFriends()
+    {
+        return $this->askForFriends;
+    }
+
+     /**
+     * Add an ask for become Friend from me
+     *
+     */
+    public function addMyAskForFriend($id)
+    {
+        $this->myAskForFriends[] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Remove an ask to be Friend from me
+     *
+     */
+    public function removeMyAskForFriend($id)
+    {
+        $index = array_search($id, $this->myAskForFriends);
+        array_splice($this->myAskForFriends, $index, 1);   
+    }
+
+    /**
+     * Get ask for Friends from me
+     *
+     */
+    public function getMyAskForFriends()
+    {
+        return $this->myAskForFriends;
+    }
     /**
      * @ORM\PrePersist
      */

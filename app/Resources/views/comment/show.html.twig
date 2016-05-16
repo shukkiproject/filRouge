@@ -10,7 +10,7 @@
             
               <div class="media-body">
               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
-                <h4 class="media-heading">{{ comment.user }} <small><i>Posted on {% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>
+                <h4 class="media-heading">{{ comment.user }} <small><i>{{ 'series.posted'|trans }}{% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
                 

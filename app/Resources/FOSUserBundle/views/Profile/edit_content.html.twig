@@ -15,6 +15,10 @@
         {{ form_errors(form.email) }}
         {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'registration.email_placeholder'|trans}}) }}<br>
 
+        {{ form_label(form.imageFile, 'registration.form_imageFile'|trans) }}
+        {{ form_errors(form.imageFile) }}
+        {{ form_widget(form.imageFile, {'attr': {'class': ''}}) }}<br>
+
         {{ form_label(form.current_password, 'registration.form_password'|trans) }}
 		{{ form_errors(form.current_password) }}
 		{{ form_widget(form.current_password, {'attr': {'class': 'form-control'}}) }}<br>

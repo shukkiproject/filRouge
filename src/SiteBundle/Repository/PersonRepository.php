@@ -10,4 +10,17 @@ namespace SiteBundle\Repository;
  */
 class PersonRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function searchMethod($term){
+
+    $query = $this->createQueryBuilder('person')
+        ->select('person')
+        ->orderBy('person.lastname','ASC')
+        ->andWhere('person.lastname LIKE :term')
+        ->orWhere('person.firstname LIKE :term')
+        ->orWhere('person.character LIKE :term')
+        ->andWhere('person.validated = true')
+        ->setParameter(':term','%'.$term.'%')
+        ->getQuery();
+    return $query->getResult();
+    }
 }

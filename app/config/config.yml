@@ -75,6 +75,9 @@ fos_user:
     registration:
         form:
             type: SiteBundle\Form\RegistrationType
+    profile:
+        form:
+            type: SiteBundle\Form\ProfileType
 
 fos_message:
     db_driver: orm

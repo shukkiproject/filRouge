@@ -29,12 +29,21 @@
 }
 /* end - star ratings */
 
-
-
-
-body {
-    /*margin-top: 70px;*/
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  margin-top: auto;
+  padding: 15px;
+}
+
 /*image same size for user.messages list*/
 .center-cropped-message {
     width: 50px;
@@ -133,6 +142,9 @@ figure {
   padding-bottom: 30px;
 }
 
+/* Merci à Lamecarlate pour l'intervention */
+
+
 /* HOME LIST
 -------------------------------------------------- */
 
@@ -160,5 +172,6 @@ figure {
   border-radius: 5px;
 
 }
+
 
 

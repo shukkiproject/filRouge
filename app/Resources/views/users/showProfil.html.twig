@@ -22,6 +22,9 @@
                
             {% endif %}
             <h1 class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">{{ user.username }}</h1>
+            {% if user.askForFriends is not empty %}
+                     vous avez une nouvelle demande d'amis
+            {% endif %}
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
                 <a href="{{ path('fos_user_profile_edit')}}">
                     <button class="btn btn-danger">{{ 'profile.show.edit'|trans }}</button>
@@ -41,20 +44,28 @@
 <!-- tab menu -->
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active"></br>
-
             </div>
 <!-- tab content series details -->
             <div id="series" class="tab-pane fade"></br>
+            {% if  user.seriesFollowed  is empty %}
+                {{ 'profile.show.noseries'|trans }}
+            {% endif %}
                 {{ include('users/seriesUser.html.twig') }}
             </div>
 <!-- tab content series details -->
 <!-- tab content friends details -->
             <div id="friends" class="tab-pane fade"></br>
+            {% if  friends is empty %}
+                {{ 'profile.show.nofriends'|trans }}
+            {% endif %}
                 {{ include('users/friendsUser.html.twig') }}
             </div>
 <!-- tab content friends details -->
 <!-- tab content comments details -->
             <div id="criticise" class="tab-pane fade"></br>
+            {% if  user.comments is empty %}
+                {{ 'profile.show.nocriticises'|trans }}
+            {% endif %}
                 {{ include('users/criticiseUser.html.twig') }}
             </div>
 <!-- tab content comments details -->

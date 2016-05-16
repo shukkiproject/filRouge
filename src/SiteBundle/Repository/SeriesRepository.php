@@ -34,6 +34,7 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
         return $query->getResult();
     }
+
     //méthode pour autocomplétion
     public function listeSeries($term)
 	{
@@ -49,7 +50,7 @@ class SeriesRepository extends \Doctrine\ORM\EntityRepository
 		{
 			$array[] = $data['name'];
 		}
-		return $arrayAss;
+		return $array;
 	}
 
 	

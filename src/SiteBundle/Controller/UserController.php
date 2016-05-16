@@ -59,11 +59,14 @@ class UserController extends Controller
         $friendsId = $user->getMyFriends();
         $friends= $em->getRepository('SiteBundle:User')->findById($friendsId);
 
+        $askForFriendsId = $user->getAskForFriends();
+        $askForFriends= $em->getRepository('SiteBundle:User')->findById($askForFriendsId);
 
         return $this->render('users/showProfil.html.twig', array(
             'user' => $user,
             'threads' => $threads,
             'friends' => $friends,
+            'askForFriends' => $askForFriends,
         ));
     }
 
@@ -78,9 +81,13 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('SiteBundle:User')->findOneById($id);
 
+        if ($user === $this->getUser()){
+            return $this->redirectToRoute('user_profil');
+        }
+
         $friendsId = $user->getMyFriends();
         $friends= $em->getRepository('SiteBundle:User')->findById($friendsId);
-        
+
         return $this->render('users/showUser.html.twig', array(
             'user' => $user,
             'friends' => $friends,
@@ -88,22 +95,48 @@ class UserController extends Controller
     }
 
      /**
-     * Became Friends
+     * Ask for Friend
      *
-     * @Route("/friend/{id}", name="user_friend")
+     * @Route("/askforfriend/{id}", name="user_askforfriend")
      * @Method("GET")
      */
-    public function friendAction($id)
+    public function askForFriendAction($id)
+    {   
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $userId = $user->getId();
+        $friend = $em->getRepository('SiteBundle:User')->findOneById($id);
+        $friend->addAskForFriend($userId);
+        $user->addMyAskForFriend($id);
+
+        $em->persist($friend);
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('user_show',array('id' => $id));
+    }
+
+     /**
+     * Became Friends
+     *
+     * @Route("/friend/{id}/{reponse}", name="user_friend")
+     * @Method("GET")
+     */
+    public function friendAction($id, $reponse)
     {   
 
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $user->addMyFriend($id);
-
-        $friend = $em->getRepository('SiteBundle:User')->findOneById($id);
         $userId = $user->getId();
+        $friend = $em->getRepository('SiteBundle:User')->findOneById($id);
+        
+        if ($reponse === 'yes'){
+            $user->addMyFriend($id);
+            $friend->addMyFriend($userId);
+        }
 
-        $friend->addMyFriend($userId);
+        $user->removeAskForFriend($id);
+        $friend->removeMyAskForFriend($userId);
 
         $em->persist($user);
         $em->persist($friend);

@@ -23,6 +23,9 @@ profile:
         series: 'Mes Séries'
         friends: 'Mes Amis'
         criticises: 'Mes Critiques'
+        noseries: 'Pas encore de serie préférée :-('
+        nofriends: 'Pas encore d''amis :-('
+        nocriticises: 'Pas encore de critique :-('
     user:
         of: 'Profil de '
         series: 'Ses Séries'
@@ -48,6 +51,8 @@ profile:
     series: 'Ma note :'
     friend:
         quit: 'Enlever de la liste d''amis'
+    criticise:
+        on: ' sur '
 
 change_password:
     submit: 'Modifier le mot de passe'
@@ -160,6 +165,7 @@ series:
         button_add: 'Ajouter une personne'
         button_delete: 'Supprimer la personne'
         firsname_actor: 'Prénom'
+    posted: ' Posté le '
 
 index:
     discover:

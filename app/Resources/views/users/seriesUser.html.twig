@@ -25,11 +25,11 @@
             </div>
             <div id="{{serie.id}}" class="panel-collapse collapse">
               <div class="panel-body">
-              {# if app.request.getLocale()=='en' #}
+              {% if app.request.getLocale()=='en' %}
                 <p>{{serie.synopsisEn}}</p>
-              {# else #}
+              {% else %}
                 <p>{{serie.synopsisFr}}</p>
-              {# endif #}
+              {% endif %}
               </div>
             </div>
           </div>
