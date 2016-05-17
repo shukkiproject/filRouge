@@ -6,7 +6,7 @@
 <div class="col-md-6 col-md-offset-3">
     <h2>{{ 'series.propose'|trans }}</h2>
 
-{{ form_start(form, {'method': 'post', 'action': path('series_new')}) }}
+{{ form_start(form) }}
         <div class="form-group">
 
             {{ form_label(form.name, 'series.new.name'|trans) }}

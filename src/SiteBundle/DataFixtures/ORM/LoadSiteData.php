@@ -51,21 +51,7 @@ class LoadSiteData implements FixtureInterface, ContainerAwareInterface
         return $user;
     }
 
-    public function createSeries($name, $creator, $year, $synopsis, $language, $validated)
-    {
-        
-        $user = new User();
-        $user->setUsername($username);
-        $user->setFirstname($firstname);
-        $user->setLastname($lastname);
-        $date = new \DateTime($birthday);
-        $user->setBirthday($date);
-        $user->setPlainPassword($password);
-        $user->setEmail($email);
-        $user->setEnabled((Boolean) $active);
 
-        return $user;
-    }
 
     public function load(ObjectManager $manager)
     {

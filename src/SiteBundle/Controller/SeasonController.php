@@ -20,7 +20,7 @@ class SeasonController extends Controller
     /**
      * Lists all Season entities.
      *
-     * @Route("season", name="season_index")
+     * @Route("season/", name="season_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -51,7 +51,7 @@ class SeasonController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            //check if the season number exist aleady
+            //collect all the seasons to check if the season number exist aleady
             $seasons=$season->getSeries()->getSeasons();
             $tab=[];
             foreach ($seasons as $oldSeason) {
@@ -62,19 +62,25 @@ class SeasonController extends Controller
             if (!in_array($season->getSeason(), $tab)) { 
                 $season->setValidated(false);
                 $em->persist($season);
+                $em->flush();
                 foreach ($season->getEpisodes() as $episode) { 
-                $episode->setValidated(false);
-                $em->persist($episode);
+                    // $episode->setSeason($season);
+                    $episode->setValidated(false);
+                    $em->persist($episode);
+                    $em->flush();
                 } 
-                $em->flush();
-            }
-            //get the existing season entity and add new episodes
-            $existingSeason = $em->getRepository('SiteBundle:Season')->findOneBySeason($season->getSeason());
-            foreach ($season->getEpisodes() as $episode) { 
-                $episode->setSeason($existingSeason);
-                $episode->setValidated(false);
-                $em->persist($episode);
-                $em->flush();
+            } else {
+                //get the existing season entity and add new episodes
+                $existingSeason = $em->getRepository('SiteBundle:Season')->findOneBy(array('series' => $season->getSeries(), 'season' => $season->getSeason()));
+                // var_dump($existingSeason);
+                // die;
+                foreach ($season->getEpisodes() as $episode) { 
+                    $episode->setSeason($existingSeason);
+                    $episode->setValidated(false);
+                    $em->persist($episode);
+                    $em->flush();
+                
+                }
             } 
 
             return $this->redirectToRoute('series_show', array(
@@ -103,24 +109,65 @@ class SeasonController extends Controller
         ));
     }
 
+     /**
+     * Validate an existing Season entity by moderator.
+     *
+     * @Route("/{id}/validate", requirements={
+    *     "id": "\d+"}, name="season_validate")
+     * @Method("GET")
+     */
+    public function validateAction(Season $season)
+    {
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $season->setValidated(true);
+        $em->persist($season);
+        $em->flush();
+
+        return $this->redirectToRoute('moderator_index');
+    
+    }
+
     /**
      * Displays a form to edit an existing Season entity.
      *
-     * @Route("season/{id}/edit", name="season_edit")
+     * @Route("season/{id}/edit", requirements={
+    *     "id": "\d+"}, name="season_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Season $season)
     {
+        
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
+        
         $deleteForm = $this->createDeleteForm($season);
         $editForm = $this->createForm('SiteBundle\Form\SeasonType', $season);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $newSerie = clone $serie;
+            $newSerie->setParent($serie->getId());
+            $newSerie->setValidated(0);
+            $newSerie->setAuthor($this->getUser());
+            //Persist only NewSerie for validation
+            $em->detach($serie);
+            $em->persist($newSerie);
+            $em->flush();
+
+            $season->setValidated(false);
+            foreach ($season->getEpisodes() as $episode) { 
+                    $episode->setValidated(false);
+                    $em->persist($episode);
+                    $em->flush();
+                } 
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($season);
             $em->flush();
 
-            return $this->redirectToRoute('season_edit', array('id' => $season->getId()));
+            return $this->redirectToRoute('moderator_index');
         }
 
         return $this->render('season/edit.html.twig', array(
@@ -133,21 +180,19 @@ class SeasonController extends Controller
     /**
      * Deletes a Season entity.
      *
-     * @Route("season/{id}", name="season_delete")
-     * @Method("DELETE")
+     * @Route("season/{id}/delete", requirements={
+     *   "id": "\d+"}, name="season_delete")
+     * @Method("GET")
      */
     public function deleteAction(Request $request, Season $season)
     {
-        $form = $this->createDeleteForm($season);
-        $form->handleRequest($request);
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
 
-        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($season);
             $em->flush();
-        }
 
-        return $this->redirectToRoute('season_index');
+        return $this->redirectToRoute('moderator_index');
     }
 
     /**

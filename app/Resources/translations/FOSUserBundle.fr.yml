@@ -212,3 +212,36 @@ comment:
         title: 'Titre'
         comment: 'Votre commentaire'
         confirm: 'Confimer'
+
+superadmin:
+    title: 'Créer / Supprimer les Modérateurs'
+    users: 'Utilisateurs'
+    roles: 'Roles'
+    actions: 'Actions'
+    promote: 'Créer'
+    demote: 'Supprimer'
+
+admin:
+    title: 'Modération Utilisateurs'
+    users: 'Utilisateurs'
+    status: 'Statue'
+    actions: 'Actions'
+    active: 'Actif'
+    banned: 'Inactif'
+    reactivate: 'Réactivate'
+    ban: 'Bannir'
+    season:
+        title: 'Modération de Saisons'
+        series: 'Séries'
+        no: 'Saisons'
+        actions: 'Actions'
+        validate: 'Valider'
+    episode:
+        title: 'Moderation d''Episode'
+        series: 'Séries'
+        season: 'Saisons'
+        episode: 'Episodes'
+        synopsisEn : 'Synopsis en anglais'
+        synopsisEn : 'Synopsis en français'
+        actions: 'Actions'
+        validate: 'Valider'

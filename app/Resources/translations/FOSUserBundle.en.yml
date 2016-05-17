@@ -233,3 +233,36 @@ comment:
         title: 'Title'
         comment: 'Your comment'
         confirm: 'Confirm'
+
+superadmin:
+    title: 'Promote / Demote Moderators'
+    users: 'Users'
+    roles: 'Roles'
+    actions: 'Actions'
+    promote: 'Promote'
+    demote: 'Demote'
+
+admin:
+    title: 'Users Moderation'
+    users: 'Users'
+    status: 'Status'
+    actions: 'Actions'
+    active: 'Active'
+    banned: 'Banned'
+    reactivate: 'Reactivate'
+    ban: 'Ban'
+    season:
+        title: 'Seasons Moderation'
+        series: 'Series'
+        no: 'Seasons'
+        actions: 'Actions'
+        validate: 'Validate'
+    episode:
+        title: 'Episode Moderation'
+        series: 'Series'
+        season: 'Seasons'
+        episode: 'Episodes'
+        synopsisEn : 'English Synopsis'
+        synopsisEn : 'French Synopsis'
+        actions: 'Actions'
+        validate: 'Validate'

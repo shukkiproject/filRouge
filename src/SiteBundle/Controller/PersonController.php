@@ -20,7 +20,7 @@ class PersonController extends Controller
     /**
      * Lists all Person entities.
      *
-     * @Route("person", name="person_index")
+     * @Route("person/", name="person_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -81,10 +81,10 @@ class PersonController extends Controller
      /**
          * Validate an existing Person entity by admin.
          *
-         * @Route("series/{seriesId}/person/{id}/validate", name="person_validate")
+         * @Route("person/{id}/validate", name="person_validate")
          * @Method("GET")
          */
-        public function validateAction(Person $person, $seriesId)
+        public function validateAction(Person $person)
         {
             $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
 
@@ -102,7 +102,7 @@ class PersonController extends Controller
                     $em->persist($oldPerson);
                     $em->remove($person);
                     $em->flush();
-                    return $this->redirectToRoute('series_show', array('id' => $seriesId));
+                    return $this->redirectToRoute('moderator_index');
                 }
        
             }
@@ -110,7 +110,7 @@ class PersonController extends Controller
                 $em->persist($person);
                 $em->flush();
 
-            return $this->redirectToRoute('series_show', array('id' => $seriesId));
+            return $this->redirectToRoute('moderator_index');
         
         }
     /**
@@ -121,6 +121,7 @@ class PersonController extends Controller
      */
     public function editAction(Request $request, Person $person)
     {
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
         $editForm = $this->createForm('SiteBundle\Form\PersonType', $person);
         $editForm->handleRequest($request);
 
@@ -148,6 +149,7 @@ class PersonController extends Controller
      */
     public function deleteAction(Person $person)
     {
+            $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
             $em = $this->getDoctrine()->getManager();
             $em->remove($person);
             $em->flush();

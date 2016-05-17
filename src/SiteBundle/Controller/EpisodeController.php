@@ -77,6 +77,45 @@ class EpisodeController extends Controller
         ));
     }
 
+     /**
+     * Validate an existing Episode entity by moderator.
+     *
+     * @Route("/{id}/validate", requirements={
+    *     "id": "\d+"}, name="episode_validate")
+     * @Method("GET")
+     */
+    public function validateAction(Episode $episode)
+    {
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
+
+        $em = $this->getDoctrine()->getManager();
+
+        if (($episode->getOldId())!==null) {
+                $oldEpisode = $em->getRepository('SiteBundle:Episode')->find($episode->getOldId());
+                if (isset($oldEpisode)) {
+
+                    $oldEpisode->setEpisode($episode->getEpisode());
+                    $oldEpisode->setTitle($episode->getTitle());
+                    $oldEpisode->setSynopsisEn($episode->getSynopsisEn());
+                    $oldEpisode->setSynopsisFr($episode->getSynopsisFr());
+                    $oldEpisode->setValidated(true);
+
+                    $em->persist($oldepisode);
+                    $em->remove($episode);
+                    $em->flush();
+                    return $this->redirectToRoute('moderator_index');
+                }
+       
+            }
+
+        $episode->setValidated(true);
+        $em->persist($episode);
+        $em->flush();
+
+        return $this->redirectToRoute('moderator_index');
+    
+    }
+
     /**
      * Displays a form to edit an existing Episode entity.
      *

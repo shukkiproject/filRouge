@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use FOS\UserBundle\Util\UserManipulator;
 
 /**
- * Main controller.
+ * SuperAdmin controller.
  *
  * @Route("/superadmin")
  */
@@ -86,29 +86,5 @@ class SuperAdminController extends Controller
     //     return $this->render('default/superAdmin.html.twig', array('users' => $users,));
         
     // }
-
-    /**
-     * @Route("/moderator", name="moderator_index")
-     */
-    public function moderatorAction()
-    {
-        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
-
-        $userManager = $this->get('fos_user.user_manager');
-
-        $users=$userManager->findUsers();
-
-        $em = $this->getDoctrine()->getManager();
-
-        $series = $em->getRepository('SiteBundle:Series')->findByValidated(false);
-        $persons = $em->getRepository('SiteBundle:Person')->findByValidated(false);
-
-        // var_dump($persons);
-        // die;
-        
-        return $this->render('admin/moderator.html.twig', array('users' => $users, 'series' => $series, 'persons' => $persons ));
-        
-    }
-
 
 }

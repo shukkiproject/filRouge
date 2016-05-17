@@ -1,13 +1,178 @@
-{% extends "layout.html.twig" %}
+{% extends "base.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
 
 {% block body %}
 
-{% for user in users %}
-<li>{{ user.username }}</li>
-{% endfor %}
+{# user block #}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+    <h3>{{ 'admin.title'|trans }}</h3></div>
+      <div class="panel-body">
 
-<h1>Series not validated</h1>
+        <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+                  <tr>
+                      <th>{{ 'admin.users'|trans }}</th>
+                      <th>{{ 'admin.status'|trans }}</th>
+                      <th>{{ 'admin.actions'|trans }}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                    {% for user in users %}
+                  <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{% if user.enabled==1 %} {{ 'admin.active'|trans }}
+                    {% else %} {{ 'admin.banned'|trans }}
+                    {% endif %}</td>
+                    <td>
+                    <div class="btn-group" role="group">
+                      <a href="{{ path('moderator_ban', { 'id': user.id, 'value': 1 }) }}"><button class="btn btn-danger pull-right">{{ 'admin.ban'|trans }}</button></a>  
 
+                      <a href="{{ path('moderator_ban', { 'id': user.id, 'value': 0 }) }}"><button class="btn btn-success pull-right">{{ 'admin.reactivate'|trans }}</button></a>
+                    </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+
+{# season block #}
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+    <h5>{{ 'admin.season.title'|trans }}</h5></div>
+      <div class="panel-body">
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+                  <tr>
+                      <th>{{ 'admin.season.series'|trans }}</th>
+                      <th>{{ 'admin.season.no'|trans }}</th>
+                      <th>{{ 'admin.season.actions'|trans }}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                    {% for season in seasons %}
+                  <tr>
+                    <td>{{ season.series }}</td>
+                    <td>{{ season.season }}</td>
+                    <td>
+                      <div class="btn-group" role="group">
+                        <a href="{{ path('season_validate', { 'id': season.id}) }}"><button type="button" class="btn btn-success">{{ 'admin.season.validate'|trans }}</button></a>
+                           
+                        <a href="{{ path('season_edit', { 'id': season.id }) }}"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                        <a href="{{ path('season_delete', { 'id': season.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                        
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+
+{# episode block #}
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="panel panel-warning">
+    <div class="panel-heading">
+    <h5>{{ 'admin.episode.title'|trans }}</h5></div>
+      <div class="panel-body">
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+                  <tr>
+                      <th>{{ 'admin.episode.series'|trans }}</th>
+                      <th>{{ 'admin.episode.season'|trans }}</th>
+                      <th>{{ 'admin.episode.episode'|trans }}</th>
+                      <th>{{ 'admin.episode.synopsisEn'|trans }}</th>
+                      <th>{{ 'admin.episode.synopsisFr'|trans }}</th>
+                      <th>{{ 'admin.episode.actions'|trans }}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                    {% for episode in episodes %}
+                  <tr>
+                    <td>{{ episode.season.series }}</td>
+                    <td>{{ episode.season }}</td>
+                    <td>{{ episode }}</td>
+                    <td>{{ episode.synopsisEn }}</td>
+                    <td>{{ episode.synopsisFr }}</td>
+                    <td>
+                      <div class="btn-group" role="group">
+                        <a href="{{ path('episode_validate', { 'id': episode.id }) }}"><button type="button" class="btn btn-success">{{ 'admin.episode.validate'|trans }}</button></a>
+                           
+                        <a href="{{ path('episode_edit', { 'id': episode.id }) }}"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                        <a href="{{ path('episode_delete', { 'id': episode.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                        
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+
+{# person block #}
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+    <h5>{{ 'admin.person.title'|trans }}</h5></div>
+      <div class="panel-body">
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+                  <tr>
+                      <th>{{ 'admin.person.series'|trans }}</th>
+                      <th>{{ 'admin.person.character'|trans }}</th>
+                      <th>{{ 'admin.person.name'|trans }}</th>
+                      <th>{{ 'admin.person.actions'|trans }}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                    {% for person in persons %}
+                  <tr>
+                    <td>{% for ser in person.series %}  {{ ser }} {% endfor %} </td>
+                    <td>{{ person.character }}</td>
+                    <td>{{ person }}</td>
+                    <td>
+                      <div class="btn-group" role="group">
+                        <a href="{{ path('person_validate', { 'id': person.id }) }}"><button type="button" class="btn btn-success">{{ 'admin.person.validate'|trans }}</button></a>
+                           
+                        <a href="{{ path('person_edit', { 'id': person.id }) }}"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                        <a href="{{ path('person_delete', { 'id': person.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                        
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+
+{# series block #}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="panel panel-info">
+    <div class="panel-heading"><h5>Series not validated</h5></div>
+      <div class="panel-body">
  {% for s in series %}
           <figure class="col-xs-6 col-md-3">
               <a class="thumbnail" href="{{ path('series_show', { 'id': s.id }) }}">
@@ -15,11 +180,8 @@
               </a>
           </figure>
   {% endfor %}
-  
-<h1>Casts not validated</h1>
-	{% if persons %}
-		{{ include('person/admin.html.twig', { 'persons': persons }) }}
-	{% endif %}
+      </div>
+    </div>
+</div>
 
-	
 {% endblock %}

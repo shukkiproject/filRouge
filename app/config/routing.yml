@@ -4,7 +4,7 @@ site_person:
     prefix:   /{_locale}/
     requirements:
         _locale: en|fr
-        
+
 site_season:
     resource: "@SiteBundle/Controller/SeasonController.php"
     type:     annotation
@@ -63,6 +63,13 @@ site_comment:
 
 site_super_admin:
     resource: "@SiteBundle/Controller/SuperAdminController.php"
+    type:     annotation
+    prefix:   /{_locale}/
+    requirements:
+        _locale: en|fr
+
+site_moderator:
+    resource: "@SiteBundle/Controller/ModeratorController.php"
     type:     annotation
     prefix:   /{_locale}/
     requirements:

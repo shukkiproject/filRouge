@@ -44,7 +44,7 @@ class Person
 
     /**
      * @var string
-     * @ORM\ManyToOne(targetEntity="Series", inversedBy="persons", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Series", mappedBy="persons")
      * 
      */
     private $series;

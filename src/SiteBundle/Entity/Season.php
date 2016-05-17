@@ -26,7 +26,7 @@ class Season
     /**
      * @var text
      *
-     * @ORM\ManyToOne(targetEntity="Series", inversedBy="seasons")
+     * @ORM\ManyToOne(targetEntity="Series", inversedBy="seasons", cascade={"persist"})
      */
     private $series;
 
@@ -40,7 +40,7 @@ class Season
     /**
      * @var int
      *
-     * @ORM\OneToMany(targetEntity="Episode", mappedBy="season", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Episode", mappedBy="season", cascade={"persist", "remove"})
      */
     private $episodes;
 

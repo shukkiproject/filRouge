@@ -94,6 +94,7 @@ class SeriesController extends Controller
      */
     public function proposeChangesAction(Request $request,Series $series)
     {
+        
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw $this->createAccessDeniedException('Please login or signup.');
         }
@@ -102,24 +103,58 @@ class SeriesController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $em = $this->getDoctrine()->getManager();
-            $seriesC = new Series();
-            $seriesC = clone $series;
-            $seriesC->setOldId($series->getId());
-            $seriesC->setValidated(false);
-            foreach ($seriesC->getPersons() as $person) {
-                $personC= new Person();
-                $personC = clone $person;
-                $personC->setOldId($person->getId());
-                $personC->setValidated(false);
-                $series->addPerson($person);
-                $seriesC->removePerson($person);
-                $em->detach($person);
-                $em->persist($personC);
-            } 
+          $em = $this->getDoctrine()->getManager();
+            $seriesCopy = new Series();
+            $seriesCopy->setName($series->getName());
+            $seriesCopy->setSynopsisEn($series->getSynopsisEn());
+            $seriesCopy->setSynopsisFr($series->getSynopsisFr());
+            $seriesCopy->setYear($series->getYear());
+            $seriesCopy->setCreator($series->getCreator());
+            $seriesCopy->setImageFile($series->getImageFile());
+
+            $seriesCopy->setOldId($series->getId());
+            $seriesCopy->setValidated(false);
+
             $em->detach($series);
-            $em->persist($seriesC);
+            $em->persist($seriesCopy);
             $em->flush();
+
+            foreach ($series->getPersons() as $person) {
+                $personCopy= new Person();
+                $personCopy->setLastname($person->getLastname());
+                $personCopy->setFirstname($person->getFirstname());
+                $personCopy->setCharacter($person->getCharacter());
+                $personCopy->setOldId($person->getId());
+                $personCopy->setValidated(false);
+               
+                $em->detach($person);
+                $em->persist($personCopy);
+                $em->flush();
+
+            } 
+
+
+            // $seriesC = clone $series;
+            // $seriesC->setOldId($series->getId());
+            // $seriesC->setValidated(false);
+            // foreach ($seriesC->getPersons() as $person) {
+            //     $personC= new Person();
+            //     $personC = clone $person;
+            //     $personC->setOldId($person->getId());
+            //     $personC->setValidated(false);
+            //     $series->addPerson($person);
+            //     $seriesC->removePerson($person);
+            //     $series->removePerson($personC);
+            //     $em->detach($person);
+            //     $em->persist($personC);
+
+            //     // var_dump($personC->getSeries());
+            //     // die;
+            // } 
+            // $em->detach($series);
+            // $em->persist($seriesC);
+
+            // $em->flush();
 
             return $this->redirectToRoute('series_show', array('id' => $series->getId()));
         }
@@ -213,7 +248,31 @@ class SeriesController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->validateAction($series);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $seriesC = new Series();
+            $seriesC = clone $series;
+            $seriesC->setOldId($series->getId());
+            $seriesC->setValidated(false);
+            foreach ($seriesC->getPersons() as $person) {
+                // $personC= new Person();
+                $personC = clone $person;
+                $personC->setOldId($person->getId());
+                $personC->setValidated(false);
+                // $series->addPerson($person);
+                // $seriesC->removePerson($person);
+                $em->detach($person);
+                $em->persist($personC);
+                } 
+            $em->detach($series);
+            $em->persist($seriesC);
+
+
+            $em->flush();
+
+
+            // $this->validateAction($series);
 
             return $this->redirectToRoute('series_show', array('id' => $series->getId()));
 
@@ -284,9 +343,8 @@ class SeriesController extends Controller
      */
     public function deleteAction(Series $series)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            throw $this->createAccessDeniedException('Please login or signup to follow the series.');
-        }    
+        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
+        
             $em = $this->getDoctrine()->getManager();
             $em->remove($series);
             $em->flush();

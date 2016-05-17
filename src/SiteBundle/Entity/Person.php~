@@ -44,7 +44,7 @@ class Person
 
     /**
      * @var string
-     * @ORM\ManyToOne(targetEntity="Series", inversedBy="persons", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Series", mappedBy="persons", cascade={"persist"})
      * 
      */
     private $series;
@@ -261,5 +261,19 @@ class Person
     public function getOldId()
     {
         return $this->oldId;
+    }
+
+    /**
+     * Set series
+     *
+     * @param \SiteBundle\Entity\Series $series
+     *
+     * @return Person
+     */
+    public function setSeries(\SiteBundle\Entity\Series $series = null)
+    {
+        $this->series = $series;
+
+        return $this;
     }
 }

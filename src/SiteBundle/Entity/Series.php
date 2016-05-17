@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Series
@@ -14,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="series")
  * @ORM\Entity(repositoryClass="SiteBundle\Repository\SeriesRepository") @ORM\HasLifecycleCallbacks
  * @Vich\Uploadable
- * @UniqueEntity("name")
+ * 
  */
 class Series
 {
@@ -30,7 +29,7 @@ class Series
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255)
      * 
      */
     private $name;
@@ -73,7 +72,7 @@ class Series
     /**
      * @var string
      *
-     * @ORM\OneToMany(targetEntity="Person", mappedBy="series", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Person", inversedBy="series", cascade={"persist"})
      */
     private $persons;
 
@@ -132,7 +131,7 @@ class Series
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * 
      * @Vich\UploadableField(mapping="series_image", fileNameProperty="imageName")
-     * @ORM\Column(name="image_file", type="string", length=255)
+     * @ORM\Column(name="image_file", type="string", length=255, nullable=true)
      *    @Assert\Image(
      *     minWidth = 200,
      *     minHeight = 200,
@@ -159,7 +158,7 @@ class Series
     private $imageName;
 
     /**
-     * @ORM\Column(name="update_at", type="datetime")
+     * @ORM\Column(name="update_at", type="datetime", nullable=true)
      *
      * @var \DateTime
      */
@@ -664,7 +663,7 @@ class Series
      */
     public function addPerson(\SiteBundle\Entity\Person $person)
     {
-        $person->setSeries($this);
+        $person->addSeries($this);
         $this->persons->add($person);
 
         return $this;
