@@ -54,7 +54,9 @@ profile:
         reply: 'Reply :'
         unread: 'NEW !!!'
         none: 'You have no messages'
-    series: 'My ratings :'
+    series: 
+        mine: 'My rating :'
+        his: 'His rating : '
     friend:
         quit: 'Remove from my list of friends'
         new: 'New friends request : '

@@ -53,7 +53,7 @@ body {
     height: 50px;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: 100px;
+    background-size: 50px;
 }
 /*image same size for series list*/
 .center-cropped {
@@ -61,7 +61,11 @@ body {
     height: 100px;
     background-position: center center;
     background-repeat: no-repeat;
+<<<<<<< HEAD
    
+=======
+    background-size: 100px;
+>>>>>>> 929850ecec5e329c13a45bc162dbbe1cd31630c5
 }
 
 /*image same size for photo profil*/
@@ -195,21 +199,6 @@ figure {
   font-weight: bold;
 }
 
-/*.color1{
-   background-color: #fdbf37;
-}
-.color2{
-   background-color: #ee3124;
-}
-.color3{
-   background-color: #59BD73;
-}
-.color4{
-   background-color: #49bac8;
-}
-.color5{
-   background-color: #686868;
-}*/
 
 
 .titre1{
@@ -239,9 +228,3 @@ figure {
   margin-bottom: 10px;
   font-weight: bold;
 }
-
-
-/*.photoUser{
-  padding-top: 10px;
-  padding-bottom: 10px;
-}*/

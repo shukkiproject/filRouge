@@ -52,7 +52,9 @@ profile:
         reply: 'Réponse :'
         unread: 'NOUVEAU !!!'
         none: 'Vous n''avez pas de messages'
-    series: 'Ma note :'
+    series: 
+        mine: 'Ma note :'
+        his: 'Sa note : '
     friend:
         quit: 'Enlever de la liste d''amis'
         new: 'Nouvelles demandes d''amis : '

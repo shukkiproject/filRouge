@@ -1,13 +1,13 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% for comment in user.comments  %}
+{% for comment in user.comments|sort  %}
         <div class="media">
-             <div class="media-left">
+            <div class="media-left">
                 <a href="{{ path('series_show', { 'id': comment.series.id }) }}">
                     <div class="center-cropped" style="background-image: url('{{ asset("images/series/" ~ comment.series.getImageName()) }}');">
                     </div>
                 </a>
-             </div>
+            </div>
             <div class="media-body">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
                     <h4 class="media-heading">{{ comment.title }}{{ 'profile.criticise.on'|trans }}{{ comment.series.name }}<small><i>{{ 'series.posted'|trans }}{% if comment.date %}{{ comment.date|date('Y-m-d H:i:s') }}{% endif %}</i></small></h4>

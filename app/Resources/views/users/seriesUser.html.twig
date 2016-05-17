@@ -2,41 +2,53 @@
 <div class="panel-group" id="accordion">
     {% if user.seriesFollowed %}
       {% for serie in  user.seriesFollowed %}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title row">
-                  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 thumb" >
-                  <a href="{{ path('series_show', { 'id': serie.id }) }}">
-                      <div class="center-cropped" style="background-image: url('{{ asset("images/series/" ~ serie.getImageName()) }}');">
-                      </div>
-                  </a>
-                  </div>
-                  <div class=" col-lg-6 col-md-6 col-sm-8 col-xs-12 thumb">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#{{serie.id}}"><h1>{{ serie.name }}</h1></a>
-                  </div>
-                  {% if user.seriesRatings %}
-                  <div class=" col-lg-3 col-md-3 col-sm-8 col-xs-12 thumb">{{ 'profile.series'|trans }} 
-                      {% for oneRating in user.seriesRatings %}
-                        {% if oneRating.series.id == serie.id %}
-                          {{ oneRating.ratings }}
-                        {% endif %}
-                      {% endfor %}
-                  </div>
-                  {% endif %}
-              </h4>
+           <div class="media">
+            <div class="media-left">
+                <a href="{{ path('series_show', { 'id': serie.id }) }}">
+                    <div class="center-cropped" style="background-image: url('{{ asset("images/series/" ~ serie.getImageName()) }}');">
+                    </div>
+                </a>
             </div>
-            <div id="{{serie.id}}" class="panel-collapse collapse">
-              <div class="panel-body">
-
+            <div class="media-body">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+                    <h1 class="media-heading">{{ serie.name }}<small><i></i></small></h1>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 col-sm-offset-3 col-md-offset-3">
+                {% if app.user==user %}
+                  {{ 'profile.series.mine'|trans }} 
+                {% else %}
+                  {{ 'profile.series.his'|trans }}
+                {% endif %}
+                  {% for oneRating in user.seriesRatings %}
+                    {% if oneRating.series.id == serie.id %}
+                      {% if oneRating.ratings  > 0 %}
+                      <i class="fa fa-star fa-lg" style="color: #F2CB20" aria-hidden="true"></i>
+                      {% endif %}
+                      {% if oneRating.ratings  > 1 %}
+                      <i class="fa fa-star fa-lg" style="color: #F2CB20" aria-hidden="true"></i>
+                      {% endif %}
+                      {% if oneRating.ratings  > 2 %}
+                      <i class="fa fa-star fa-lg" style="color: #F2CB20" aria-hidden="true"></i>
+                      {% endif %}
+                      {% if oneRating.ratings  > 3 %}
+                      <i class="fa fa-star fa-lg" style="color: #F2CB20" aria-hidden="true"></i>
+                      {% endif %}
+                      {% if oneRating.ratings  > 4 %}
+                      <i class="fa fa-star fa-lg" style="color: #F2CB20" aria-hidden="true"></i>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               {% if app.request.getLocale()=='en' %}
                 <p>{{serie.synopsisEn}}</p>
               {% else %}
                 <p>{{serie.synopsisFr}}</p>
               {% endif %}
-
-              </div>
+                </div>
             </div>
-          </div>
+        </div>
+        <hr/>
         {% endfor %} 
     {% endif %}    
 </div>
