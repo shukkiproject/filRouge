@@ -134,27 +134,27 @@ class SeriesController extends Controller
             } 
 
 
-            // $seriesC = clone $series;
-            // $seriesC->setOldId($series->getId());
-            // $seriesC->setValidated(false);
-            // foreach ($seriesC->getPersons() as $person) {
-            //     $personC= new Person();
-            //     $personC = clone $person;
-            //     $personC->setOldId($person->getId());
-            //     $personC->setValidated(false);
-            //     $series->addPerson($person);
-            //     $seriesC->removePerson($person);
-            //     $series->removePerson($personC);
-            //     $em->detach($person);
-            //     $em->persist($personC);
+            $seriesC = clone $series;
+            $seriesC->setOldId($series->getId());
+            $seriesC->setValidated(false);
+            foreach ($seriesC->getPersons() as $person) {
+                $personC= new Person();
+                $personC = clone $person;
+                $personC->setOldId($person->getId());
+                $personC->setValidated(false);
+                $series->addPerson($person);
+                $seriesC->removePerson($person);
+                $series->removePerson($personC);
+                $em->detach($person);
+                $em->persist($personC);
 
-            //     // var_dump($personC->getSeries());
-            //     // die;
-            // } 
-            // $em->detach($series);
-            // $em->persist($seriesC);
+                // var_dump($personC->getSeries());
+                // die;
+            } 
+            $em->detach($series);
+            $em->persist($seriesC);
 
-            // $em->flush();
+            $em->flush();
 
             return $this->redirectToRoute('series_show', array('id' => $series->getId()));
         }

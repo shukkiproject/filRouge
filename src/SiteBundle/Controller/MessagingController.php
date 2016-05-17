@@ -29,6 +29,7 @@ class MessagingController extends Controller
     {
         $subject =  $request->request->get('subject');
         $body =  $request->request->get('body');
+        $body=str_replace(array("\r\n","\n"),'\n',$body);
         $username =  $request->request->get('recipient');
         $user = $this->getUser();
 
@@ -62,7 +63,8 @@ class MessagingController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $subject =  $request->request->get('subject');
-        $body =  $request->request->get('body');  
+        $body =  $request->request->get('body');
+        $body=str_replace(array("\r\n","\n"),'\n',$body);  
         $user = $this->getUser();
         $recipient = $em->getRepository('SiteBundle:User')->findOneById($id);
 
@@ -78,7 +80,7 @@ class MessagingController extends Controller
         $sender = $this->container->get('fos_message.sender');
         $sender->send($message);
 
-        return $this->redirectToRoute('user_profil');
+        return $this->redirectToRoute('user_show',array('id' => $id));
     }
 
      /**
@@ -95,15 +97,16 @@ class MessagingController extends Controller
         $user = $this->getUser();
 
         $composer = $this->container->get('fos_message.composer');
-        $message =  $request->request->get('reply');
+        $body =  $request->request->get('reply');
+        $body=str_replace(array("\r\n","\n"),'\n',$body);
 
-        $mess = $composer->reply($thread)
+        $message = $composer->reply($thread)
             ->setSender($user)
-            ->setBody($message)
+            ->setBody($body)
             ->getMessage();
 
         $sender = $this->container->get('fos_message.sender');
-        $sender->send($mess);
+        $sender->send($message);
 
         return $this->redirectToRoute('user_profil');
     }

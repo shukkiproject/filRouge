@@ -22,15 +22,16 @@
                
             {% endif %}
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
-                <h1 >{{ user.username }}</h1>
-                {% if user.id in app.user.myAskForFriends %}
-                    demande envoyé
-                {% elseif user.id in app.user.myFriends%}
-                    Vous etes amis
-                {% else%}
-                    <a href="{{ path('user_askforfriend', { 'id': user.id }) }}"><button type="button" class="btn btn-warning">{{ 'profile.user.friend'|trans }}</button></a>
-                {% endif%}
-
+                <h1 >{{ user.username }}</h1><br><br><br><br>
+                <div>
+                    {% if user.id in app.user.myAskForFriends %}
+                        {{ 'profile.user.ask'|trans }}
+                    {% elseif user.id in app.user.myFriends%}
+                        {{ 'profile.user.friend'|trans }}
+                    {% else%}
+                        <a href="{{ path('user_askforfriend', { 'id': user.id }) }}"><button type="button" class="btn btn-warning">{{ 'profile.user.tobefriend'|trans }}</button></a>
+                    {% endif%}
+                </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
                 <button id="newMess" class='btn btn-success'>{{ 'profile.message.user'|trans }}</button>
@@ -57,7 +58,6 @@
 <!-- tab menu -->
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active"></br>
-{{ dump(user)}}
             </div>
 <!-- tab content series details -->
             <div id="series" class="tab-pane fade"></br>
@@ -67,31 +67,20 @@
 <!-- tab content series details -->
 <!-- tab content friends details -->
             <div id="friends" class="tab-pane fade"></br>
-            {% for friend in friends  %}
-                <div class="media">
-                    <div class="media-left">
-                        <a href="{{ path('user_show', { 'id': friend.id }) }}">
-                            <div class="center-cropped" style="background-image: url('{{ asset('images/users/' ~ friend.getImageName()) }}');">
-                            </div>
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
-                            <h4 class="media-heading">{{ friend.username }} </h4>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        </div>
+                <div class="col-xs-12 col-sm-10 col-md-8">
+                    <div class="row">
+                        {% for friend in friends  %}
+                            <a href="{{ path('user_show',{'id':friend.id}) }}">
+                                <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+                                    <figure class="thumbnail">
+                                        <img src="{{ asset("images/users/" ~ friend.getImageName()) }}" class="img-responsive"/>
+                                        <figcaption>{{ friend.username }}</figcaption>
+                                    </figure>
+                                </div>
+                            </a>
+                        {% endfor %}
                     </div>
                 </div>
-                <hr/>
-                <script>
-                    $("#{{ friend.username }}").click(function(){
-                        $("#{{ friend.id }}").toggle(500);
-                    });
-                </script>
-            {% endfor %}
             </div>
 <!-- tab content friends details -->
 <!-- tab content comments details -->

@@ -27,7 +27,6 @@ class UserController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $users = $em->getRepository('SiteBundle:User')->findAll();
         
         return $this->render('users/index.html.twig', array(
