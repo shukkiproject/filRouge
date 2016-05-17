@@ -50,7 +50,7 @@ body {
     height: 50px;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: 100px;
+    background-size: 50px;
 }
 /*image same size for series list*/
 .center-cropped {
@@ -58,7 +58,7 @@ body {
     height: 100px;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: 250px;
+    background-size: 100px;
 }
 
 /*image same size for photo profil*/

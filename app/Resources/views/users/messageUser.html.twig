@@ -17,7 +17,8 @@
             </div>
         </div>
     </div>
-    <h3>{{ 'profile.message.box'|trans }}</h3>
+   <hr>
+{#     <h3>{{ 'profile.message.box'|trans }}</h3> #}
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <ul id="nav-tabs-wrapper" class="nav nav-tabs nav-pills nav-stacked well">
@@ -28,7 +29,7 @@
                     {% for participant in thread.participants %}
                         {% if participant.username != user.username%}
                             <li>
-                                <a href="#cont" data-toggle="tab" id="{{ thread.id }}" class="row">
+                                <a href="#cont" data-toggle="tab" id="thread{{ thread.id }}" class="row">
                                     <div class="media"  >
                                         <div class="media-left">
                                             <div class="center-cropped-message img-reponsive img-rounded" style="background-image: url('{{ asset("images/users/" ~ participant.getImageName()) }}');">
@@ -55,8 +56,8 @@
                     {% endfor %}
                     <script>
 
-                    $('#{{ thread.id }}').on('click', function(){
-                        var message = "<h2>Objet: {{ thread.subject }}</h2>{% for message in thread.messages %}<br/><div class='messenger_thread_message'><div class='messenger_thread_message_info'><strong>{% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle'%}message_info{% endtrans %}</strong></div><div class='messenger_thread_message_body' id='message_{{ message.id }}'>{{ message.body }}</div> </div>{% endfor %}<h3>Reply</h3><form action='{{ url('message_reply', {'threadId': thread.id}) }}'' method='post'><textarea name='reply' type='text'></textarea></br><input class='btn btn-success' type='submit' value='{{ 'profile.message.send'|trans }}'/><span><a href='{{ path('message_delete', { 'threadId': thread.id }) }}'><button type='button' class='btn btn-warning'><i class='fa fa-trash-o' aria-hidden='true'></i></button></a></span></form>";
+                    $('#thread{{ thread.id }}').on('click', function(){
+                        var message = "<h2>Objet: {{ thread.subject }}</h2>{% for message in thread.messages %}<br/><div class='messenger_thread_message'><div class='messenger_thread_message_info'><strong>{% trans with {'%sender%': message.sender|e, '%date%': message.createdAt|date} from 'FOSMessageBundle'%}message_info{% endtrans %}</strong></div><div class='messenger_thread_message_body' id='message_{{ message.id }}'>{{ message.body }}</div> </div>{% endfor %}<h3>{{ 'profile.message.reply'|trans }}</h3><form action='{{ url('message_reply', {'threadId': thread.id}) }}'' method='post'><textarea name='reply' type='text'></textarea></br><input class='btn btn-success' type='submit' value='{{ 'profile.message.send'|trans }}'/><span><a href='{{ path('message_delete', { 'threadId': thread.id }) }}'><button type='button' class='btn btn-warning'><i class='fa fa-trash-o' aria-hidden='true'></i></button></a></span></form>";
                         message=message.replace(/\n+/g,"<br>");
                         $('#cont').html(message);
                        
