@@ -72,7 +72,7 @@ class Series
     /**
      * @var string
      *
-     * @ORM\ManyToMany(targetEntity="Person", inversedBy="series", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Person", inversedBy="series")
      */
     private $persons;
 

@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use SiteBundle\Entity\Season;
 use SiteBundle\Form\SeasonType;
 use SiteBundle\Entity\Episode;
+use SiteBundle\Entity\Series;
 
 /**
  * Season controller.
@@ -40,11 +41,12 @@ class SeasonController extends Controller
      * @Route("series/{id}/season-episode/new", name="season_episode_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request, $id)
+    public function newAction(Request $request, Series $series)
     {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) { throw $this->createAccessDeniedException('Please login or signup.');}
 
         $season = new Season();
+        $season->setSeries($series);
         $form = $this->createForm('SiteBundle\Form\SeasonType', $season);
         $form->handleRequest($request);
 
@@ -62,13 +64,13 @@ class SeasonController extends Controller
             if (!in_array($season->getSeason(), $tab)) { 
                 $season->setValidated(false);
                 $em->persist($season);
-                $em->flush();
                 foreach ($season->getEpisodes() as $episode) { 
-                    // $episode->setSeason($season);
+                    $episode->setSeason($season);
                     $episode->setValidated(false);
                     $em->persist($episode);
-                    $em->flush();
+                    
                 } 
+                $em->flush();
             } else {
                 //get the existing season entity and add new episodes
                 $existingSeason = $em->getRepository('SiteBundle:Season')->findOneBy(array('series' => $season->getSeries(), 'season' => $season->getSeason()));
@@ -77,14 +79,13 @@ class SeasonController extends Controller
                 foreach ($season->getEpisodes() as $episode) { 
                     $episode->setSeason($existingSeason);
                     $episode->setValidated(false);
-                    $em->persist($episode);
-                    $em->flush();
-                
+                    $em->persist($episode);                
                 }
+                    $em->flush();
             } 
 
             return $this->redirectToRoute('series_show', array(
-            'id' => $id));
+            'id' => $series->getId()));
         }
 
         return $this->render('season/new.html.twig', array(

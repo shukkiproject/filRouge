@@ -43,6 +43,67 @@
     </div>
   </div>
 
+{# series block #}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="panel panel-info">
+    <div class="panel-heading"><h5>Series not validated</h5></div>
+      <div class="panel-body">
+ {% for s in series %}
+          <figure class="col-xs-6 col-md-3">
+              <a class="thumbnail" href="{{ path('series_show', { 'id': s.id }) }}">
+                <img class="essai5" src="{{ asset('images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}"/>
+              </a>
+          </figure>
+  {% endfor %}
+      </div>
+    </div>
+</div>
+
+{# person block #}
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+    <h5>{{ 'admin.person.title'|trans }}</h5></div>
+      <div class="panel-body">
+
+        <div class="table-responsive">
+          <table class="table table-hover">
+              <thead>
+                  <tr>
+                  {#
+                      <th>{{ 'admin.person.series'|trans }}</th>
+                  #}
+                      <th>{{ 'admin.person.character'|trans }}</th>
+                      <th>{{ 'admin.person.name'|trans }}</th>
+                      <th>{{ 'admin.person.actions'|trans }}</th>
+                  </tr>
+              </thead>
+              <tbody>
+                    {% for person in persons %}
+                  <tr>
+                  {#
+                    <td>{% for ser in person.series %}  {{ ser }} {% endfor %} </td>
+                  #}                  
+                    <td>{{ person.character }}</td>
+                    <td>{{ person }}</td>
+                    <td>
+                      <div class="btn-group" role="group">
+                        <a href="{{ path('person_validate', { 'id': person.id }) }}"><button type="button" class="btn btn-success">{{ 'admin.person.validate'|trans }}</button></a>
+                           
+                        <a href="{{ path('person_edit', { 'id': person.id }) }}"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+                        <a href="{{ path('person_delete', { 'id': person.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
+                        
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+  
 {# season block #}
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
   <div class="panel panel-success">
@@ -127,61 +188,6 @@
     </div>
   </div>
 
-{# person block #}
-  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-  <div class="panel panel-info">
-    <div class="panel-heading">
-    <h5>{{ 'admin.person.title'|trans }}</h5></div>
-      <div class="panel-body">
 
-        <div class="table-responsive">
-          <table class="table table-hover">
-              <thead>
-                  <tr>
-                      <th>{{ 'admin.person.series'|trans }}</th>
-                      <th>{{ 'admin.person.character'|trans }}</th>
-                      <th>{{ 'admin.person.name'|trans }}</th>
-                      <th>{{ 'admin.person.actions'|trans }}</th>
-                  </tr>
-              </thead>
-              <tbody>
-                    {% for person in persons %}
-                  <tr>
-                    <td>{% for ser in person.series %}  {{ ser }} {% endfor %} </td>
-                    <td>{{ person.character }}</td>
-                    <td>{{ person }}</td>
-                    <td>
-                      <div class="btn-group" role="group">
-                        <a href="{{ path('person_validate', { 'id': person.id }) }}"><button type="button" class="btn btn-success">{{ 'admin.person.validate'|trans }}</button></a>
-                           
-                        <a href="{{ path('person_edit', { 'id': person.id }) }}"><button type="button" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                        <a href="{{ path('person_delete', { 'id': person.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>
-                        
-                      </div>
-                    </td>
-                  </tr>
-                {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    </div>
-  </div>
-
-{# series block #}
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-  <div class="panel panel-info">
-    <div class="panel-heading"><h5>Series not validated</h5></div>
-      <div class="panel-body">
- {% for s in series %}
-          <figure class="col-xs-6 col-md-3">
-              <a class="thumbnail" href="{{ path('series_show', { 'id': s.id }) }}">
-                <img class="essai5" src="{{ asset('images/series/' ~ s.getImageName()) }}" alt="{{ s.name }}"/>
-              </a>
-          </figure>
-  {% endfor %}
-      </div>
-    </div>
-</div>
 
 {% endblock %}

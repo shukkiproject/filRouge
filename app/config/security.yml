@@ -39,5 +39,6 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/superadmin, roles: ROLE_SUPER_ADMIN }
         - { path: ^/admin, role: ROLE_MODERATOR }
-        - { path: ^/edit, role: ROLE_MODERATOR }
+        - { path: ^/edit, role: ROLE_USER }
         - { path: ^/delete, role: ROLE_MODERATOR }
+        - { path: ^/validate, role: ROLE_MODERATOR }

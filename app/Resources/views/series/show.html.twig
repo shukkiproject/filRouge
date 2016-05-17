@@ -31,9 +31,8 @@
                 <!-- include ratings  -->  
                 <!-- buttons for series-->
                 <div class="btn-group" role="group">
-                    {% if is_granted('ROLE_MODERATOR')==false %}
-                        <a href="{{ path('propose_changes', { 'id': series.id }) }}"><button class="btn btn-info">{{ 'series.change'|trans }}</button></a>
-                    {% endif %}
+                
+                     <a href="{{ path('series_edit', { 'id': series.id }) }}"><button class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
 
                     {% if app.user %}
                         <a><button class="btn btn-success" id="followSeries">{{ 'series.follow'|trans }}</button></a> 
@@ -45,7 +44,6 @@
                         {% if series.validated==0 %} 
                            <a href="{{ path('series_validate', { 'id': series.id }) }}"><button class="btn btn-success">{{ 'series.validate'|trans }}</button></a>
                         {% endif %}
-                        <a href="{{ path('series_edit', { 'id': series.id }) }}"><button class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
                         <a href="{{ path('series_delete', { 'id': series.id }) }}"><button type="button" class="btn btn-warning"><i class="fa fa-trash-o" aria-hidden="true"></i></button></a>                      
                     {% endif %}
                 </div>

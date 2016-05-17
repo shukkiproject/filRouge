@@ -49,6 +49,7 @@ class PersonController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $person->setValidated(false);
+            
             $series->addPerson($person);
             $em->persist($person);
             $em->flush();
@@ -98,7 +99,6 @@ class PersonController extends Controller
                     $oldPerson->setFirstname($person->getFirstname());
                     $oldPerson->setCharacter($person->getCharacter());
                     $oldPerson->setValidated(true);
-
                     $em->persist($oldPerson);
                     $em->remove($person);
                     $em->flush();
@@ -121,13 +121,23 @@ class PersonController extends Controller
      */
     public function editAction(Request $request, Person $person)
     {
-        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException('Please login or signup.');
+        }
         $editForm = $this->createForm('SiteBundle\Form\PersonType', $person);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
-            $em->persist($person);
+            $personCopy= new Person();
+            $personCopy->setLastname($person->getLastname());
+            $personCopy->setFirstname($person->getFirstname());
+            $personCopy->setCharacter($person->getCharacter());
+            $personCopy->setOldId($person->getId());
+            $personCopy->setValidated(false);
+            $em->detach($person);
+            $em->persist($personCopy);            
             $em->flush();
 
             return $this->redirectToRoute('moderator_index');
