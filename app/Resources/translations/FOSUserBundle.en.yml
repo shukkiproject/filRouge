@@ -143,16 +143,16 @@ navbar:
         moderator: 'Moderator''s Page'
     home: 'Home'
     series:
-        index: 'Series'
+        index: 'SERIES'
         all: 'All Series'
         add: 'Add a series'
     season:
         index: 'Season / Episode'
         add: 'Add a season / an episode'
     log:
-        signup: 'Sign Up'
-        logout: 'Logout'
-        login: 'Login'
+        signup: 'SIGN UP'
+        logout: 'LOGOUT'
+        login: 'LOGIN'
     search: 'Search'
 
 series:

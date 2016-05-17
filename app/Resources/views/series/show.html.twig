@@ -16,13 +16,14 @@
 <!-- breadcrumb -->
 
         <!-- series info -->
+        <div class="row suppPadding divWhite">
         {% if series.imageName %}
-        <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 thumb">  
+        <div class="col-lg-3 col-md-3 col-sm-10 col-xs-12 ">  
                 <img class="thumbnail img-responsive seriesImage" src="{{ asset('images/series/' ~ series.getImageName()) }}" alt="{{ series.name }}" >             
         </div>
         {% endif %}
-        <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12 thumb">
-            <h1 class="page-header">{{ series.name }} <small>( {{ series.year }} )</small></h1>
+        <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
+            <h1 class="titre1">{{ series.name }} <small>( {{ series.year }} )</small></h1>
             <h4>Creator : {{ series.creator }}</h4>
             <h3>{{ 'series.rating'|trans }} <big>{{ average }}</big></h3>
                     
@@ -50,7 +51,8 @@
                     {% endif %}
                 </div>
                 <!-- buttons for series-->
-            <!-- series info -->                           
+            <!-- series info -->    
+        </div>                       
         </div>
     </div>
 <!-- tab menu -->
