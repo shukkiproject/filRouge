@@ -38,7 +38,7 @@
     <div class="container">
         <ul class="nav nav-tabs">
             {# <li class="active"><a data-toggle="tab" href="#home">{{ 'navbar.home'|trans }}</a></li> #}
-            <li><a data-toggle="tab" href="#series">{{ 'profile.show.series'|trans }}</a></li>
+            <li class="active"><a data-toggle="tab" href="#series">{{ 'profile.show.series'|trans }}</a></li>
             <li><a data-toggle="tab" href="#friends">{{ 'profile.show.friends'|trans }}</a></li>
             <li><a data-toggle="tab" href="#criticise">{{ 'profile.show.criticises'|trans }}</a></li>
             <li><a data-toggle="tab" href="#messages">{{ 'profile.message.box'|trans }}</a></li>
@@ -48,7 +48,7 @@
            {#  <div id="home" class="tab-pane fade in active"></br>
             </div> #}
 <!-- tab content series details -->
-            <div id="series" class="tab-pane fade"></br>
+            <div id="series" class="tab-pane fade in active"></br>
             {% if  user.seriesFollowed  is empty %}
                 {{ 'profile.show.noseries'|trans }}
             {% endif %}
