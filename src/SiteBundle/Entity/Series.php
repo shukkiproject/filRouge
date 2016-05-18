@@ -121,7 +121,7 @@ class Series
     /**
      * @var datetime
      *
-     * @ORM\Column(name="update_date", type="datetime")
+     * @ORM\Column(name="update_date", type="datetime", nullable=true)
      */
     private $updateDate;
 

@@ -99,9 +99,7 @@ class SeriesController extends Controller
      */
     public function showAction(Series $series, Request $request)
     {
-        // var_dump($series);
-        // die;
-        $deleteForm = $this->createDeleteForm($series);
+       
 
         $comment = new Comment($series);
         $form = $this->createForm('SiteBundle\Form\CommentType', $comment);
@@ -115,7 +113,6 @@ class SeriesController extends Controller
         return $this->render('series/show.html.twig', array(
             'series' => $series,
             'average' => $seriesRatings,
-            'delete_form' => $deleteForm->createView(),
             'form' => $form->createView(),
 
         ));
