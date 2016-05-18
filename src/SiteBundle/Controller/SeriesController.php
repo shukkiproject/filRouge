@@ -17,6 +17,7 @@ use SiteBundle\Entity\User;
 use SiteBundle\Entity\Person;
 use Symfony\Component\HttpFoundation\File\File;
 
+
 /**
  * Series controller.
  *
@@ -32,6 +33,9 @@ class SeriesController extends Controller
      */
     public function indexAction(Request $request)
     {
+    
+
+
         $em = $this->getDoctrine()->getManager();
         $dql   = "SELECT s FROM SiteBundle:Series s";
         $query = $em->createQuery($dql);

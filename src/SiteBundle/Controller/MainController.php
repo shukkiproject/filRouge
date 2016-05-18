@@ -11,6 +11,7 @@ use SiteBundle\Entity\Series;
 use SiteBundle\Repository\MainRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use SiteBundle\Entity\Episode;
 
 /**
  * Main controller.
@@ -23,6 +24,26 @@ class MainController extends Controller
      * @Route("/{_locale}", defaults={"_locale": "fr"}, requirements={"_locale": "en|fr"}, name="site_main_index")
      */
     public function indexAction(){
+
+        // $em = $this->getDoctrine()->getManager();
+        // $episodes = $em->getRepository('SiteBundle:Person')->findAll();
+        // // var_dump($episodes);
+        // // die;
+        // foreach ($episodes as $epi) {
+        //     $epi->setValidated(true);
+        //     $em->persist($epi);
+        //     $em->flush();
+        // }
+
+        //         $em = $this->getDoctrine()->getManager();
+        // $episodes = $em->getRepository('SiteBundle:Season')->findAll();
+        // // var_dump($episodes);
+        // // die;
+        // foreach ($episodes as $epi) {
+        //     $epi->setValidated(true);
+        //     $em->persist($epi);
+        //     $em->flush();
+        // }
 
         $em = $this->getDoctrine()->getManager();
         $recentComments = $em->getRepository('SiteBundle:Comment')->recentComments();

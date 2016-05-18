@@ -107,7 +107,7 @@ class Series
     /**
      * @var int
      *
-     * @ORM\Column(name="oldId", type="integer", nullable=true)
+     * @ORM\Column(name="oldId", type="integer")
      */
     private $oldId;
 
@@ -121,7 +121,7 @@ class Series
     /**
      * @var datetime
      *
-     * @ORM\Column(name="update_date", type="datetime", nullable=true)
+     * @ORM\Column(name="update_date", type="datetime")
      */
     private $updateDate;
 

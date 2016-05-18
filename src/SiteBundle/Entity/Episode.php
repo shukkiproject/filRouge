@@ -24,7 +24,7 @@ class Episode
     /**
      * @var int
      *
-     * @ORM\ManyToOne(targetEntity="Season", inversedBy="episodes")
+     * @ORM\ManyToOne(targetEntity="Season", inversedBy="episodes", cascade={"persist"})
      */
     private $season;
 
@@ -92,6 +92,13 @@ class Episode
      * @ORM\Column(name="validated", type="boolean")
      */
     private $validated;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="oldId", type="integer", nullable=true)
+     */
+    private $oldId;
 
     /**
      * Get id
@@ -374,6 +381,12 @@ class Episode
         $this->watchedBy->removeElement($watchedBy);
     }
 
+    public function setWatchedBy($watchedBy)
+    {
+        $this->watchedBy = $watchedBy;
+        return $this;
+    }
+
     /**
      * Get watchedBy
      *
@@ -454,5 +467,29 @@ class Episode
     public function getValidated()
     {
         return $this->validated;
+    }
+
+    /**
+     * Set oldId
+     *
+     * @param integer $oldId
+     *
+     * @return Episode
+     */
+    public function setOldId($oldId)
+    {
+        $this->oldId = $oldId;
+
+        return $this;
+    }
+
+    /**
+     * Get oldId
+     *
+     * @return integer
+     */
+    public function getOldId()
+    {
+        return $this->oldId;
     }
 }

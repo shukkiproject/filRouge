@@ -49,7 +49,7 @@ class PersonController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $person->setValidated(false);
-            
+            //?
             $series->addPerson($person);
             $em->persist($person);
             $em->flush();

@@ -28,7 +28,7 @@ class EpisodeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $episodes = $em->getRepository('SiteBundle:Episode')->findAll();
+        $episodes = $em->getRepository('SiteBundle:Episode')->findByValidated(true);
 
         return $this->render('episode/index.html.twig', array(
             'episodes' => $episodes,
@@ -49,6 +49,7 @@ class EpisodeController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $person->setValidated(false);
             $em->persist($episode);
             $em->flush();
 
@@ -93,14 +94,16 @@ class EpisodeController extends Controller
         if (($episode->getOldId())!==null) {
                 $oldEpisode = $em->getRepository('SiteBundle:Episode')->find($episode->getOldId());
                 if (isset($oldEpisode)) {
-
+       
                     $oldEpisode->setEpisode($episode->getEpisode());
                     $oldEpisode->setTitle($episode->getTitle());
                     $oldEpisode->setSynopsisEn($episode->getSynopsisEn());
                     $oldEpisode->setSynopsisFr($episode->getSynopsisFr());
+                    $oldEpisode->setWatchedBy($episode->getWatchedBy());
+                    $oldEpisode->setDate($episode->getDate());
                     $oldEpisode->setValidated(true);
 
-                    $em->persist($oldepisode);
+                    $em->persist($oldEpisode);
                     $em->remove($episode);
                     $em->flush();
                     return $this->redirectToRoute('moderator_index');
@@ -124,23 +127,32 @@ class EpisodeController extends Controller
      */
     public function editAction(Request $request, Episode $episode)
     {
-        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
-        $deleteForm = $this->createDeleteForm($episode);
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException('Please login or signup.');
+        }
         $editForm = $this->createForm('SiteBundle\Form\EpisodeType', $episode);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($episode);
-            $em->flush();
+                $episodeCopy= new Episode();
+                $episodeCopy->setEpisode($episode->getEpisode());
+                $episodeCopy->setTitle($episode->getTitle());
+                $episodeCopy->setSynopsisEn($episode->getSynopsisEn());
+                $episodeCopy->setSynopsisFr($episode->getSynopsisFr());
+                $episodeCopy->setOldId($episode->getId());
+                $episodeCopy->setValidated(false);
 
-            return $this->redirectToRoute('episode_edit', array('id' => $episode->getId()));
+                $em = $this->getDoctrine()->getManager();
+                $em->detach($episode);
+                $em->persist($episodeCopy);
+                $em->flush();
+
+             return $this->redirectToRoute('series_show', array('id' => $episode->getSeason()->getSeries()->getId()));
         }
 
         return $this->render('episode/edit.html.twig', array(
             'episode' => $episode,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 

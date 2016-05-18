@@ -38,7 +38,7 @@ class Episode
     /**
      * @var text
      *
-     * @ORM\Column(name="title", type="text")
+     * @ORM\Column(name="title", type="string")
      */
     private $title;
 
@@ -87,6 +87,20 @@ class Episode
     private $comments;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="validated", type="boolean")
+     */
+    private $validated;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="oldId", type="integer", nullable=true)
+     */
+    private $oldId;
+
+    /**
      * Get id
      *
      * @return int
@@ -94,30 +108,6 @@ class Episode
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set series
-     *
-     * @param string $series
-     *
-     * @return EpisodeEn
-     */
-    public function setSeries($series)
-    {
-        $this->series = $series;
-
-        return $this;
-    }
-
-    /**
-     * Get series
-     *
-     * @return string
-     */
-    public function getSeries()
-    {
-        return $this->series;
     }
 
     /**
@@ -399,5 +389,77 @@ class Episode
     public function getWatchedBy()
     {
         return $this->watchedBy;
+    }
+
+    /**
+     * Set synopsisEn
+     *
+     * @param string $synopsisEn
+     *
+     * @return Episode
+     */
+    public function setSynopsisEn($synopsisEn)
+    {
+        $this->synopsisEn = $synopsisEn;
+
+        return $this;
+    }
+
+    /**
+     * Get synopsisEn
+     *
+     * @return string
+     */
+    public function getSynopsisEn()
+    {
+        return $this->synopsisEn;
+    }
+
+    /**
+     * Set synopsisFr
+     *
+     * @param string $synopsisFr
+     *
+     * @return Episode
+     */
+    public function setSynopsisFr($synopsisFr)
+    {
+        $this->synopsisFr = $synopsisFr;
+
+        return $this;
+    }
+
+    /**
+     * Get synopsisFr
+     *
+     * @return string
+     */
+    public function getSynopsisFr()
+    {
+        return $this->synopsisFr;
+    }
+
+    /**
+     * Set validated
+     *
+     * @param boolean $validated
+     *
+     * @return Episode
+     */
+    public function setValidated($validated)
+    {
+        $this->validated = $validated;
+
+        return $this;
+    }
+
+    /**
+     * Get validated
+     *
+     * @return boolean
+     */
+    public function getValidated()
+    {
+        return $this->validated;
     }
 }

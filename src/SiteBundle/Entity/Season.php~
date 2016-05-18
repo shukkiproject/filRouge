@@ -159,17 +159,6 @@ class Season
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function setEpisodes($episodes)
-    {
-        $this->episodes = $episodes;
-        return $this;
-    }
-
-    /**
-     * Get episodes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
     public function getEpisodes()
     {
         return $this->episodes;
@@ -235,29 +224,5 @@ class Season
     public function getValidated()
     {
         return $this->validated;
-    }
-
-    /**
-     * Set oldId
-     *
-     * @param integer $oldId
-     *
-     * @return Season
-     */
-    public function setOldId($oldId)
-    {
-        $this->oldId = $oldId;
-
-        return $this;
-    }
-
-    /**
-     * Get oldId
-     *
-     * @return integer
-     */
-    public function getOldId()
-    {
-        return $this->oldId;
     }
 }

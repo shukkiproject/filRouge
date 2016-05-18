@@ -230,7 +230,9 @@ episode:
     list: 'Episode List'
 
 season_episode:
-    add: 'Propose an episode'
+    add: 'Propose episodes'
+    edit: 'Edit this season'
+    delete: 'Delete'
 
 comment:
     new:

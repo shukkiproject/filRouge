@@ -28,7 +28,7 @@ class SeasonController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $seasons = $em->getRepository('SiteBundle:Season')->findAll();
+        $seasons = $em->getRepository('SiteBundle:Season')->findByValidated(true);
 
         return $this->render('season/index.html.twig', array(
             'seasons' => $seasons,
@@ -79,7 +79,8 @@ class SeasonController extends Controller
                 foreach ($season->getEpisodes() as $episode) { 
                     $episode->setSeason($existingSeason);
                     $episode->setValidated(false);
-                    $em->persist($episode);                
+                    $em->persist($episode);
+                
                 }
                     $em->flush();
             } 
@@ -123,6 +124,23 @@ class SeasonController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
+         if (($season->getOldId())!==null) {
+            $oldSeason = $em->getRepository('SiteBundle:Season')->find($season->getOldId());
+
+            $oldSeason->setSeries($season->getSeries());
+            $oldSeason->setSeason($season->getSeason());
+            $oldSeason->setValidated(true);
+            var_export($oldSeason->getEpisodes());
+            die;
+
+            $em->persist($oldSeason);
+            $em->remove($season); 
+            $em->flush();
+
+            return $this->redirectToRoute('moderator_index');
+        }
+
+
         $season->setValidated(true);
         $em->persist($season);
         $em->flush();
@@ -135,37 +153,44 @@ class SeasonController extends Controller
      * Displays a form to edit an existing Season entity.
      *
      * @Route("season/{id}/edit", requirements={
-    *     "id": "\d+"}, name="season_edit")
+    *     "id": "\d+"}, name="season_episode_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Season $season)
     {
         
-        $this->denyAccessUnlessGranted('ROLE_MODERATOR', null, 'Unauthorized to access this page!');
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException('Please login or signup.');
+        }
         
-        $deleteForm = $this->createDeleteForm($season);
         $editForm = $this->createForm('SiteBundle\Form\SeasonType', $season);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $newSerie = clone $serie;
-            $newSerie->setParent($serie->getId());
-            $newSerie->setValidated(0);
-            $newSerie->setAuthor($this->getUser());
-            //Persist only NewSerie for validation
-            $em->detach($serie);
-            $em->persist($newSerie);
-            $em->flush();
+ 
+            $em = $this->getDoctrine()->getManager();
 
-            $season->setValidated(false);
+            $seasonCopy = new Season();
+            $seasonCopy->setSeries($season->getSeries());
+            $seasonCopy->setSeason($season->getSeason());
+            $seasonCopy->setOldId($season->getId());
+            $seasonCopy->setValidated(false);
+
+            $em->detach($season);
+            $em->persist($seasonCopy);
+
             foreach ($season->getEpisodes() as $episode) { 
-                    $episode->setValidated(false);
-                    $em->persist($episode);
-                    $em->flush();
+                $episodeCopy= new Episode();
+                $episodeCopy->setEpisode($episode->getEpisode());
+                $episodeCopy->setTitle($episode->getTitle());
+                $episodeCopy->setSynopsisEn($episode->getSynopsisEn());
+                $episodeCopy->setSynopsisFr($episode->getSynopsisFr());
+                $episodeCopy->setOldId($episode->getId());
+                $episodeCopy->setValidated(false);
+                $em->detach($episode);
+                $em->persist($episodeCopy);
                 } 
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($season);
             $em->flush();
 
             return $this->redirectToRoute('moderator_index');
@@ -174,7 +199,7 @@ class SeasonController extends Controller
         return $this->render('season/edit.html.twig', array(
             'season' => $season,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            
         ));
     }
 

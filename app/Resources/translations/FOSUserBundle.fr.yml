@@ -209,7 +209,9 @@ episode:
     list: 'Liste d''Episode'
 
 season_episode:
-    add: 'Proposer un episode'
+    add: 'Proposer des episodes'
+    edit: 'editer la saison'
+    delete: 'Supprimer'
 
 comment:
     new:

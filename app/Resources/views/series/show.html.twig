@@ -32,13 +32,13 @@
                 <!-- buttons for series-->
                 <div class="btn-group" role="group">
                 
-                     <a href="{{ path('series_edit', { 'id': series.id }) }}"><button class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
 
                     {% if app.user %}
                         <a><button class="btn btn-success" id="followSeries">{{ 'series.follow'|trans }}</button></a> 
                     {% else %} 
                         <a href="{{ path('series_follow', { 'id': series.id }) }}"><button class="btn btn-success">{{ 'series.follow'|trans }}</button></a> 
                     {% endif %} 
+                     <a href="{{ path('series_edit', { 'id': series.id }) }}"><button class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
 
                     {% if is_granted('ROLE_MODERATOR') %}    
                         {% if series.validated==0 %} 
@@ -84,15 +84,23 @@
 <!-- tab content of each season with episodes -->
                 {% if series.seasons %}
                     {% for season in series.seasons %}
+                     {% if season.validated==1 %}
                     <div id="season{{ season.season }}" class="tab-pane fade">
                         <h3>{{ 'episode.list'|trans }}
-                        <a href="{{ path('season_episode_new', {'id' : series.id }) }}"><button class="btn btn-info pull-right">{{ 'season_episode.add'|trans }}</button></a>
+                        <div class="btn-group pull-right" role="group">
+                            <a href="{{ path('season_episode_new', {'id' : series.id }) }}"><button class="btn btn-success">{{ 'season_episode.add'|trans }}</button></a>
+                            {% if is_granted('ROLE_MODERATOR') %}  
+                            <a href="{{ path('season_episode_edit', {'id' : season.id }) }}"><button class="btn btn-warning">{{ 'season_episode.edit'|trans }}</button></a>
+                            <a href="{{ path('season_delete', {'id' : season.id }) }}"><button class="btn btn-danger">{{ 'season_episode.delete'|trans }}</button></a>
+                            {% endif %}  
+                        </div>
                         </h3>
                         <br>
                         <div class="panel-group" id="accordion">
                             {{ include('episode/list.html.twig', { 'season': season }) }}
                         </div>
                     </div>
+                    {% endif %} 
                     {% endfor %}
                 {% endif %}  
 <!-- comments --> 
