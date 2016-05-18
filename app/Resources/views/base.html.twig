@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}So What Series!{% endblock %}</title>
         {% block stylesheets %}
-
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css')}}"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -16,95 +15,97 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}" />
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-
     </head>
     <body>
-    <div class="container">
-             
-
+        <header class="row text">
+          <div class="container">
+            <a href="/"><img class="col-md-2" src="/images/Logo.png"></a>
+          </div>
+        </header>  
         {% block menu %}
         {% trans_default_domain 'FOSUserBundle' %}
             <!-- Fixed navbar -->
-        <nav class="navbar navbar-default ">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="glyphicon glyphicon-search"></span>
-                </button>
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a href="/"><img height="60" src="/images/Logo.png"></a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">{{ 'navbar.series.index'|trans }}<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('series_index')}}" >{{ 'navbar.series.all'|trans }}</a></li>
-                        <li><a href="{{ path('series_new')}}" >{{ 'navbar.series.add'|trans }}</a></li>
-                    </ul>
-                </li>
 
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-              
-                <li class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <form method="POST"  class="ui-widget" action="{{ path('site_main_search') }}">
-                          <input type="text" name='search' class="form-control" placeholder="Search" id="search">
-                          <button type="submit">
-                            <span class="glyphicon glyphicon-search"></span>
-                          </button>
-                        </form>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="">Profil
-                    <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('user_profil')}}" >
-                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                            {% if fos_message_nb_unread() != 0 %}
-                                {{ fos_message_nb_unread() }} <i class="fa fa-envelope"></i>
+        <nav class="navbar divNav">
+            <div class="container-fluid">
+                <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#myNavbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li class="navbar-form" role="search">
+                            <div class="form-group">
+                                <form method="POST"  class="ui-widget" action="{{ path('site_main_search') }}">
+                                    <input type="text" name='search' class="form-control" placeholder="Search" id="search">
+                                    <button type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                  </button>
+                                </form>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="textnav" href="{{ path('series_index')}}" >{{ 'navbar.series.index'|trans }}</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a class="textnav" href="{{ path('user_profil')}}" >
+                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                    {% if fos_message_nb_unread() != 0 %}
+                                        {{ fos_message_nb_unread() }} <i class="fa fa-envelope"  style="color:#59BD73"></i>
+                                    {% endif %}
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle textnav" data-toggle="dropdown" href="">   {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                    {{ app.user.username }}
+                                    {% else %}
+                                    PROFIL
+                                {% endif %}
+                            <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('user_profil')}}" >
+                                {{ 'navbar.profil.index'|trans }}</a></li>
+                                <li><a href="{{ path('user_index')}}" >{{ 'navbar.profil.all'|trans }}</a></li>
+                                {% if is_granted('ROLE_SUPER_ADMIN') %} <li role="separator" class="divider"></li>
+                                <li class="dropdown-header">Administration</li>   
+                                <li><a href="{{ path('superadmin_index')}}">{{ 'navbar.profil.superadmin'|trans }}</a></li> 
+                                {% endif %}
+                                {% if is_granted('ROLE_MODERATOR') %}    
+                                <li><a href="{{ path('moderator_index')}}">{{ 'navbar.profil.moderator'|trans }}</a></li> 
+                                {% endif %}         
+                            </ul>
+                        </li>
+                        <li>
+                            <a a class ="textnav" href="{{ path('fos_user_registration_register')}}"><span class="glyphicon glyphicon-user "></span>{{ 'navbar.log.signup'|trans }}</a>
+                        </li>
+                        <li>
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                <a class ="textnav" href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span class ="textnav"> {{ 'navbar.log.logout'|trans }}</a>
+                            {% else %}
+                                <a class ="textnav" href="{{ path('fos_user_security_login')}}"><span class="glyphicon glyphicon-log-in"></span> {{ 'navbar.log.login'|trans }}</a>
                             {% endif %}
-                        {% endif %}
-                        {{ 'navbar.profil.index'|trans }}</a></li>
-                        <li><a href="{{ path('user_index')}}" >{{ 'navbar.profil.all'|trans }}</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Administration</li>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}    
-                        <li><a href="{{ path('superadmin_index')}}">{{ 'navbar.profil.superadmin'|trans }}</a></li> 
-                        {% endif %}
-                        {% if is_granted('ROLE_MODERATOR') %}    
-                        <li><a href="{{ path('moderator_index')}}">{{ 'navbar.profil.moderator'|trans }}</a></li> 
-                        {% endif %}         
+                        </li>
+                        <li>
+                            <a class ="textnav" href="{{ path('site_main_language', { '_locale': 'en' }) }}">En</a>
+                        </li>
+                        <li>
+                            <a class ="textnav" href="{{ path('site_main_language', { '_locale': 'fr' }) }}">Fr</a>
+                        </li>
                     </ul>
-                </li>
-                <li><a href="{{ path('fos_user_registration_register')}}"><span class="glyphicon glyphicon-user"></span> {{ 'navbar.log.signup'|trans }}</a></li>
-                <li>
-                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <a href="{{ path('fos_user_security_logout')}}"><span class="glyphicon glyphicon-log-out"></span> {{ 'navbar.log.logout'|trans }}</a>
-                    {% else %}
-                        <a href="{{ path('fos_user_security_login')}}"><span class="glyphicon glyphicon-log-in"></span> {{ 'navbar.log.login'|trans }}</a>
-                    {% endif %}
-                </li>
-
-                <li><a href="{{ path('site_main_language', { '_locale': 'en' }) }}">En</a></li>
-                <li><a href="{{ path('site_main_language', { '_locale': 'fr' }) }}">Fr</a></li>      
-              </ul>
-            </div><!--/.navbar-collapse collapse -->
-        </nav><!--/.navbar navbar-default-->
-    </div><!--/.container-->
-
-
-
+                </div>
+                </div>
+            </div>
+        </nav>
         {% endblock %}
-
         {% block header %}
-
         {% if app.request.hasPreviousSession %}
             {% for type, messages in app.session.flashbag.all() %}
                 {% for message in messages %}
@@ -122,9 +123,7 @@
                 </div>
             {% endfor %}
         {% endif %}
-
         {% endblock %}
-
         <main>
             <div class="container">
                 
@@ -141,9 +140,7 @@
             <h6 class="text-center">Copyright 2016 © Tous droits réservés</h6>
             <h6 class="text-center">Propriété IMIE - Création SHUKAVAT</h6>
         </footer>
-
         {% block javascripts %}
-
             <script >
             $('#search').on('keyup', function(e){
                     var input = $('#search');
@@ -163,9 +160,7 @@
                     });
                 }
             });
-
             </script>
-
         {% endblock %}
         </div>
     </body>

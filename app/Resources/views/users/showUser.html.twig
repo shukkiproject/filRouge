@@ -12,28 +12,29 @@
 <!-- breadcrumb -->
     {% block user_content %}
 <!-- user info --> 
-    <div class="row">
+    <div class="row suppPadding divWhite">
         <div class="fos_user_user_show">
             {% if user.imageName %}
-                <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
-                     <div class="thumbnail center-cropped-user" style="background-image: url('{{ asset('images/users/' ~ user.getImageName()) }}');">
-                      </div>
-                </div>
-               
+                <div class="col-lg-2 col-md-2 col-sm-10 col-xs-12 ">
+                    <img width="200" class="img-responsive" src="{{ asset('images/users/' ~ user.getImageName()) }}"/>
+                </div> 
             {% endif %}
-            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
-                <h1 >{{ user.username }}</h1><br><br><br><br>
-                <div>
+            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+               <h1 class="titre1">{{ user.username }}</h1>
+               <div class="messNotication">
                     {% if user.id in app.user.myAskForFriends %}
                         {{ 'profile.user.ask'|trans }}
                     {% elseif user.id in app.user.myFriends%}
                         {{ 'profile.user.friend'|trans }}
-                    {% else%}
-                        <a href="{{ path('user_askforfriend', { 'id': user.id }) }}"><button type="button" class="btn btn-warning">{{ 'profile.user.tobefriend'|trans }}</button></a>
-                    {% endif%}
                 </div>
+                    {% else%}
+                    <a href="{{ path('user_askforfriend', { 'id': user.id }) }}">
+                        <button type="button" class="btn btn-warning">{{ 'profile.user.tobefriend'|trans }}</button>
+                    </a>
+                    {% endif%}
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 thumb">
+        </div>
+            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 ">
                 <button id="newMess" class='btn btn-success'>{{ 'profile.message.user'|trans }}</button>
                 <div class="form-group hiden" id="formNewMess" style="display:none;">
                     <form method="POST"  class="ui-widget" action="{{ path('message_new',{'id':user.id}) }}">
@@ -49,18 +50,20 @@
     </div>
 <!-- user info --> 
 <!-- tab menu -->
+    <div class="container">
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#home">{{ 'navbar.home'|trans }}</a></li>
-        <li><a data-toggle="tab" href="#series">{{ 'profile.user.series'|trans }}</a></li>
+      {#   <li class="active"><a data-toggle="tab" href="#home">{{ 'navbar.home'|trans }}</a></li> #}
+        <li class="active"><a data-toggle="tab" href="#series">{{ 'profile.user.series'|trans }}</a></li>
         <li><a data-toggle="tab" href="#friends">{{ 'profile.user.friends'|trans }}</a></li>
         <li><a data-toggle="tab" href="#criticise">{{ 'profile.user.criticises'|trans }}</a></li>
     </ul>
+
 <!-- tab menu -->
         <div class="tab-content">
-            <div id="home" class="tab-pane fade in active"></br>
-            </div>
+          {#   <div id="home" class="tab-pane fade in active"></br>
+            </div> #}
 <!-- tab content series details -->
-            <div id="series" class="tab-pane fade"></br>
+            <div id="series" class="tab-pane fade in active"></br>
 
                 {{ include('users/seriesUser.html.twig') }}
             </div>
@@ -89,6 +92,7 @@
             </div>
 <!-- tab content comments details -->
         </div>
+    </div>
     {% endblock %}
 
 <script>

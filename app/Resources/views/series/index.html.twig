@@ -2,9 +2,14 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 {% block body %}
-<div class="titrePage">
-	<h1>{{ 'series.list'|trans }}</h1>
-	<a class="btn btn-primary" href="{{ path('series_new') }}">{{ 'series.propose'|trans }}</a>
+<div class="divWhite">
+	<h1 class="titre1">{{ 'series.list'|trans }}</h1>
+	<a class="btn btn-warning" href="{{ path('series_new') }}">{{ 'series.propose'|trans }}</a>
+
+  		<div class="navigation">
+  		{{ knp_pagination_render(pagination) }}
+  		</div>
+
 </div>
 {{ include('series/index_content.html.twig', { 'pagination': pagination }) }}
 

@@ -52,7 +52,9 @@ profile:
         reply: 'Réponse :'
         unread: 'NOUVEAU !!!'
         none: 'Vous n''avez pas de messages'
-    series: 'Ma note :'
+    series: 
+        mine: 'Ma note :'
+        his: 'Sa note : '
     friend:
         quit: 'Enlever de la liste d''amis'
         new: 'Nouvelles demandes d''amis : '
@@ -124,16 +126,16 @@ navbar:
         moderator: 'Page Modérateur'
     home: 'Accueil'
     series:
-        index: 'Séries'
+        index: 'SERIES'
         all: 'Toutes les Séries'
         add: 'Ajouter une série'
     season:
         index: 'Saison / Episode'
         add: 'Ajouter une saison / un episode'
     log:
-        signup: 'S''inscrire'
-        logout: ' Se déconnecter'
-        login: ' Se connecter'
+        signup: 'INSCRIPTION'
+        logout: ' DECONNEXION'
+        login: 'CONNEXION'
     search: 'Rechercher'
 
 series:
