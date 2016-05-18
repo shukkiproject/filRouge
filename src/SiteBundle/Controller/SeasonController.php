@@ -130,8 +130,6 @@ class SeasonController extends Controller
             $oldSeason->setSeries($season->getSeries());
             $oldSeason->setSeason($season->getSeason());
             $oldSeason->setValidated(true);
-            var_export($oldSeason->getEpisodes());
-            die;
 
             $em->persist($oldSeason);
             $em->remove($season); 
