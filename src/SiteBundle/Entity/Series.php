@@ -107,7 +107,7 @@ class Series
     /**
      * @var int
      *
-     * @ORM\Column(name="oldId", type="integer")
+     * @ORM\Column(name="oldId", type="integer", nullable=true)
      */
     private $oldId;
 
